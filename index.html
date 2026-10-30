@@ -327,7 +327,7 @@
       {k:'moreN',label:'추가할 장 수',t:'추가 장 수',type:'count',unit:'장',max:20,show:{k:'opts',any:[MORE]}},CS(),R('')],
       calc:function(v){return per(v,'opts',MORE,'moreN','장 수 추가','장');}},
     {id:'s-logo',g:'s',name:'로고',f:[
-      {k:'kind',label:'로고 종류',t:'로고 종류',type:'radio',page:1,opts:['로고 (100,000원)','일회성 로고 · 방송 콘텐츠용 (70,000원)']},
+      {k:'kind',label:'로고 종류',t:'로고 종류',type:'radio',page:1,pageNote:1,opts:['로고 (100,000원)','일회성 로고 · 방송 콘텐츠용 (70,000원)']},
       {k:'use',label:'사용 용도',t:'로고 사용 용도',type:'radio',opts:['방송용','상업용 (+20,000원)']},
       {k:'script',label:'표기 (최대 2개)',t:'로고 표기',type:'checks',max:2,opts:['한국어','영어','일본어'],extra:{'영어':'예) ORBITA','일본어':'예) オルビタ'}},CS(),R('')],
       calc:function(v){return opt(v,'kind',1).concat(opt(v,'use'));}},
@@ -399,7 +399,7 @@
     var f=pageField(it),pid='afp-'+it.id,w=document.createElement('div');w.className='af-item af-item-x';w.setAttribute('data-id',it.id);
     var h='<button type="button" class="af-item-top af-xhead" aria-expanded="false" aria-controls="'+pid+'"><span class="af-item-name">'+esc(it.name)+'</span><span class="af-caret-box" aria-hidden="true"><span class="af-caret"></span></span></button>';
     h+='<div class="af-pick" id="'+pid+'" hidden><div class="af-pick-opts" role="group" aria-label="'+esc(it.name+' '+fname(f))+'">';
-    f.opts.forEach(function(o,i){var sid=subId(it,i),p=[nm(o).split(' · ')[0]];
+    f.opts.forEach(function(o,i){var sid=subId(it,i),p=nm(o).split(' · ');if(!f.pageNote)p=[p[0]];
       h+='<button type="button" class="af-pick-row" data-go="'+sid+'" aria-haspopup="dialog" aria-pressed="false"><span class="af-pick-n">'+esc(p[0])+(p[1]?'<small class="af-pick-note">'+esc(p[1])+'</small>':'')+'</span><span class="af-tick" aria-hidden="true"></span></button>';});
     h+='</div>'+(f.hint?'<p class="af-mhint">※ '+esc(f.hint)+'</p>':'')+'</div>';
     w.innerHTML=h;
