@@ -274,7 +274,7 @@
     {k:'logoScript',label:'표기 (최대 2개)',t:'로고 표기',type:'checks',max:2,opts:['한국어','영어','일본어'],extra:{'영어':'예) ORBITA','일본어':'예) オルビタ'}},
     SEC('3. 자기소개 PPT'),{k:'ppt',label:'필요한 장 수 및 구성',t:'자기소개 PPT 장 수 및 구성',type:'text',ph:'예) 6장 / 1. 프로필, 2. 좋아하는 것~'}
   ];}
-  var SCHEDULE=[SEC('4. 스케줄표'),{k:'scheduleOff',label:'',t:'스케줄표 오프라인 칸',type:'radio',opts:['오프라인 칸 추가 (+20,000원)','추가 안 함'],price:{'오프라인 칸 추가 (+20,000원)':20000}}];
+  var SCHEDULE=[SEC('4. 스케줄표'),{k:'scheduleOff',label:'',t:'스케줄표 오프라인 칸',type:'radio',opts:['오프라인 칸 추가 (+20,000원)','추가 안 함'],price:{'오프라인 칸 추가 (+20,000원)':20000}},{k:'offText',label:'오프라인 칸에 들어갈 문구',t:'오프라인 칸 문구',type:'text',ph:'예) OFFLINE / 휴방 / 쉬어갑니다',show:{k:'scheduleOff',any:['오프라인 칸 추가 (+20,000원)']}}];
   var CHZZK_COMMON=[
     SEC('1. 치지직 홈 배너 4종'),{k:'bannerKinds',label:'필요한 배너 종류',t:'필요한 배너 종류',type:'text',ph:'예) 유튜브, 트위터 등'},
     SEC('2. 유튜브 채널아트'),{k:'channelText',label:'들어갈 문구',t:'채널아트에 들어갈 문구',type:'text',ph:''}
@@ -312,10 +312,10 @@
       calc:function(v){var a=opt(v,'parts',1),n=sel(v,'parts').filter(function(o){return o===OV3||o===OV4;}).length;if(/^추가 \(/.test(v.motion||'')&&n)a.push({n:'모션 추가'+(n>1?' × '+n:''),p:20000*n});return a;}},
     {id:'s-schedule',g:'s',name:'스케줄표',ttl:function(k){return k+' 스케줄표';},f:[
       {k:'kind',label:'형태',t:'스케줄표 형태',type:'radio',page:1,opts:['일반 (100,000원)','정방형 (80,000원)','세로형 · 일러스트 삽입 불가 (60,000원)']},
-      {k:'opts',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:['오프라인 칸 추가 (+20,000원)','팀 스케줄표로 변경 (+50,000원)']},CS(),R('')],
+      {k:'opts',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:['오프라인 칸 추가 (+20,000원)','팀 스케줄표로 변경 (+50,000원)']},{k:'offText',label:'오프라인 칸에 들어갈 문구',t:'오프라인 칸 문구',type:'text',ph:'예) OFFLINE / 휴방 / 쉬어갑니다',show:{k:'opts',any:['오프라인 칸 추가 (+20,000원)']}},CS(),R('')],
       calc:function(v){return opt(v,'kind',1).concat(opt(v,'opts'));}},
     {id:'s-poster',g:'s',name:'포스터',f:[
-      {k:'kind',label:'포스터 종류',t:'포스터 종류',type:'checks',page:1,opts:[PO1,PO2,PO3,PO4],hint:'굿즈 판매 인포 신청 시 완성된 굿즈 이미지를 꼭 함께 보내 주세요.'},
+      {k:'kind',label:'포스터 종류',t:'포스터 종류',type:'checks',page:1,opts:[PO1,PO2,PO3,PO4],notes:{'굿즈 판매 인포 4장 (40,000원)':'굿즈 판매 인포 신청 시 완성된 굿즈 이미지를 꼭 함께 보내 주세요.'}},
       {k:'rt',label:'필요한 장 수 및 구성',t:'RT 공개 포스터 장 수 및 구성',type:'text',ph:'예) 5장 / 0, 100, 200, 300, 400RT',show:{k:'kind',any:[PO1]}},
       {k:'texts',label:'들어갈 내용',t:'포스터에 들어갈 내용',type:'textarea',ph:'포스터별로 들어갈 내용을 적어 주세요.',show:{k:'kind',any:[PO2,PO3,PO4]}},
       {k:'more',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:[MORE]},
@@ -394,12 +394,12 @@
   function subId(it,i){return it.id+'--'+i;}
   function subsOf(it){var f=pageField(it);return f.opts.map(function(o,i){return byId[subId(it,i)];});}
   ITEMS.forEach(function(it){var f=pageField(it);if(!f)return;f.opts.forEach(function(o,i){
-    var kp=nm(o).split(' · ');byId[subId(it,i)]={id:subId(it,i),g:'s',name:it.name,kind:kp[0],knote:kp[1]||'',title:it.ttl?it.ttl(kp[0]):kp[0],hprice:num(o),parent:it,f:it.f,calc:it.calc,pv:f.type==='radio'?o:[o]};});});
+    var kp=nm(o).split(' · ');byId[subId(it,i)]={id:subId(it,i),g:'s',name:it.name,kind:kp[0],knote:kp[1]||(f.notes&&f.notes[o])||'',title:it.ttl?it.ttl(kp[0]):kp[0],hprice:num(o),parent:it,f:it.f,calc:it.calc,pv:f.type==='radio'?o:[o]};});});
   function pickCard(it){
     var f=pageField(it),pid='afp-'+it.id,w=document.createElement('div');w.className='af-item af-item-x';w.setAttribute('data-id',it.id);
     var h='<button type="button" class="af-item-top af-xhead" aria-expanded="false" aria-controls="'+pid+'"><span class="af-item-name">'+esc(it.name)+'</span><span class="af-caret-box" aria-hidden="true"><span class="af-caret"></span></span></button>';
     h+='<div class="af-pick" id="'+pid+'" hidden><div class="af-pick-opts" role="group" aria-label="'+esc(it.name+' '+fname(f))+'">';
-    f.opts.forEach(function(o,i){var sid=subId(it,i),p=nm(o).split(' · ');
+    f.opts.forEach(function(o,i){var sid=subId(it,i),p=[nm(o).split(' · ')[0]];
       h+='<button type="button" class="af-pick-row" data-go="'+sid+'" aria-haspopup="dialog" aria-pressed="false"><span class="af-pick-n">'+esc(p[0])+(p[1]?'<small class="af-pick-note">'+esc(p[1])+'</small>':'')+'</span><span class="af-tick" aria-hidden="true"></span></button>';});
     h+='</div>'+(f.hint?'<p class="af-mhint">※ '+esc(f.hint)+'</p>':'')+'</div>';
     w.innerHTML=h;
