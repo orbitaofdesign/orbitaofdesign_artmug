@@ -310,7 +310,7 @@
       {k:'motion',label:'모션 추가 여부',t:'모션 추가',type:'radio',opts:['추가 (화면당 +20,000원)','추가 안 함'],show:{k:'parts',any:[OV3,OV4]}},
       {k:'texts',label:'들어갈 문구',t:'들어갈 문구',type:'text',ph:'생략 시 LOADING, OFFLINE으로 고정돼요.',show:{k:'parts',any:[OV3,OV4]}},CS(),R('')],
       calc:function(v){var a=opt(v,'parts',1),n=sel(v,'parts').filter(function(o){return o===OV3||o===OV4;}).length;if(/^추가 \(/.test(v.motion||'')&&n)a.push({n:'모션 추가'+(n>1?' × '+n:''),p:20000*n});return a;}},
-    {id:'s-schedule',g:'s',name:'스케줄표',f:[
+    {id:'s-schedule',g:'s',name:'스케줄표',ttl:function(k){return k+' 스케줄표';},f:[
       {k:'kind',label:'형태',t:'스케줄표 형태',type:'radio',page:1,opts:['일반 (100,000원)','정방형 (80,000원)','세로형 · 일러스트 삽입 불가 (60,000원)']},
       {k:'opts',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:['오프라인 칸 추가 (+20,000원)','팀 스케줄표로 변경 (+50,000원)']},CS(),R('')],
       calc:function(v){return opt(v,'kind',1).concat(opt(v,'opts'));}},
@@ -331,7 +331,7 @@
       {k:'use',label:'사용 용도',t:'로고 사용 용도',type:'radio',opts:['방송용','상업용 (+20,000원)']},
       {k:'script',label:'표기 (최대 2개)',t:'로고 표기',type:'checks',max:2,opts:['한국어','영어','일본어'],extra:{'영어':'예) ORBITA','일본어':'예) オルビタ'}},CS(),R('')],
       calc:function(v){return opt(v,'kind',1).concat(opt(v,'use'));}},
-    {id:'s-banner',g:'s',name:'배너',f:[
+    {id:'s-banner',g:'s',name:'배너',ttl:function(k){return k+' 배너';},f:[
       {k:'platform',label:'플랫폼',t:'배너 플랫폼',type:'checks',page:1,opts:['치지직','SOOP']},
       SECS('치지직 배너',{k:'platform',any:['치지직']}),
       {k:'chz',label:'신청할 배너',t:'치지직 배너',type:'checks',opts:[BN1,BN2],hint:'첫 신청 시 4개 이상부터 신청할 수 있어요.',show:{k:'platform',any:['치지직']}},
@@ -394,7 +394,7 @@
   function subId(it,i){return it.id+'--'+i;}
   function subsOf(it){var f=pageField(it);return f.opts.map(function(o,i){return byId[subId(it,i)];});}
   ITEMS.forEach(function(it){var f=pageField(it);if(!f)return;f.opts.forEach(function(o,i){
-    byId[subId(it,i)]={id:subId(it,i),g:'s',name:it.name,kind:nm(o),hprice:num(o),parent:it,f:it.f,calc:it.calc,pv:f.type==='radio'?o:[o]};});});
+    var kp=nm(o).split(' · ');byId[subId(it,i)]={id:subId(it,i),g:'s',name:it.name,kind:kp[0],knote:kp[1]||'',title:it.ttl?it.ttl(kp[0]):kp[0],hprice:num(o),parent:it,f:it.f,calc:it.calc,pv:f.type==='radio'?o:[o]};});});
   function pickCard(it){
     var f=pageField(it),pid='afp-'+it.id,w=document.createElement('div');w.className='af-item af-item-x';w.setAttribute('data-id',it.id);
     var h='<button type="button" class="af-item-top af-xhead" aria-expanded="false" aria-controls="'+pid+'"><span class="af-item-name">'+esc(it.name)+'</span><span class="af-caret-box" aria-hidden="true"><span class="af-caret"></span></span></button>';
@@ -489,8 +489,9 @@
     closeModal(); lastBtn=b; var v=picked[it.id]||{}, uid=it.id, p=priceOf(it);
     overlay=document.createElement('div');overlay.className='af-overlay';overlay.addEventListener('click',closeModal);
     modal=document.createElement('div');modal.className='af-modal';modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','afm-title');
-    var h='<div class="af-mhead">'+(it.g==='p'?'<span class="pk-cat'+(it.chz?' pk-cat-chzzk':'')+'">'+esc(it.cat)+'</span>':'')+'<h3 id="afm-title">'+esc(it.name)+'</h3>'+(p||it.hprice?'<span class="af-mprice">('+won(p||it.hprice)+')</span>':'')+'</div><div class="af-mbody">';
-    var chips=it.incl||it.mincl||(it.parent?[it.kind]:null);
+    var h='<div class="af-mhead">'+(it.g==='p'?'<span class="pk-cat'+(it.chz?' pk-cat-chzzk':'')+'">'+esc(it.cat)+'</span>':'')+'<h3 id="afm-title">'+esc(it.title||it.name)+'</h3>'+(p||it.hprice?'<span class="af-mprice">('+won(p||it.hprice)+')</span>':'')+'</div><div class="af-mbody">';
+    var chips=it.incl||it.mincl;
+    if(it.knote) h+='<p class="af-mhint">※ '+esc(it.knote)+'</p>';
     if(chips&&chips.length) h+='<ul class="af-chips">'+chips.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';
     it.f.forEach(function(f){h+=fieldHTML(f,v[f.k],uid);});
     h+='</div><div class="af-mfoot">'+(picked[it.id]?'<button type="button" class="af-btn af-btn-danger" data-act="remove">선택 해제</button>':'')+'<span class="af-spacer"></span><button type="button" class="af-btn" data-act="cancel">취소</button><button type="button" class="af-btn af-btn-main" data-act="save" style="height:40px;font-size:14px;padding:0 20px;">'+(picked[it.id]?'수정 완료':'선택 완료')+'</button></div>';
