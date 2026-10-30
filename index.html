@@ -104,7 +104,7 @@
       </div>
       <div class="pk-card">
         <div class="pk-head"><span class="pk-cat">OVERLAY</span><span class="pk-name">PACKAGE A</span></div>
-        <ul class="pk-items"><li>화면 오버레이 채팅화면</li><li>게임화면</li></ul>
+        <ul class="pk-items"><li>채팅화면</li><li>게임화면</li></ul>
         <div class="pk-price"><span class="pk-now">200,000원</span><del class="pk-was">220,000원</del></div>
       </div>
       <div class="pk-card">
@@ -288,7 +288,7 @@
     {id:'chzzk-b',g:'p',cat:'CHZZK',chz:1,name:'PACKAGE B',price:140000,incl:['치지직 홈 배너 4종','유튜브 채널아트','팬카페 배너&대문'],f:[PEOPLE].concat(CHZZK_COMMON,[
       SEC('3. 팬카페 배너&대문'),{k:'cafeBanner',label:'배너에 들어갈 팬카페 이름 또는 문구',t:'팬카페 배너',type:'text',ph:''},
       {k:'cafeMain',label:'대문에 연결할 플랫폼 링크',t:'팬카페 대문 연결 링크',type:'list',max:8,add:'+ 링크 추가',ph:'예) 트위터: https://x.com/...'},C(4),R(5)])},
-    {id:'overlay-a',g:'p',cat:'OVERLAY',name:'PACKAGE A',price:200000,incl:['화면 오버레이 채팅화면','게임화면'],f:[PEOPLE,C(1),R(2)]},
+    {id:'overlay-a',g:'p',cat:'OVERLAY',name:'PACKAGE A',price:200000,incl:['채팅화면','게임화면'],f:[PEOPLE,C(1),R(2)]},
     {id:'overlay-b',g:'p',cat:'OVERLAY',name:'PACKAGE B',price:120000,incl:['로딩화면','오프라인 화면'],f:[PEOPLE,
       {k:'motion',label:'모션 추가 여부',t:'모션 추가',type:'radio',opts:['추가','추가 안 함']},
       {k:'motionWhich',label:'모션 추가할 화면',t:'모션 추가할 화면',type:'radio',opts:['로딩화면만 모션 추가 (+20,000원)','오프라인 화면만 모션 추가 (+20,000원)','둘 다 모션 추가 (+40,000원)'],price:{'로딩화면만 모션 추가 (+20,000원)':20000,'오프라인 화면만 모션 추가 (+20,000원)':20000,'둘 다 모션 추가 (+40,000원)':40000},show:{k:'motion',any:['추가']}},
