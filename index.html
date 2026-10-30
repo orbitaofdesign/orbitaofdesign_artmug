@@ -80,7 +80,7 @@
       </details>
       <details class="orbita-item">
         <summary><span class="orbita-num"><span class="orbita-digit">9</span></span><span class="orbita-ttl">저작권 및 사용 범위</span><span class="orbita-plus" aria-hidden="true"></span></summary>
-        <div class="orbita-body"><p style="margin:0;">모든 작업물의 저작권은 작가 <strong style="color:#ffd040;">오르비타</strong>에게 있습니다.</p><p style="margin:14px 0 0;">허락되지 않은 범위의 2차 수정, 자작 발언, 무단 배포 등의 행위는 금지입니다.<br>타 커미션(<strong>디자인</strong>) 신청 시 레퍼런스로 제공하는 행위 또한 금지입니다.</p><p style="margin:14px 0 0;">또한 신청하신 <span style="color:#ffd040;font-weight:700;">*</span>용도 외 다른 용도로 사용하는 경우 적발 시 불이익이 발생할 수 있으며<br>방송 플랫폼 및 개인 SNS 등에 작업물을 업로드 하실 경우 출처(작가명)를 기재해 주세요.</p><p style="margin:10px 0 0;font-size:14px;line-height:24px;"><span style="color:#ffd040;font-weight:700;">*</span>방송, 유튜브 등 콘텐츠 활용 → <strong>방송용</strong> / 굿즈 제작 및 판매 등 직접적 수익 발생 → <strong>상업용</strong></p><p style="margin:14px 0 0;"><strong>[기업 및 MCN 소속인 경우]</strong><br>신청자가 기업 및 MCN 소속으로 기업에서 결제 지원을 해주는 경우<br>해당 작업물의 사용 용도는 상업용으로 분류되며 최종 커미션가의 75%가 추가로 청구됩니다.</p></div>
+        <div class="orbita-body"><p style="margin:0;">모든 작업물의 저작권은 작가 <strong style="color:#ffd040;">오르비타</strong>에게 있습니다.</p><p style="margin:14px 0 0;">허락되지 않은 범위의 2차 수정, 자작 발언, 무단 배포 등의 행위는 금지입니다.<br>타 커미션(<strong>디자인</strong>) 신청 시 레퍼런스로 제공하는 행위 또한 금지입니다.</p><p style="margin:14px 0 0;">또한 신청하신 <span style="color:#ffd040;font-weight:700;">*</span>용도 외 다른 용도로 사용하는 경우 적발 시 불이익이 발생할 수 있으며<br>방송 플랫폼 및 개인 SNS 등에 작업물을 업로드 하실 경우 출처(작가명)를 기재해 주세요.</p><p style="margin:10px 0 0;font-size:14px;line-height:24px;"><span style="color:#ffd040;font-weight:700;">*</span>방송, 유튜브 등 콘텐츠 활용 → <strong>방송용</strong> / 굿즈 제작 및 판매 등 직접적 수익 발생 → <strong>상업용</strong></p></div>
       </details>
       <details class="orbita-item">
         <summary><span class="orbita-num" style="padding-left:2px;"><span class="orbita-digit">10</span></span><span class="orbita-ttl">포트폴리오 및 홍보 활용</span><span class="orbita-plus" aria-hidden="true"></span></summary>
@@ -280,19 +280,19 @@
   ];}
   var SCHEDULE=[SEC('4. 스케줄표'),{k:'scheduleOff',label:'',t:'스케줄표 오프라인 칸',type:'radio',opts:['오프라인 칸 추가 (+20,000원)','추가 안 함'],price:{'오프라인 칸 추가 (+20,000원)':20000}}];
   var CHZZK_COMMON=[
-    SEC('1. 치지직 홈 배너 4종'),{k:'bannerKinds',t:'필요한 배너 종류',type:'text',ph:'필요한 배너 종류  예) 유튜브, 트위터 등'},
-    SEC('2. 유튜브 채널아트'),{k:'channelText',t:'채널아트에 들어갈 문구',type:'text',ph:'들어갈 문구'}
+    SEC('1. 치지직 홈 배너 4종'),{k:'bannerKinds',label:'필요한 배너 종류',t:'필요한 배너 종류',type:'text',ph:'예) 유튜브, 트위터 등'},
+    SEC('2. 유튜브 채널아트'),{k:'channelText',label:'들어갈 문구',t:'채널아트에 들어갈 문구',type:'text',ph:''}
   ];
   var ITEMS=[
     {id:'chzzk-a',g:'p',cat:'CHZZK',chz:1,name:'PACKAGE A',price:70000,incl:['치지직 홈 배너 4종','유튜브 채널아트'],f:[PEOPLE].concat(CHZZK_COMMON,[C(3),R(4)])},
     {id:'chzzk-b',g:'p',cat:'CHZZK',chz:1,name:'PACKAGE B',price:140000,incl:['치지직 홈 배너 4종','유튜브 채널아트','팬카페 배너&대문'],f:[PEOPLE].concat(CHZZK_COMMON,[
-      SEC('3. 팬카페 배너&대문'),{k:'cafeBanner',label:'배너',t:'팬카페 배너',type:'text',ph:'팬카페 이름 또는 들어갈 문구'},
-      {k:'cafeMain',label:'대문',t:'팬카페 대문 연결 링크',type:'text',ph:'연결할 플랫폼 링크  예) 트위터: 링크, 유튜브: 링크 등'},C(4),R(5)])},
+      SEC('3. 팬카페 배너&대문'),{k:'cafeBanner',label:'배너에 들어갈 팬카페 이름 또는 문구',t:'팬카페 배너',type:'text',ph:''},
+      {k:'cafeMain',label:'대문에 연결할 플랫폼 링크',t:'팬카페 대문 연결 링크',type:'text',ph:'예) 트위터: 링크, 유튜브: 링크 등'},C(4),R(5)])},
     {id:'overlay-a',g:'p',cat:'OVERLAY',name:'PACKAGE A',price:200000,incl:['화면 오버레이 채팅화면','게임화면'],f:[PEOPLE,C(1),R(2)]},
     {id:'overlay-b',g:'p',cat:'OVERLAY',name:'PACKAGE B',price:120000,incl:['로딩화면','오프라인 화면'],f:[PEOPLE,
       {k:'motion',label:'모션 추가 여부',t:'모션 추가',type:'radio',opts:['추가','추가 안 함']},
       {k:'motionWhich',label:'모션 추가할 화면',t:'모션 추가할 화면',type:'radio',opts:['로딩화면만 모션 추가 (+20,000원)','오프라인 화면만 모션 추가 (+20,000원)','둘 다 모션 추가 (+40,000원)'],price:{'로딩화면만 모션 추가 (+20,000원)':20000,'오프라인 화면만 모션 추가 (+20,000원)':20000,'둘 다 모션 추가 (+40,000원)':40000},show:{k:'motion',any:['추가']}},
-      SEC('1. 들어갈 문구'),{k:'texts',t:'들어갈 문구',type:'textarea',ph:'각 화면에 들어갈 문구를 적어 주세요. (생략 시 LOADING, OFFLINE 고정)'},C(2),R(3)]},
+      SEC('1. 들어갈 문구'),{k:'texts',label:'각 화면에 들어갈 문구',t:'들어갈 문구',type:'textarea',ph:'생략 시 LOADING, OFFLINE으로 고정돼요.'},C(2),R(3)]},
     {id:'debut-a',g:'p',cat:'DEBUT',name:'PACKAGE A',price:290000,incl:['RT 공개 포스터 5장','로고','자기소개 PPT 6장'],f:[PEOPLE].concat(debutCore(),[C(4),R(5)])},
     {id:'debut-b',g:'p',cat:'DEBUT',name:'PACKAGE B',price:380000,incl:['DEBUT PACKAGE A','스케줄표'],f:[PEOPLE].concat(debutCore(),SCHEDULE,[C(5),R(6)])},
     {id:'full',g:'p',cat:'FULL',name:'PACKAGE',price:540000,incl:['채팅화면','게임화면','RT 공개 포스터 5장','로고','자기소개 PPT 6장','스케줄표'],f:[PEOPLE].concat(debutCore(),SCHEDULE,[C(5),R(6)])},
