@@ -368,10 +368,10 @@
       {k:'kind',label:'종류',t:'채널아트 종류',type:'checks',page:1,opts:['유튜브 채널아트 (50,000원)','SOOP 방송국 타이틀 (50,000원)']},
       {k:'texts',label:'들어갈 문구',t:'들어갈 문구',type:'text',ph:''},CS(),R('')],
       calc:function(v){return opt(v,'kind',1);}},
-    {id:'s-fancafe',g:'s',name:'팬카페',price:80000,mincl:['팬카페 배너','팬카페 대문'],f:[
-      SEC('1. 팬카페 배너'),{k:'cafeBanner',label:'들어갈 문구',t:'팬카페 배너 문구',type:'text',ph:'예) 팬카페 이름 또는 원하는 문구'},
-      SEC('2. 팬카페 대문'),{k:'cafeMain',label:'연결할 플랫폼 정보',t:'팬카페 대문 연결 링크',type:'list',max:8,add:'+ 링크 추가',ph:'예) 트위터: https://x.com/...'},
-      SEC('3. 추가 옵션'),{k:'opts',label:'',t:'추가 옵션',type:'checks',opts:['대문 HTML 세팅 (+20,000원)','배너 모바일 버전 추가 제공 (+5,000원)']},C(4),R(5)],
+    {id:'s-fancafe',g:'s',name:'팬카페',price:80000,mincl:['팬카페 배너&대문'],f:[
+      {k:'cafeBanner',label:'들어갈 문구',t:'팬카페 배너&대문 문구',type:'text',ph:'예) 팬카페 이름 또는 원하는 문구'},
+      {k:'opts',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:['대문 HTML 세팅 (+20,000원)','배너 모바일 버전 추가 제공 (+5,000원)']},
+      {k:'cafeMain',label:'대문에 연결할 플랫폼 정보',t:'팬카페 대문 연결 링크',type:'list',max:8,add:'+ 링크 추가',ph:'예) 트위터: https://x.com/...',show:{k:'opts',any:['대문 HTML 세팅 (+20,000원)']}},CS(),R('')],
       calc:function(v){return opt(v,'opts');}}
   ];
   var byId={};ITEMS.forEach(function(it){byId[it.id]=it;});
