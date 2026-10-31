@@ -297,6 +297,7 @@
   function per(v,k,o,nk,label,unit,base){if(sel(v,k).indexOf(o)<0)return [];var n=v[nk]||1;return [{n:label+' '+n+unit,p:num(o)*n,base:!!base}];}
   function CS(){var c=C('');c.sep=1;return c;}
   var sn=0; function SECS(t,show){return {type:'sec',label:t,k:'_s'+(++sn),show:show};}
+  var CAFE_HTML='대문 HTML 세팅 (+20,000원)';
   var ITEMS=[
     {id:'chzzk-a',g:'p',cat:'CHZZK',chz:1,name:'PACKAGE A',price:70000,incl:['치지직 홈 배너 4종','유튜브 채널아트'],f:[PEOPLE].concat(CHZZK_COMMON,[C(3),R(4)])},
     {id:'chzzk-b',g:'p',cat:'CHZZK',chz:1,name:'PACKAGE B',price:140000,incl:['치지직 홈 배너 4종','유튜브 채널아트','팬카페 배너&대문'],f:[PEOPLE].concat(CHZZK_COMMON,[
@@ -369,9 +370,10 @@
       {k:'texts',label:'들어갈 문구',t:'들어갈 문구',type:'text',ph:''},CS(),R('')],
       calc:function(v){return opt(v,'kind',1);}},
     {id:'s-fancafe',g:'s',name:'팬카페',price:80000,mincl:['팬카페 배너&대문'],f:[
-      {k:'cafeBanner',label:'들어갈 문구',t:'팬카페 배너&대문 문구',type:'text',ph:'예) 팬카페 이름 또는 원하는 문구'},
-      {k:'opts',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:['대문 HTML 세팅 (+20,000원)','배너 모바일 버전 추가 제공 (+5,000원)']},
-      {k:'cafeMain',label:'대문에 연결할 플랫폼 정보',t:'팬카페 대문 연결 플랫폼',type:'list',max:8,add:'+ 플랫폼 추가',ph:'예) 트위터',link:{k:'opts',any:['대문 HTML 세팅 (+20,000원)']},lph:'링크 예) https://x.com/...'},CS(),R('')],
+      {k:'cafeName',label:'팬카페 이름',t:'팬카페 이름',type:'text',ph:'예) 오르비타 팬카페'},
+      {k:'cafePlat',label:'대문에 연결할 플랫폼',t:'대문에 연결할 플랫폼',type:'checks',opts:['치지직','유튜브','다시보기','트위터','기타'],extra:{'기타':'직접 작성'}},
+      {k:'opts',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:[CAFE_HTML,'배너 모바일 버전 추가 제공 (+5,000원)']},
+      {k:'cafeLinks',label:'플랫폼 링크',t:'플랫폼 링크',type:'list',max:8,add:'+ 링크 추가',ph:'예) 트위터',lph:'링크',link:{k:'opts',any:[CAFE_HTML]},show:{k:'opts',any:[CAFE_HTML]}},CS(),R('')],
       calc:function(v){return opt(v,'opts');}}
   ];
   var byId={};ITEMS.forEach(function(it){byId[it.id]=it;});
