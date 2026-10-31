@@ -16,13 +16,13 @@ button{cursor:pointer;}
 .brand{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700;letter-spacing:.5px;white-space:nowrap;}
 .brand i{font-style:normal;color:var(--y);}
 .brand small{font-size:12px;font-weight:500;color:#aaa;letter-spacing:0;}
-.status{margin-left:8px;display:flex;align-items:center;gap:6px;font-size:13px;color:#ccc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.status b{display:inline-block;width:8px;height:8px;border-radius:50%;background:#666;flex:none;}
+.status{min-width:0;flex:0 1 auto;margin-left:8px;display:flex;align-items:center;gap:6px;font-size:13px;color:#ccc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.status span{overflow:hidden;text-overflow:ellipsis;}.status b{display:inline-block;width:8px;height:8px;border-radius:50%;background:#666;flex:none;}
 .status.dirty b{background:var(--y);}
 .status.ok b{background:var(--green);}
 .status.err b{background:var(--red);}
 .sp{flex:1;}
-.tb{height:36px;padding:0 12px;border-radius:9px;border:1px solid #333;background:#111;color:#eee;font-size:13px;font-weight:500;white-space:nowrap;transition:background-color .15s,border-color .15s;}
+.tb{flex:none;height:36px;padding:0 12px;border-radius:9px;border:1px solid #333;background:#111;color:#eee;font-size:13px;font-weight:500;white-space:nowrap;transition:background-color .15s,border-color .15s;}
 .tb:hover{background:#1f1f1f;border-color:#555;}
 .tb.main{background:var(--y);border-color:var(--y);color:#1a1a1a;font-weight:700;}
 .tb.main:hover{background:#ffc61a;}
