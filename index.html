@@ -748,6 +748,8 @@
      fmt: 'slide' = 큰 화면 + 미리보기 칸(16:9), 'grid' = 이미지 비율 그대로 cols개씩 나열 (세부 품목별로 fmt/cols 지정 가능)
      items: {src:슬라이드/목록용, full:원본, cap:이미지에 뜨는 이름(생략 시 세부 품목 이름)} */
   function J(p){return {src:'portfolio/'+p+'.webp',full:'portfolio/'+p+'.jpg'};}
+  /* 유튜브 채널아트: 원래 비율(2560×423) 그대로, 미리보기는 캐릭터 중심으로 자른 썸네일 */
+  function CA(n){var p='portfolio/channel/yt-'+(n<10?'0':'')+n;return {src:p+'.webp',full:p+'.png',th:p+'-th.webp'};}
   function S(p){return {src:'portfolio/'+p+'.webp',full:'portfolio/'+p+'.png'};}
   function V(p){return {src:'portfolio/'+p+'.mp4',full:'portfolio/'+p+'.mp4',poster:'portfolio/'+p+'.webp',video:true};}
   /* 여러 장짜리 샘플(PPT): 페이지가 슬라이드처럼 넘어가요 */
@@ -780,7 +782,7 @@
         {name:'하단 배너 · 플랫폼 연결용',size:'720×150 · 4개 세트',cls:'link',rows:4,items:[P('banner/soop-link-01'),P('banner/soop-link-02'),P('banner/soop-link-03'),P('banner/soop-link-04'),P('banner/soop-link-05'),P('banner/soop-link-06'),P('banner/soop-link-07'),P('banner/soop-link-08'),P('banner/soop-link-09'),P('banner/soop-link-10')]},
         {name:'하단 배너 · 배포용',size:'1개 / 분할 2·3·4·6개',cls:'dist',items:[P('banner/soop-dist-01','1개'),P('banner/soop-dist-03','1개'),P('banner/soop-dist-04','1개'),P('banner/soop-dist-05','1개'),P('banner/soop-dist-02','2분할'),P('banner/soop-dist-06','2분할')]}]}]},
     {name:'썸네일',fmt:'slide',subs:[{name:'방송 썸네일',items:[J('thumb/live-01'),J('thumb/live-02'),J('thumb/live-03'),J('thumb/live-04'),J('thumb/live-05')]},{name:'다시보기 틀',items:[J('thumb/vod-01'),J('thumb/vod-02'),J('thumb/vod-03'),J('thumb/vod-04')]},{name:'커버곡 썸네일',items:[J('thumb/cover-01'),J('thumb/cover-02'),J('thumb/cover-03'),J('thumb/cover-04'),J('thumb/cover-05')]}]},
-    {name:'채널아트',fmt:'grid',subs:[{name:'유튜브 채널아트',items:[]},{name:'SOOP 방송국 타이틀',items:[]}]},
+    {name:'채널아트',fmt:'grid',subs:[{name:'유튜브 채널아트',fmt:'slide',ratio:'2560 / 423',items:[CA(1),CA(2),CA(3),CA(4),CA(5),CA(6),CA(7),CA(8),CA(9),CA(10),CA(11),CA(12),CA(13),CA(14),CA(15),CA(16),CA(17),CA(18),CA(19)]},{name:'SOOP 방송국 타이틀',items:[]}]},
     {name:'팬카페',fmt:'grid',items:[]},
     {name:'ETC',fmt:'grid',items:[]}
   ];
@@ -813,7 +815,7 @@
     if(s&&s.vars){if(vCur!==s){vCur=s;vSel=0;}var base=s,vv=s.vars[vSel];s={name:base.name,fmt:vv.fmt,cols:vv.cols,tile:vv.tile,items:vv.items};
       varEl.hidden=false;varEl.innerHTML='<div class="pf-gg-hw"><button type="button" class="pf-gg-h" aria-haspopup="true" aria-expanded="false"><span>'+esc(vv.v)+'</span><span class="pf-caret" aria-hidden="true"></span></button><div class="pf-menu pf-gg-menu" hidden>'+base.vars.map(function(x,q){return '<button type="button" class="pf-mi'+(q===vSel?' is-on':'')+'" data-vs="'+q+'"><span>'+esc(x.v)+'</span><span class="pf-mi-tick" aria-hidden="true"></span></button>';}).join('')+'</div></div>';}
     else{varEl.hidden=true;varEl.innerHTML='';}
-    list=(s?s.items:c.items).map(function(it){return {src:it.src,full:it.full,set:it.set,row:it.row,video:it.video,poster:it.poster,pages:it.pages,cap:it.cap||(s?s.name:c.name)};});
+    list=(s?s.items:c.items).map(function(it){return {src:it.src,full:it.full,th:it.th,set:it.set,row:it.row,video:it.video,poster:it.poster,pages:it.pages,cap:it.cap||(s?s.name:c.name)};});
     [].forEach.call(tabs.children,function(w,j){var on=j===i;w.classList.toggle('is-on',on);w.querySelector('.pf-tab-s').textContent=on&&s?s.name:'';
       w.querySelectorAll('.pf-mi').forEach(function(x,q){x.classList.toggle('is-on',on&&q===k);});});
     var mode=(s&&s.fmt)||c.fmt,slide=mode==='slide'; slidebox.hidden=!slide; grid.hidden=mode!=='grid'; rowbox.hidden=mode!=='row'; groupsEl.hidden=mode!=='groups';
@@ -821,11 +823,12 @@
     if(mode==='row'){ri=0;themes.hidden=!(s&&s.theme);rowEl.classList.toggle('has-theme',!!(s&&s.theme));setTheme(s&&s.theme?theme:'');renderRow();return;}
     deck=slide&&list.length>0&&!!list[0].pages; di=0;
     stage.classList.toggle('is-quad',deck);
+    stage.style.aspectRatio=(s&&s.ratio)||'';
     if(deck){renderDeck();return;}
     count.hidden=true;
     if(slide){
       track.innerHTML=list.length?list.map(function(it,q){return '<button type="button" class="pf-slide" data-k="'+q+'" aria-label="'+esc(it.cap+' 크게 보기')+'">'+(it.video?'<video src="'+esc(it.src)+'" poster="'+esc(it.poster||'')+'"'+' muted loop autoplay playsinline disablepictureinpicture controlslist="nodownload noplaybackrate" preload="metadata"'+' aria-label="'+esc(it.cap+' 샘플 영상')+'"></video>':'<img src="'+esc(it.src)+'" alt="'+esc(it.cap+' 샘플')+'" loading="lazy" draggable="false">')+'</button>';}).join(''):'<div class="pf-empty">샘플 준비 중이에요.</div>';
-      var th=list.map(function(it,q){return '<button type="button" class="pf-thumb'+(it.video?' pf-thumb-v':'')+'" data-k="'+q+'" aria-label="'+esc(it.cap+' 보기')+'"><img src="'+esc(it.video?it.poster:it.src)+'" alt="" loading="lazy" draggable="false"></button>';});
+      var th=list.map(function(it,q){return '<button type="button" class="pf-thumb'+(it.video?' pf-thumb-v':'')+'" data-k="'+q+'" aria-label="'+esc(it.cap+' 보기')+'"><img src="'+esc(it.th||(it.video?it.poster:it.src))+'" alt="" loading="lazy" draggable="false"></button>';});
       for(var e=list.length;e<SLOTS;e++) th.push('<span class="pf-thumb pf-thumb-empty" aria-hidden="true"></span>');
       thumbs.innerHTML=th.join(''); go(0);
     }else{
