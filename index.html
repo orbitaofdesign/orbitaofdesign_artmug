@@ -147,7 +147,7 @@
       <div class="pr-card"><div class="pr-ttl"><span class="orbita-tip orbita-tip-l" tabindex="0" data-tip="PSD 파일 기본 제공">스케줄표<svg class="orbita-tip-i" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="#ffd040" stroke-width="1.6"/><circle cx="8" cy="4.9" r="1.1" fill="#ffd040"/><rect x="7.2" y="6.9" width="1.6" height="4.8" rx="0.8" fill="#ffd040"/></svg></span></div><ul class="pr-list"><li><span>일반</span><span>100,000원</span></li><li><span>정방형</span><span>80,000원</span></li><li><span>세로형 <small>일러스트 삽입 불가</small></span><span>60,000원</span></li></ul><ul class="pr-list pr-opts"><li><span>오프라인 칸 추가</span><span>+20,000원</span></li><li><span>팀 스케줄표로 변경</span><span>+50,000원</span></li></ul></div>
       <div class="pr-card"><div class="pr-ttl">포스터</div><ul class="pr-list"><li><span>RT 공개 포스터 5장</span><span>100,000원</span></li><li><span>키 비주얼 포스터</span><span>80,000원</span></li><li><span>굿즈 판매 인포 4장</span><span>40,000원</span></li><li><span>일반 포스터</span><span>30,000원</span></li></ul><ul class="pr-list pr-opts"><li><span>장 수 추가 (장당)</span><span>+10,000원</span></li></ul></div>
       <div class="pr-card"><div class="pr-ttl"><span class="orbita-tip orbita-tip-l" tabindex="0" data-tip="PNG(이미지) 파일로 제공됩니다. 모션 작업X">PPT<svg class="orbita-tip-i" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="#ffd040" stroke-width="1.6"/><circle cx="8" cy="4.9" r="1.1" fill="#ffd040"/><rect x="7.2" y="6.9" width="1.6" height="4.8" rx="0.8" fill="#ffd040"/></svg></span></div><ul class="pr-list"><li><span>자기소개 PPT 6장</span><span>120,000원</span></li></ul><ul class="pr-list pr-opts"><li><span>장 수 추가 (장당)</span><span>+10,000원</span></li><li><span>표지, Q&amp;A 페이지 제공</span><span>추가금 없음</span></li></ul></div>
-      <div class="pr-card"><div class="pr-ttl">로고</div><ul class="pr-list"><li><span>로고</span><span>100,000원</span></li><li><span>일회성 로고 <small>방송 콘텐츠용</small></span><span>70,000원</span></li></ul><ul class="pr-list pr-opts"><li><span>상업용</span><span>+20,000원</span></li></ul></div>
+      <div class="pr-card"><div class="pr-ttl">로고</div><ul class="pr-list"><li><span>로고</span><span>100,000원</span></li><li><span>일회성 로고 <small>방송 콘텐츠용</small></span><span>70,000원</span></li></ul></div>
       <div class="pr-card"><div class="pr-ttl">배너</div><ul class="pr-list"><li><span>치지직 홈 배너 기본 4개</span><span>40,000원</span></li><li><span>SOOP 플로팅 배너 기본 2개</span><span>20,000원</span></li><li><span>SOOP 하단 배너 <small>연결용</small></span><span>개당 10,000원</span></li><li><span>SOOP 하단 배너 <small>배포용</small></span><span>25,000원</span></li></ul><ul class="pr-list pr-opts"><li><span>치지직 배너 추가 (개당)</span><span>+5,000원</span></li></ul><p class="pr-note">※ 배포용 하단 배너는 분할 배너도 1개로 계산돼요.</p></div>
       <div class="pr-card"><div class="pr-ttl">썸네일</div><ul class="pr-list"><li><span>방송 썸네일</span><span>30,000원</span></li><li><span>다시보기 틀</span><span>20,000원</span></li><li><span>커버곡 썸네일</span><span>15,000원</span></li></ul><ul class="pr-list pr-opts"><li><span>배경 일러스트 미제공 (커버곡)</span><span>+10,000원</span></li></ul></div>
       <div class="pr-card"><div class="pr-ttl">채널아트</div><ul class="pr-list"><li><span>유튜브 채널아트</span><span>50,000원</span></li><li><span>SOOP 방송국 타이틀</span><span>50,000원</span></li></ul></div>
@@ -318,7 +318,7 @@
   var DEBUT_DATE={k:'debut',label:'데뷔 날짜',t:'데뷔 날짜',type:'date',empty:'미정',hint:'비워 두면 미정으로 전달돼요.'};
   function debutCore(){return [
     SEC('1. RT 공개 포스터'),{k:'poster',label:'필요한 장 수 및 구성',t:'RT 공개 포스터 장 수 및 구성',type:'text',ph:'예) 5장 / 0, 100, 200, 300, 400RT'},
-    SEC('2. 로고'),{k:'logoUse',label:'사용 용도',t:'로고 사용 용도',type:'radio',opts:['방송용','상업용 (+20,000원)'],price:{'상업용 (+20,000원)':20000}},
+    SEC('2. 로고'),{k:'logoUse',label:'사용 용도',t:'로고 사용 용도',type:'radio',opts:['방송용','상업용'],hint:'상업용 선택 시 최종 커미션가의 50%가 추가돼요. (6. 추가 옵션의 상업용 전환이 함께 선택돼요)'},
     {k:'logoScript',label:'표기 (최대 2개)',t:'로고 표기',type:'checks',max:2,opts:['한국어','영어','일본어'],extra:{'영어':'예) ORBITA','일본어':'예) オルビタ'}},
     SEC('3. 자기소개 PPT'),{k:'ppt',label:'필요한 장 수 및 구성',t:'자기소개 PPT 장 수 및 구성',type:'text',ph:'예) 6장 / 1. 프로필, 2. 좋아하는 것~'}
   ];}
@@ -377,9 +377,9 @@
       calc:function(v){return per(v,'opts',MORE,'moreN','장 수 추가','장');}},
     {id:'s-logo',g:'s',name:'로고',f:[
       {k:'kind',label:'로고 종류',t:'로고 종류',type:'radio',page:1,pageNote:1,opts:['로고 (100,000원)','일회성 로고 · 방송 콘텐츠용 (70,000원)']},
-      {k:'use',label:'사용 용도',t:'로고 사용 용도',type:'radio',opts:['방송용','상업용 (+20,000원)']},
+      {k:'use',label:'사용 용도',t:'로고 사용 용도',type:'radio',opts:['방송용','상업용'],hint:'상업용 선택 시 최종 커미션가의 50%가 추가돼요. (6. 추가 옵션의 상업용 전환이 함께 선택돼요)'},
       {k:'script',label:'표기 (최대 2개)',t:'로고 표기',type:'checks',max:2,opts:['한국어','영어','일본어'],extra:{'영어':'예) ORBITA','일본어':'예) オルビタ'}},CS(),R('')],
-      calc:function(v){return opt(v,'kind',1).concat(opt(v,'use'));}},
+      calc:function(v){return opt(v,'kind',1);}},
     {id:'s-banner',g:'s',name:'배너',ttl:function(k){return k+' 배너';},f:[
       {k:'platform',label:'플랫폼',t:'배너 플랫폼',type:'checks',page:1,opts:['치지직','SOOP']},
       SECS('치지직 배너',{k:'platform',any:['치지직']}),
@@ -579,7 +579,7 @@
       var act=a.getAttribute('data-act');
       if(act==='cancel') return closeModal();
       if(act==='remove'){delete picked[it.id];order=order.filter(function(x){return x!==it.id;});refreshBtn(it.id);closeModal();return update();}
-      if(act==='save'){var nv={};it.f.forEach(function(f){if(f.type==='sec'||!shown(f,it,uid))return;nv[f.k]=readField(f,uid);if(f.extra){var xs={};modal.querySelectorAll('.af-mfield[data-k="'+f.k+'"] .af-xin').forEach(function(x){if(!x.hidden&&x.value.trim())xs[x.getAttribute('data-opt')]=x.value.trim();});nv[f.k+'__x']=xs;}});if(it.parent&&pageField(it.parent).type==='radio')subsOf(it.parent).forEach(function(s){if(s.id!==it.id&&picked[s.id]){delete picked[s.id];order=order.filter(function(x){return x!==s.id;});}});picked[it.id]=nv;if(order.indexOf(it.id)<0)order.push(it.id);refreshBtn(it.id);setErr(2,'');closeModal();update();}
+      if(act==='save'){var nv={};it.f.forEach(function(f){if(f.type==='sec'||!shown(f,it,uid))return;nv[f.k]=readField(f,uid);if(f.extra){var xs={};modal.querySelectorAll('.af-mfield[data-k="'+f.k+'"] .af-xin').forEach(function(x){if(!x.hidden&&x.value.trim())xs[x.getAttribute('data-opt')]=x.value.trim();});nv[f.k+'__x']=xs;}});if(it.parent&&pageField(it.parent).type==='radio')subsOf(it.parent).forEach(function(s){if(s.id!==it.id&&picked[s.id]){delete picked[s.id];order=order.filter(function(x){return x!==s.id;});}});if(nv.logoUse==='상업용'||nv.use==='상업용'){var oc=form.querySelector('input[name="af-opt"][value="상업용 전환"]');if(oc&&!oc.checked)oc.checked=true;}picked[it.id]=nv;if(order.indexOf(it.id)<0)order.push(it.id);refreshBtn(it.id);setErr(2,'');closeModal();update();}
     });
     document.addEventListener('keydown',onKey);
     var first=modal.querySelector('input:not([type=checkbox]),textarea'); (first||modal.querySelector('[data-act=save]')).focus({preventScroll:true});
