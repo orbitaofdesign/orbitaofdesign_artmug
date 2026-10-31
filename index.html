@@ -746,6 +746,7 @@
   /* ===== 포트폴리오 =====
      fmt: 'slide' = 큰 화면 + 미리보기 칸(16:9), 'grid' = 이미지 비율 그대로 cols개씩 나열 (세부 품목별로 fmt/cols 지정 가능)
      items: {src:슬라이드/목록용, full:원본, cap:이미지에 뜨는 이름(생략 시 세부 품목 이름)} */
+  function J(p){return {src:'portfolio/'+p+'.webp',full:'portfolio/'+p+'.jpg'};}
   function S(p){return {src:'portfolio/'+p+'.webp',full:'portfolio/'+p+'.png'};}
   function V(p){return {src:'portfolio/'+p+'.mp4',full:'portfolio/'+p+'.mp4',poster:'portfolio/'+p+'.webp',video:true};}
   /* 여러 장짜리 샘플(PPT): 페이지가 슬라이드처럼 넘어가요 */
@@ -777,7 +778,7 @@
         {name:'플로팅 배너',size:'세로형',cls:'float',items:[P('banner/soop-float-01'),P('banner/soop-float-02'),P('banner/soop-float-03'),P('banner/soop-float-04'),P('banner/soop-float-05'),P('banner/soop-float-06'),P('banner/soop-float-07'),P('banner/soop-float-08'),P('banner/soop-float-09'),P('banner/soop-float-10'),P('banner/soop-float-11'),P('banner/soop-float-12'),P('banner/soop-float-13')]},
         {name:'하단 배너 · 플랫폼 연결용',size:'720×150 · 4개 세트',cls:'link',rows:4,items:[P('banner/soop-link-01'),P('banner/soop-link-02'),P('banner/soop-link-03'),P('banner/soop-link-04'),P('banner/soop-link-05'),P('banner/soop-link-06'),P('banner/soop-link-07'),P('banner/soop-link-08'),P('banner/soop-link-09'),P('banner/soop-link-10')]},
         {name:'하단 배너 · 배포용',size:'1개 / 분할 2·3·4·6개',cls:'dist',items:[P('banner/soop-dist-01','1개'),P('banner/soop-dist-03','1개'),P('banner/soop-dist-04','1개'),P('banner/soop-dist-05','1개'),P('banner/soop-dist-02','2분할'),P('banner/soop-dist-06','2분할')]}]}]},
-    {name:'썸네일',fmt:'slide',subs:[{name:'방송 썸네일',items:[]},{name:'다시보기 틀',items:[]},{name:'커버곡 썸네일',items:[]}]},
+    {name:'썸네일',fmt:'slide',subs:[{name:'방송 썸네일',items:[J('thumb/live-01'),J('thumb/live-02'),J('thumb/live-03'),J('thumb/live-04'),J('thumb/live-05')]},{name:'다시보기 틀',items:[]},{name:'커버곡 썸네일',items:[]}]},
     {name:'채널아트',fmt:'grid',subs:[{name:'유튜브 채널아트',items:[]},{name:'SOOP 방송국 타이틀',items:[]}]},
     {name:'팬카페',fmt:'grid',items:[]},
     {name:'ETC',fmt:'grid',items:[]}
