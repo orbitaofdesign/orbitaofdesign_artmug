@@ -645,7 +645,7 @@ window.addEventListener('beforeunload',function(e){if(dirty){saveLocal(true);e.p
 loadRemote().then(function(r){
   base=clone(r.c);baseSha=r.sha;draft=clone(r.c);
   var L=loadLocal();
-  var go=function(){reloadPreview();setStatus(r.warn?'불러옴 (GitHub 연결 제한: '+r.warn+')':'최신 내용 불러옴',r.warn?'err':'ok');if(!TOKEN)setTimeout(function(){settings(true);},600);};
+  var go=function(){reloadPreview();setStatus(r.warn?(TOKEN?'사이트 파일로 불러옴 (GitHub 연결 확인 필요)':'사이트 파일로 불러옴 · ⚙에서 토큰을 넣어 주세요'):'최신 내용 불러옴',r.warn?'err':'ok');if(!TOKEN)setTimeout(function(){settings(true);},600);};
   if(L&&L.draft&&JSON.stringify(L.draft)!==JSON.stringify(r.c)){
     dialog('<h3>임시 저장된 작업이 있어요</h3><p>'+new Date(L.at).toLocaleString('ko-KR')+'에 이 브라우저에 저장된, 아직 사이트에 반영하지 않은 작업이에요. 이어서 할까요?</p>'+(L.baseSha!==r.sha&&L.baseSha!==undefined?'<p class="note" style="color:#d93025">그 뒤에 사이트 내용이 바뀌었어요. 이어서 하면 바뀐 내용 위에 덮어쓸 수 있어요.</p>':'')+'<div class="row"><button class="btn" id="dN">버리고 새로 시작</button><button class="btn y" id="dOk">이어서 하기</button></div>');
     $('dN').onclick=function(){clearLocal();closeDlg();go();};
