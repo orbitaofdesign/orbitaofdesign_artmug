@@ -734,7 +734,7 @@
 
 (function(){
   /* ===== 포트폴리오 =====
-     fmt: 'slide' = 큰 화면 + 미리보기 칸, 'grid' = 이미지 비율 그대로 나열
+     fmt: 'slide' = 큰 화면 + 미리보기 칸(16:9), 'grid' = 이미지 비율 그대로 cols개씩 나열 (세부 품목별로 fmt/cols 지정 가능)
      items: {src:슬라이드/목록용, full:원본, cap:이미지에 뜨는 이름(생략 시 세부 품목 이름)} */
   function S(p){return {src:'portfolio/'+p+'.webp',full:'portfolio/'+p+'.png'};}
   function SET(p,n){var a=[];for(var i=1;i<=n;i++)a.push('portfolio/'+p+'-'+i+'.png');return {src:'portfolio/'+p+'-1.webp',full:a[0],set:a};}
@@ -745,8 +745,8 @@
       {name:'로딩화면',items:[]},{name:'오프라인 화면',items:[]}]},   /* 로딩·오프라인은 gif 예정: {src:'…gif',full:'…gif'} */
     {name:'스케줄표',fmt:'slide',subs:[
       {name:'일반',items:[S('schedule/basic-01')]},
-      {name:'정방형',items:[S('schedule/square-01')]},
-      {name:'세로형',items:[S('schedule/vertical-01')]}]},
+      {name:'정방형',fmt:'grid',cols:3,items:[S('schedule/square-01')]},
+      {name:'세로형',fmt:'grid',cols:3,items:[S('schedule/vertical-01')]}]},
     {name:'포스터',fmt:'grid',subs:[
       {name:'RT 공개 포스터',cols:4,items:[S('poster/rt-01')]},
       {name:'키 비주얼 포스터',cols:4,items:[S('poster/kv-01')]},
@@ -786,7 +786,7 @@
     list=(s?s.items:c.items).map(function(it){return {src:it.src,full:it.full,set:it.set,cap:it.cap||(s?s.name:c.name)};});
     [].forEach.call(tabs.children,function(w,j){var on=j===i;w.classList.toggle('is-on',on);w.querySelector('.pf-tab-s').textContent=on&&s?s.name:'';
       w.querySelectorAll('.pf-mi').forEach(function(x,q){x.classList.toggle('is-on',on&&q===k);});});
-    var slide=c.fmt==='slide'; slidebox.hidden=!slide; grid.hidden=slide;
+    var slide=((s&&s.fmt)||c.fmt)==='slide'; slidebox.hidden=!slide; grid.hidden=slide;
     if(slide){
       track.innerHTML=list.length?list.map(function(it,q){return '<button type="button" class="pf-slide" data-k="'+q+'" aria-label="'+esc(it.cap+' 크게 보기')+'"><img src="'+esc(it.src)+'" alt="'+esc(it.cap+' 샘플')+'" loading="lazy" draggable="false"></button>';}).join(''):'<div class="pf-empty">샘플 준비 중이에요.</div>';
       var th=list.map(function(it,q){return '<button type="button" class="pf-thumb" data-k="'+q+'" aria-label="'+esc(it.cap+' 보기')+'"><img src="'+esc(it.src)+'" alt="" loading="lazy" draggable="false"></button>';});
