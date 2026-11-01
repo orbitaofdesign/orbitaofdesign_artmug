@@ -843,7 +843,7 @@ window.__orbitaApp=function(){
         {name:'하단 배너 · 플랫폼 연결용',size:'720×150 · 4개 세트',cls:'link',rows:4,items:[P('banner/soop-link-01'),P('banner/soop-link-02'),P('banner/soop-link-03'),P('banner/soop-link-04'),P('banner/soop-link-05'),P('banner/soop-link-06'),P('banner/soop-link-07'),P('banner/soop-link-08'),P('banner/soop-link-09'),P('banner/soop-link-10')]},
         {name:'하단 배너 · 배포용',size:'1개 / 분할 2·3·4·6개',cls:'dist',items:[P('banner/soop-dist-01','1개'),P('banner/soop-dist-03','1개'),P('banner/soop-dist-04','1개'),P('banner/soop-dist-05','1개'),P('banner/soop-dist-02','2분할'),P('banner/soop-dist-06','2분할')]}]}]},
     {name:'썸네일',fmt:'slide',subs:[{name:'방송 썸네일',items:[J('thumb/live-01'),J('thumb/live-02'),J('thumb/live-03'),J('thumb/live-04'),J('thumb/live-05')]},{name:'다시보기 틀',items:[J('thumb/vod-01'),J('thumb/vod-02'),J('thumb/vod-03'),J('thumb/vod-04')]},{name:'커버곡 썸네일',items:[J('thumb/cover-01'),J('thumb/cover-02'),J('thumb/cover-03'),J('thumb/cover-04'),J('thumb/cover-05')]}]},
-    {name:'채널아트',fmt:'grid',subs:[{name:'유튜브 채널아트',fmt:'slide',ratio:'2560 / 423',sqth:1,items:[CA(1),CA(2),CA(3),CA(4),CA(5),CA(6),CA(7),CA(8),CA(9),CA(10),CA(11),CA(12),CA(13),CA(14),CA(15),CA(16),CA(17),CA(18)]},{name:'SOOP 방송국 타이틀',items:[]}]},
+    {name:'채널아트',fmt:'grid',subs:[{name:'유튜브 채널아트',fmt:'slide',ratio:'2560 / 423',sqth:1,items:[CA(1),CA(2),CA(3),CA(4),CA(5),CA(6),CA(7),CA(8),CA(9),CA(10),CA(11),CA(12),CA(13),CA(14),CA(15),CA(16),CA(17),CA(18)]},{name:'SOOP 방송국 타이틀',fmt:'slide',ratio:'auto',sqth:1,items:[]}]},
     {name:'팬카페',fmt:'grid',cafe:1,items:[CAFE(1),CAFE(2)]},
     {name:'ETC',fmt:'grid',items:[]}
   ];
@@ -906,7 +906,9 @@ window.__orbitaApp=function(){
     if(mode==='row'){ri=0;themes.hidden=!(s&&s.theme);rowEl.classList.toggle('has-theme',!!(s&&s.theme));setTheme(s&&s.theme?theme:'');renderRow();return;}
     deck=slide&&list.length>0&&!!list[0].pages; di=0;
     stage.classList.toggle('is-quad',deck);
-    stage.style.aspectRatio=(s&&s.ratio)||'';
+    /* ratio 'auto': 첫 샘플 이미지 비율에 맞춤 (샘플이 없으면 16:9) */
+    if(s&&s.ratio==='auto'){stage.style.aspectRatio='';var f0=list[0],u0=f0&&(f0.src||f0.full);if(u0){var im0=new Image();im0.onload=function(){if(PF[cur]!==c||sub!==k)return;stage.style.aspectRatio=im0.naturalWidth+' / '+im0.naturalHeight;fixStage();};im0.src=u0;}}
+    else stage.style.aspectRatio=(s&&s.ratio)||'';
     fixStage();
     thumbs.classList.toggle('pf-thumbs-sqs',!!(s&&s.sqth));
     if(deck){renderDeck();return;}

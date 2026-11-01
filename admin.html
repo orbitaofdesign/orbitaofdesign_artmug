@@ -132,6 +132,14 @@ details.more[open]>summary{margin-bottom:10px;}
 .empty{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:220px;border:1.5px dashed #ddd;border-radius:14px;color:var(--g2);font-size:14px;text-align:center;}
 .empty b{color:var(--k);}
 .drophint{outline:2px dashed var(--y);outline-offset:-8px;}
+.thw{position:relative;margin:0 0 12px;background:#f6f5f2;border-radius:10px;overflow:hidden;touch-action:none;user-select:none;}
+.thw canvas{display:block;width:100%;height:auto;}
+.thbox{position:absolute;box-sizing:border-box;border:2px solid #ffd040;box-shadow:0 0 0 9999px rgba(0,0,0,.45);cursor:grab;}
+.thbox:active{cursor:grabbing;}
+.throw{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.thprev{flex:none;width:96px;height:96px;border-radius:10px;border:1px solid #ececec;background:#fafafa;}
+.throw .f{flex:1;}
+.throw input[type=range]{width:100%;accent-color:#ffd040;}
 /* 대화상자 */
 .ov{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.45);}
 .ov.on{display:flex;}
@@ -416,7 +424,7 @@ function renderBox(){
       '<div class="ph" title="끌어서 순서 바꾸기">'+(vid?'<video src="'+esc(th)+'" muted></video>':th?'<img src="'+esc(th)+'" alt="" loading="lazy">':'')+(countOf(it)>1?'<span class="multi">'+countOf(it)+'장</span>':'')+(isNew(it)?'<span class="new">새 이미지</span>':'')+'<span class="ix">'+(i+1)+'</span></div>'+
       '<div class="bd">'+(b.kind==='soop'&&b.ref.items.some(function(x){return x.note;})||b.kind==='soop'&&/배포/.test(b.ref.name)?'<input data-note="'+i+'" placeholder="분할 (예: 1개, 2분할)" value="'+esc(it.note||'')+'">':'')+
       (b.kind!=='cafe'?'<input data-cap="'+i+'" placeholder="이름 (비우면 세부 품목 이름)" value="'+esc(it.cap||'')+'">':'')+
-      '<div class="acts"><button data-act="move" title="다른 칸으로 옮기기">옮기기</button><button data-act="rep" title="이미지 바꾸기">교체</button><button class="del" data-act="del">삭제</button></div></div></div>';
+      '<div class="acts">'+(b.kind==='ca'?'<button data-act="th" title="미리보기 칸에 보일 정사각 썸네일 지정">썸네일</button>':'')+'<button data-act="move" title="다른 칸으로 옮기기">옮기기</button><button data-act="rep" title="이미지 바꾸기">교체</button><button class="del" data-act="del">삭제</button></div></div></div>';
   });
   if(!b.items.length)h='<div class="empty"><b>아직 샘플이 없어요</b><span>'+esc(KIND[b.kind].n)+'<br>위의 <b>+ 이미지 추가</b>를 누르거나 이곳에 이미지 파일을 끌어다 놓으세요.</span></div>';
   $('items').innerHTML=h;
@@ -442,6 +450,7 @@ $('items').addEventListener('click',function(e){
   var act=a.getAttribute('data-act');
   if(act==='del'){if(!confirm((i+1)+'번 샘플을 삭제할까요?'))return;b.items.splice(i,1);sel=null;pfChanged();renderBox();toast('삭제했어요. 사이트에 반영해야 페이지에서도 빠져요.');}
   if(act==='move'){startMove(i);}
+  if(act==='th'){editThumb(b,i);return;}
   if(act==='rep'){repIdx=i;$('fRep').accept=b.video?'image/*,video/mp4':'image/*';$('fRep').multiple=KIND[b.kind].max>1;$('fRep').value='';$('fRep').click();}
 });
 function startMove(i){moving={b:cur,i:i};$('moveBar').classList.add('on');$('moveT').textContent=boxes[cur].label.join(' › ')+'의 '+(i+1)+'번 샘플 → 같은 칸에서 놓을 자리(샘플)를 누르거나, 왼쪽에서 옮길 칸을 누르세요.';renderTree();renderBox();}
@@ -503,6 +512,34 @@ function buildItem(b,r){
   var x=r[0];
   if(x.video)return {src:x.src,full:x.full,poster:x.poster,video:true};
   var it={src:x.src,full:x.full};if(k==='ca'&&x.th)it.th=x.th;if(k==='soop')it.note='';return it;
+}
+
+/* ===== 채널아트 썸네일 지정 (정사각 영역 고르기 또는 다른 이미지 올리기) ===== */
+function editThumb(b,i){
+  var it=b.items[i],srcPath=it.full||it.src,img=new Image(),sel={x:0,y:0,s:0},cv,box,prev,zoom,own=null;
+  dialog('<h3>썸네일 지정</h3><p>미리보기 칸에 보일 정사각 썸네일이에요. 노란 네모를 끌어서 위치를 고르고, 크기는 아래 막대로 조절해요. 다른 이미지를 썸네일로 쓰고 싶으면 <b>다른 이미지 올리기</b>를 눌러요.</p>'+
+    '<div class="thw" id="thW"><canvas id="thC"></canvas><div class="thbox" id="thB"></div></div>'+
+    '<div class="throw"><canvas class="thprev" id="thP" width="192" height="192"></canvas><label class="f"><span>크기</span><input type="range" id="thZ" min="20" max="100" value="100"></label></div>'+
+    '<div class="row"><button class="btn" id="thF">다른 이미지 올리기</button><span style="flex:1"></span><button class="btn" data-x>취소</button><button class="btn y" id="dOk" disabled>썸네일로 저장</button></div><input type="file" id="thI" accept="image/*" hidden>');
+  cv=$('thC');box=$('thB');prev=$('thP');zoom=$('thZ');
+  function load(u){img=new Image();img.onload=setup;img.onerror=function(){toast('이미지를 불러오지 못했어요.');};img.src=u;}
+  function setup(){var W=img.naturalWidth,H=img.naturalHeight,sc=Math.min(1,1000/W);cv.width=Math.round(W*sc);cv.height=Math.round(H*sc);cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+    var m=Math.min(W,H);sel.s=m;sel.x=Math.round((W-m)/2);sel.y=Math.round((H-m)/2);zoom.value=100;$('dOk').disabled=false;draw();}
+  function clamp(){var W=img.naturalWidth,H=img.naturalHeight;sel.s=Math.max(16,Math.min(sel.s,W,H));sel.x=Math.max(0,Math.min(sel.x,W-sel.s));sel.y=Math.max(0,Math.min(sel.y,H-sel.s));}
+  function draw(){clamp();var r=cv.getBoundingClientRect(),k=r.width/img.naturalWidth;box.style.left=(sel.x*k)+'px';box.style.top=(sel.y*k)+'px';box.style.width=box.style.height=(sel.s*k)+'px';
+    var x=prev.getContext('2d');x.clearRect(0,0,192,192);x.imageSmoothingQuality='high';x.drawImage(img,sel.x,sel.y,sel.s,sel.s,0,0,192,192);}
+  zoom.addEventListener('input',function(){var m=Math.min(img.naturalWidth,img.naturalHeight),cx=sel.x+sel.s/2,cy=sel.y+sel.s/2;sel.s=Math.round(m*this.value/100);sel.x=Math.round(cx-sel.s/2);sel.y=Math.round(cy-sel.s/2);draw();});
+  var drag=null;
+  box.addEventListener('pointerdown',function(e){drag={x:e.clientX,y:e.clientY,sx:sel.x,sy:sel.y};box.setPointerCapture(e.pointerId);e.preventDefault();});
+  box.addEventListener('pointermove',function(e){if(!drag)return;var k=img.naturalWidth/cv.getBoundingClientRect().width;sel.x=Math.round(drag.sx+(e.clientX-drag.x)*k);sel.y=Math.round(drag.sy+(e.clientY-drag.y)*k);draw();});
+  box.addEventListener('pointerup',function(){drag=null;});
+  cv.addEventListener('pointerdown',function(e){var r=cv.getBoundingClientRect(),k=img.naturalWidth/r.width;sel.x=Math.round((e.clientX-r.left)*k-sel.s/2);sel.y=Math.round((e.clientY-r.top)*k-sel.s/2);draw();});
+  window.addEventListener('resize',function rz(){if(!$('thC')){window.removeEventListener('resize',rz);return;}draw();});
+  $('thF').onclick=function(){$('thI').value='';$('thI').click();};
+  $('thI').onchange=function(){var f=this.files&&this.files[0];if(!f)return;own=f;load(URL.createObjectURL(f));};
+  $('dOk').onclick=function(){var side=Math.min(480,sel.s),c=document.createElement('canvas');c.width=c.height=side;var x=c.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(img,sel.x,sel.y,sel.s,sel.s,0,0,side,side);
+    toBlob(c,'image/webp',.88).then(function(bl){var path=folderOf(b)+'/'+(FOLDER[b.objs[0].name]||'item')+'-'+stamp()+'-th.webp';it.th=keep(path,bl);closeDlg();pfChanged(true);renderBox();toast('썸네일을 바꿨어요. 사이트에 반영하면 적용돼요.');});};
+  load(urls[srcPath]||srcPath);
 }
 /* 이미지 자동 크기 조절 · 압축 */
 var MAXW={single:1920,ca:2560,soop:1440,deck:1920,row:900,set:1600,cafe:1920};
