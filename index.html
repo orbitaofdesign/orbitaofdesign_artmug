@@ -1135,6 +1135,32 @@ window.__orbitaApp=function(){
   if(window.ResizeObserver) new ResizeObserver(layout).observe(document.body);
   layout(); setTimeout(function(){R.classList.add('is-ready');},400); setInterval(function(){lastSig='';report();},3000);
 })();
+/* ===== 스크롤하면 파트가 떠오르듯 나타나는 효과 ===== */
+(function(){
+  var first=document.getElementById('sec-notice'); if(!first) return;
+  var O=window.ORBITA||{}; if(O.edit) return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var wrap=first.parentElement,inIframe=false; try{inIframe=window.self!==window.top;}catch(e){inIframe=true;}
+  var els=[].filter.call(wrap.children,function(e){return e.tagName!=='SCRIPT'&&e.tagName!=='STYLE'&&!e.classList.contains('pk-divider');});
+  var st=document.createElement('style');
+  st.textContent='.orb-rv{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);}.orb-rv.orb-in{opacity:1;transform:none;}';
+  document.head.appendChild(st);
+  var vp=null,left=els.slice();
+  function view(){return inIframe?vp:{top:window.scrollY,height:window.innerHeight};}
+  function check(){
+    var v=view(); if(!v||!left.length) return;
+    var line=v.top+v.height*0.9,d=0;
+    left=left.filter(function(e){var t=e.getBoundingClientRect().top+window.scrollY-28;
+      if(t<line){e.style.transitionDelay=(d*90)+'ms';d=Math.min(d+1,4);e.classList.add('orb-in');setTimeout(function(){e.style.transitionDelay='';},900+d*90);return false;}return true;});
+  }
+  /* 이미 지나간 위쪽(새로고침 등)은 바로 보이게 */
+  els.forEach(function(e){e.classList.add('orb-rv');});
+  window.addEventListener('scroll',check,{passive:true}); window.addEventListener('resize',check);
+  window.addEventListener('message',function(e){var d=e.data||{};if(d.type==='orbitaViewport'){vp={top:d.top,height:d.height};check();}});
+  requestAnimationFrame(function(){requestAnimationFrame(check);});
+  /* iframe인데 바깥 페이지가 스크롤 위치를 안 알려 주면(예전 삽입 코드) 숨긴 채로 두지 않음 */
+  setTimeout(function(){if(inIframe&&!vp){left.forEach(function(e){e.classList.add('orb-in');});left=[];}},2500);
+})();
 
 };
 /* ===== 문구 데이터(content.json) 적용 · 관리자 편집 모드 ===== */
