@@ -151,6 +151,16 @@ details.more[open]>summary{margin-bottom:10px;}
 .ordi .ab button{flex:1;height:26px;padding:0;border:1px solid #e8e8e8;border-radius:6px;background:#fff;font-size:13px;}
 .ordi .ab button:hover:not(:disabled){border-color:#ffd040;}
 .ordi .ab button:disabled{opacity:.3;cursor:default;}
+.it .ph,.it .bd{flex:none;}
+.items{grid-auto-rows:max-content;}
+.it.hid .ph img,.it.hid .ph video{opacity:.35;filter:grayscale(.6);}
+.it .ph .hidb{position:absolute;right:6px;top:6px;padding:0 8px;border-radius:9px;background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;line-height:20px;}
+.it .vis{display:flex;align-items:center;gap:8px;font-size:12px;color:#666;cursor:pointer;user-select:none;}
+.it .vis input{appearance:none;-webkit-appearance:none;flex:none;position:relative;width:34px;height:20px;margin:0;border-radius:10px;background:#d6d6d6;cursor:pointer;transition:background-color .15s;}
+.it .vis input::after{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .15s;}
+.it .vis input:checked{background:#ffd040;}
+.it .vis input:checked::after{transform:translateX(14px);}
+.it .vis input:checked+span{color:#1a1a1a;font-weight:700;}
 /* 대화상자 */
 .ov{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.45);}
 .ov.on{display:flex;}
@@ -415,7 +425,7 @@ function renderTree(){
   boxes.forEach(function(b,i){
     if(b.ci!==lastC){h+='<div class="c">'+esc(b.objs[0].name)+'</div>';lastC=b.ci;}
     var cls=i===cur?' on':'';if(moving){cls+=family(boxes[moving.b].kind)===family(b.kind)?' drop':' nodrop';}
-    h+='<button class="'+cls.trim()+'" data-b="'+i+'"><span>'+esc(b.label.length>1?b.label.slice(1).join(' · '):b.label[0])+'</span><span class="n">'+b.items.length+'</span></button>';
+    h+='<button class="'+cls.trim()+'" data-b="'+i+'"><span>'+esc(b.label.length>1?b.label.slice(1).join(' · '):b.label[0])+'</span><span class="n">'+(function(){var hc=b.items.filter(function(x){return x.hidden;}).length;return (b.items.length-hc)+(hc?' <span style="color:#b0b0b0">+비공개 '+hc+'</span>':'');})()+'</span></button>';
   });
   $('tree').innerHTML=h;
 }
@@ -431,10 +441,11 @@ function renderBox(){
   var h='';
   b.items.forEach(function(it,i){
     var th=thumbOf(it),vid=it.video&&!it.poster;
-    h+='<div class="it'+(sel===i&&!moving?' sel':'')+(moving&&moving.b===cur&&moving.i===i?' sel':'')+'" data-i="'+i+'" draggable="true">'+
-      '<div class="ph" title="끌어서 순서 바꾸기">'+(vid?'<video src="'+esc(th)+'" muted></video>':th?'<img src="'+esc(th)+'" alt="" loading="lazy">':'')+(countOf(it)>1?'<span class="multi">'+countOf(it)+'장</span>':'')+(isNew(it)?'<span class="new">새 이미지</span>':'')+'<span class="ix">'+(i+1)+'</span></div>'+
+    h+='<div class="it'+(it.hidden?' hid':'')+(sel===i&&!moving?' sel':'')+(moving&&moving.b===cur&&moving.i===i?' sel':'')+'" data-i="'+i+'" draggable="true">'+
+      '<div class="ph" title="끌어서 순서 바꾸기">'+(vid?'<video src="'+esc(th)+'" muted></video>':th?'<img src="'+esc(th)+'" alt="" loading="lazy">':'')+(countOf(it)>1?'<span class="multi">'+countOf(it)+'장</span>':'')+(isNew(it)?'<span class="new">새 이미지</span>':'')+(it.hidden?'<span class="hidb">비공개</span>':'')+'<span class="ix">'+(i+1)+'</span></div>'+
       '<div class="bd">'+(b.kind==='soop'&&b.ref.items.some(function(x){return x.note;})||b.kind==='soop'&&/배포/.test(b.ref.name)?'<input data-note="'+i+'" placeholder="분할 (예: 1개, 2분할)" value="'+esc(it.note||'')+'">':'')+
       (b.kind!=='cafe'?'<input data-cap="'+i+'" placeholder="이름 (비우면 세부 품목 이름)" value="'+esc(it.cap||'')+'">':'')+
+      '<label class="vis"><input type="checkbox" data-vis="'+i+'"'+(it.hidden?'':' checked')+'><span>'+(it.hidden?'비공개 · 페이지에 안 보여요':'공개 중')+'</span></label>'+
       '<div class="acts">'+(countOf(it)>1&&(it.set||it.pages)?'<button data-act="ord" title="세트 안 이미지 순서 바꾸기">순서</button>':'')+(b.kind==='ca'?'<button data-act="th" title="미리보기 칸에 보일 정사각 썸네일 지정">썸네일</button>':'')+'<button data-act="move" title="다른 칸으로 옮기기">옮기기</button><button data-act="rep" title="이미지 바꾸기">교체</button><button class="del" data-act="del">삭제</button></div></div></div>';
   });
   if(!b.items.length)h='<div class="empty"><b>아직 샘플이 없어요</b><span>'+esc(KIND[b.kind].n)+'<br>위의 <b>+ 이미지 추가</b>를 누르거나 이곳에 이미지 파일을 끌어다 놓으세요.</span></div>';
@@ -450,6 +461,7 @@ $('names').addEventListener('input',function(e){var t=e.target,b=boxes[cur];
   if(t.hasAttribute('data-gs'))b.ref.size=t.value;
   $('boxT').textContent=b.label.join(' › ');pfChanged(true);});
 function pfChanged(noTree){needReload=true;changed();if(!noTree)renderTree();else{var tb=document.querySelector('#tree [data-b="'+cur+'"] span');if(tb){var b=boxes[cur];tb.textContent=b.label.length>1?b.label.slice(1).join(' · '):b.label[0];}}}
+$('items').addEventListener('change',function(e){var t=e.target;if(!t.hasAttribute('data-vis'))return;var it=boxes[cur].items[+t.getAttribute('data-vis')];if(t.checked)delete it.hidden;else it.hidden=true;pfChanged();renderBox();toast(t.checked?'공개로 바꿨어요. 사이트에 반영하면 페이지에 보여요.':'비공개로 바꿨어요. 사이트에 반영하면 페이지에서 빠져요.');});
 $('items').addEventListener('input',function(e){var t=e.target,b=boxes[cur];
   if(t.hasAttribute('data-cap')){var it=b.items[+t.getAttribute('data-cap')];if(t.value)it.cap=t.value;else delete it.cap;pfChanged(true);}
   if(t.hasAttribute('data-note')){var it2=b.items[+t.getAttribute('data-note')];it2.note=t.value;pfChanged(true);}});

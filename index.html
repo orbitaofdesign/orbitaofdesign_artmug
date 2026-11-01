@@ -848,6 +848,8 @@ window.__orbitaApp=function(){
     {name:'ETC',fmt:'grid',items:[]}
   ];
   if(window.ORBITA){if(ORBITA.defaults)ORBITA.defaults.pf=JSON.parse(JSON.stringify(PF));if(ORBITA.c&&Array.isArray(ORBITA.c.pf))PF=JSON.parse(JSON.stringify(ORBITA.c.pf));}
+  /* 비공개(hidden) 샘플은 페이지에 안 보이게 */
+  (function strip(o){if(Array.isArray(o)){o.forEach(strip);return;}if(!o||typeof o!=='object')return;if(Array.isArray(o.items))o.items=o.items.filter(function(x){return !(x&&x.hidden);});['subs','vars','groups'].forEach(function(k){if(o[k])strip(o[k]);});})(PF);
   var tabs=document.getElementById('pf-tabs'); if(!tabs) return;
   var varEl=document.getElementById('pf-var'),vCur=null,vSel=0;
   var slidebox=document.getElementById('pf-slidebox'),grid=document.getElementById('pf-grid'),rowbox=document.getElementById('pf-rowbox'),groupsEl=document.getElementById('pf-groups'),rowEl=document.getElementById('pf-row'),rthumbs=document.getElementById('pf-rthumbs'),ri=0;
