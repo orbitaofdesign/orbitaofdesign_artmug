@@ -132,14 +132,6 @@ details.more[open]>summary{margin-bottom:10px;}
 .empty{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:220px;border:1.5px dashed #ddd;border-radius:14px;color:var(--g2);font-size:14px;text-align:center;}
 .empty b{color:var(--k);}
 .drophint{outline:2px dashed var(--y);outline-offset:-8px;}
-.stw{display:flex;flex-direction:column;height:100%;}
-.stbar{display:flex;align-items:center;gap:8px;padding:14px 20px;background:#fff;border-bottom:1px solid var(--line);}
-.stbar h3{margin:0 8px 0 0;font-size:16px;}
-.stframe{flex:1;border:0;width:100%;background:#fff;}
-.guide ol{margin:0;padding-left:20px;font-size:14px;line-height:26px;color:#333;}
-.guide li{margin-bottom:6px;}
-.guide b{color:#1a1a1a;}.guide a{color:#1a1a1a;font-weight:700;text-underline-offset:3px;}
-.guide .tip{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--y3);font-size:13px;line-height:20px;color:#555;}
 /* 대화상자 */
 .ov{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.45);}
 .ov.on{display:flex;}
@@ -183,7 +175,6 @@ details.more[open]>summary{margin-bottom:10px;}
     <button class="on" data-v="text">페이지 문구</button>
     <button data-v="items">신청 양식 항목</button>
     <button data-v="pf">포트폴리오</button>
-    <button data-v="stats">방문 통계</button>
     <div class="hint">미리보기에서 글자를 눌러 바로 고칠 수 있어요. 다 고친 뒤 <b>사이트에 반영</b>을 누르면 1~2분 뒤 페이지에 적용돼요.</div>
   </nav>
   <main class="main">
@@ -198,9 +189,6 @@ details.more[open]>summary{margin-bottom:10px;}
         <div class="filters"><button class="chip on" data-fl="all">전체</button><button class="chip" data-fl="ch">수정한 문구</button><button class="chip" data-fl="attr">ⓘ·입력칸 안내</button></div>
         <div class="list" id="tlist"></div>
       </aside>
-    </section>
-    <section class="view" id="v-stats">
-      <div class="scroll" id="slist"></div>
     </section>
     <section class="view" id="v-items">
       <div class="scroll" id="ilist"></div>
@@ -299,7 +287,7 @@ function markPreview(){if(O&&O.markChanged)O.markChanged(draft.texts);}
 $('segW').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});$('pvbox').classList.toggle('mobile',b.getAttribute('data-w')==='m');});
 
 /* ===== 문구 목록 ===== */
-var SECN={'sec-notice':'필독 안내사항','sec-package':'패키지 안내','sec-form':'신청 양식','sec-portfolio':'포트폴리오'};
+var SECN={'sec-top':'맨 위 안내','sec-notice':'필독 안내사항','sec-package':'패키지 안내','sec-form':'신청 양식','sec-portfolio':'포트폴리오'};
 var fl='all';
 function buildTextList(){
   if(!O)return;var q=$('q').value.trim().toLowerCase(),h='',last='';
@@ -648,30 +636,9 @@ function waitLive(json,tries){tries=tries||0;if(tries>40){setStatus('반영 완�
     if(same){setStatus('사이트에 적용됨 ✓','ok');toast('사이트에 적용됐어요 ✦',4000);}else waitLive(json,tries+1);}).catch(function(){waitLive(json,tries+1);});},6000);}
 
 
-/* ===== 방문 통계 (구글 애널리틱스 · Looker Studio 보고서) ===== */
-var GA_ID='G-2B1EQ5RHMZ';
-function statsUrl(){try{return localStorage.getItem('orb.stats')||'';}catch(e){return '';}}
-function toEmbed(u){u=String(u||'').trim();var m=u.match(/lookerstudio\.google\.com\/(?:u\/\d+\/)?(?:embed\/)?reporting\/([^\/?#]+)(?:\/page\/([^\/?#]+))?/)||u.match(/datastudio\.google\.com\/(?:u\/\d+\/)?(?:embed\/)?reporting\/([^\/?#]+)(?:\/page\/([^\/?#]+))?/);if(!m)return '';return 'https://lookerstudio.google.com/embed/reporting/'+m[1]+(m[2]?'/page/'+m[2]:'');}
-function buildStats(){
-  var u=statsUrl(),el=$('slist');
-  if(u){el.style.padding='0';el.innerHTML='<div class="stw"><div class="stbar"><h3>방문 통계</h3><span class="note">구글 애널리틱스 기준 · 집계까지 하루 정도 늦을 수 있어요</span><span class="sp" style="flex:1"></span><a class="btn" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit" href="https://analytics.google.com/" target="_blank" rel="noopener">구글 애널리틱스 열기</a><button class="btn" id="stChg">보고서 주소 바꾸기</button></div><iframe class="stframe" src="'+esc(u)+'" allowfullscreen></iframe></div>';
-    $('stChg').onclick=function(){try{localStorage.removeItem('orb.stats');}catch(e){}buildStats();};return;}
-  el.style.padding='';
-  el.innerHTML='<div class="pagehead"><div><h2>방문 통계</h2><p>오르비타 페이지에 구글 애널리틱스(측정 ID '+GA_ID+')가 연결돼 있어요. 아래처럼 보고서를 한 번 만들어 두면, 이 화면에서 방문자 수와 평균 머문 시간을 바로 볼 수 있어요.</p></div></div>'+
-  '<div class="card guide"><h4>보고서 만들기 (처음 한 번, 5분 정도)</h4><ol>'+
-  '<li><a href="https://lookerstudio.google.com/" target="_blank" rel="noopener">Looker Studio</a>에 구글 애널리틱스와 같은 구글 계정으로 들어가 <b>빈 보고서</b>를 만들어요.</li>'+
-  '<li>데이터 추가 창에서 <b>Google 애널리틱스</b> → 오르비타 속성을 고르고 <b>추가</b>를 눌러요.</li>'+
-  '<li>상단 <b>차트 추가 → 스코어카드</b>를 두 개 넣고, 측정항목을 각각 <b>활성 사용자</b>(방문자 수), <b>활성 사용자당 평균 참여 시간</b>(평균 머문 시간)으로 바꿔요.</li>'+
-  '<li><b>차트 추가 → 시계열</b>을 넣으면 날짜별 방문자 수가 보여요. <b>컨트롤 추가 → 기간 컨트롤</b>을 넣으면 7일·30일처럼 기간을 바꿀 수 있어요.</li>'+
-  '<li>오른쪽 위 <b>공유 옆 ▾ → 보고서 삽입</b>(또는 파일 → 보고서 삽입)에서 <b>삽입 사용 설정</b>을 켜고 <b>삽입 URL</b>을 복사해요.</li>'+
-  '<li>아래 칸에 붙여 넣고 저장하면 끝이에요.</li></ol>'+
-  '<div class="tip">보고서를 다른 사람에게 공유할 필요는 없어요. 이 브라우저에서 같은 구글 계정으로 로그인돼 있으면 보여요. 방문 기록은 사이트에 반영된 뒤부터 쌓이고, 구글 집계는 보통 몇 시간~하루 늦게 나타나요.</div></div>'+
-  '<div class="card"><label class="f"><span>Looker Studio 보고서 주소 (삽입 URL 또는 보고서 주소)</span><input id="stU" placeholder="https://lookerstudio.google.com/embed/reporting/…"></label><p class="note" id="stM" style="margin-top:8px"></p><div style="display:flex;gap:8px;margin-top:12px"><button class="btn y" id="stOk">저장하고 보기</button><a class="btn" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit" href="https://analytics.google.com/" target="_blank" rel="noopener">구글 애널리틱스에서 바로 보기</a></div></div>';
-  $('stOk').onclick=function(){var e=toEmbed($('stU').value);if(!e){$('stM').innerHTML='<span style="color:#d93025">Looker Studio 보고서 주소가 아니에요. lookerstudio.google.com/… 주소를 붙여 넣어 주세요.</span>';return;}try{localStorage.setItem('orb.stats',e);}catch(x){}buildStats();};
-}
 /* ===== 화면 전환 ===== */
 function showView(v){document.querySelectorAll('.nav button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===v);});document.querySelectorAll('.view').forEach(function(s){s.classList.toggle('on',s.id==='v-'+v);});
-  if(v==='text'&&needReload)reloadPreview();if(v==='items'&&!itemsBuilt)buildItems();if(v==='pf'&&!pfReady)initPf();if(v==='stats')buildStats();}
+  if(v==='text'&&needReload)reloadPreview();if(v==='items'&&!itemsBuilt)buildItems();if(v==='pf'&&!pfReady)initPf();}
 document.querySelector('.nav').addEventListener('click',function(e){var b=e.target.closest('[data-v]');if(b)showView(b.getAttribute('data-v'));});
 window.addEventListener('beforeunload',function(e){if(dirty){saveLocal(true);e.preventDefault();e.returnValue='';}});
 
