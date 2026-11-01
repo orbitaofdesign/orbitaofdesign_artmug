@@ -1,1 +1,1133 @@
-{"v":1,"texts":{},"attrs":{},"items":{"map":{},"byId":{}},"pf":null}
+{
+ "v": 1,
+ "texts": {},
+ "attrs": {},
+ "items": {
+  "map": {},
+  "byId": {}
+ },
+ "pf": [
+  {
+   "name": "화면 오버레이",
+   "fmt": "slide",
+   "subs": [
+    {
+     "name": "채팅화면",
+     "items": [
+      {
+       "src": "portfolio/overlay/chat-01.webp",
+       "full": "portfolio/overlay/chat-01.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-02.webp",
+       "full": "portfolio/overlay/chat-02.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-03.webp",
+       "full": "portfolio/overlay/chat-03.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-04.webp",
+       "full": "portfolio/overlay/chat-04.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-05.webp",
+       "full": "portfolio/overlay/chat-05.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-06.webp",
+       "full": "portfolio/overlay/chat-06.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-07.webp",
+       "full": "portfolio/overlay/chat-07.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-08.webp",
+       "full": "portfolio/overlay/chat-08.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-09.webp",
+       "full": "portfolio/overlay/chat-09.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-10.webp",
+       "full": "portfolio/overlay/chat-10.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-11.webp",
+       "full": "portfolio/overlay/chat-11.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-12.webp",
+       "full": "portfolio/overlay/chat-12.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-13.webp",
+       "full": "portfolio/overlay/chat-13.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-14.webp",
+       "full": "portfolio/overlay/chat-14.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-15.webp",
+       "full": "portfolio/overlay/chat-15.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-16.webp",
+       "full": "portfolio/overlay/chat-16.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-17.webp",
+       "full": "portfolio/overlay/chat-17.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-18.webp",
+       "full": "portfolio/overlay/chat-18.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-19.webp",
+       "full": "portfolio/overlay/chat-19.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-20.webp",
+       "full": "portfolio/overlay/chat-20.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-21.webp",
+       "full": "portfolio/overlay/chat-21.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-22.webp",
+       "full": "portfolio/overlay/chat-22.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-23.webp",
+       "full": "portfolio/overlay/chat-23.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-24.webp",
+       "full": "portfolio/overlay/chat-24.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-25.webp",
+       "full": "portfolio/overlay/chat-25.png"
+      },
+      {
+       "src": "portfolio/overlay/chat-26.webp",
+       "full": "portfolio/overlay/chat-26.png"
+      }
+     ]
+    },
+    {
+     "name": "게임화면",
+     "items": [
+      {
+       "src": "portfolio/overlay/game-01.webp",
+       "full": "portfolio/overlay/game-01.png"
+      },
+      {
+       "src": "portfolio/overlay/game-02.webp",
+       "full": "portfolio/overlay/game-02.png"
+      },
+      {
+       "src": "portfolio/overlay/game-03.webp",
+       "full": "portfolio/overlay/game-03.png"
+      },
+      {
+       "src": "portfolio/overlay/game-04.webp",
+       "full": "portfolio/overlay/game-04.png"
+      },
+      {
+       "src": "portfolio/overlay/game-05.webp",
+       "full": "portfolio/overlay/game-05.png"
+      },
+      {
+       "src": "portfolio/overlay/game-06.webp",
+       "full": "portfolio/overlay/game-06.png"
+      },
+      {
+       "src": "portfolio/overlay/game-07.webp",
+       "full": "portfolio/overlay/game-07.png"
+      },
+      {
+       "src": "portfolio/overlay/game-08.webp",
+       "full": "portfolio/overlay/game-08.png"
+      },
+      {
+       "src": "portfolio/overlay/game-09.webp",
+       "full": "portfolio/overlay/game-09.png"
+      },
+      {
+       "src": "portfolio/overlay/game-10.webp",
+       "full": "portfolio/overlay/game-10.png"
+      },
+      {
+       "src": "portfolio/overlay/game-11.webp",
+       "full": "portfolio/overlay/game-11.png"
+      },
+      {
+       "src": "portfolio/overlay/game-12.webp",
+       "full": "portfolio/overlay/game-12.png"
+      },
+      {
+       "src": "portfolio/overlay/game-13.webp",
+       "full": "portfolio/overlay/game-13.png"
+      },
+      {
+       "src": "portfolio/overlay/game-14.webp",
+       "full": "portfolio/overlay/game-14.png"
+      },
+      {
+       "src": "portfolio/overlay/game-15.webp",
+       "full": "portfolio/overlay/game-15.png"
+      },
+      {
+       "src": "portfolio/overlay/game-16.webp",
+       "full": "portfolio/overlay/game-16.png"
+      },
+      {
+       "src": "portfolio/overlay/game-17.webp",
+       "full": "portfolio/overlay/game-17.png"
+      },
+      {
+       "src": "portfolio/overlay/game-18.webp",
+       "full": "portfolio/overlay/game-18.png"
+      },
+      {
+       "src": "portfolio/overlay/game-19.webp",
+       "full": "portfolio/overlay/game-19.png"
+      },
+      {
+       "src": "portfolio/overlay/game-20.webp",
+       "full": "portfolio/overlay/game-20.png"
+      },
+      {
+       "src": "portfolio/overlay/game-21.webp",
+       "full": "portfolio/overlay/game-21.png"
+      }
+     ]
+    },
+    {
+     "name": "로딩화면",
+     "items": [
+      {
+       "src": "portfolio/overlay/loading-01.mp4",
+       "full": "portfolio/overlay/loading-01.mp4",
+       "poster": "portfolio/overlay/loading-01.webp",
+       "video": true
+      }
+     ]
+    },
+    {
+     "name": "오프라인 화면",
+     "items": []
+    }
+   ]
+  },
+  {
+   "name": "스케줄표",
+   "fmt": "slide",
+   "subs": [
+    {
+     "name": "일반",
+     "items": [
+      {
+       "src": "portfolio/schedule/basic-01.webp",
+       "full": "portfolio/schedule/basic-01.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-02.webp",
+       "full": "portfolio/schedule/basic-02.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-03.webp",
+       "full": "portfolio/schedule/basic-03.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-04.webp",
+       "full": "portfolio/schedule/basic-04.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-05.webp",
+       "full": "portfolio/schedule/basic-05.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-06.webp",
+       "full": "portfolio/schedule/basic-06.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-07.webp",
+       "full": "portfolio/schedule/basic-07.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-08.webp",
+       "full": "portfolio/schedule/basic-08.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-09.webp",
+       "full": "portfolio/schedule/basic-09.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-10.webp",
+       "full": "portfolio/schedule/basic-10.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-11.webp",
+       "full": "portfolio/schedule/basic-11.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-12.webp",
+       "full": "portfolio/schedule/basic-12.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-13.webp",
+       "full": "portfolio/schedule/basic-13.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-14.webp",
+       "full": "portfolio/schedule/basic-14.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-15.webp",
+       "full": "portfolio/schedule/basic-15.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-34.webp",
+       "full": "portfolio/schedule/basic-34.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-16.webp",
+       "full": "portfolio/schedule/basic-16.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-17.webp",
+       "full": "portfolio/schedule/basic-17.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-18.webp",
+       "full": "portfolio/schedule/basic-18.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-19.webp",
+       "full": "portfolio/schedule/basic-19.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-20.webp",
+       "full": "portfolio/schedule/basic-20.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-21.webp",
+       "full": "portfolio/schedule/basic-21.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-22.webp",
+       "full": "portfolio/schedule/basic-22.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-23.webp",
+       "full": "portfolio/schedule/basic-23.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-24.webp",
+       "full": "portfolio/schedule/basic-24.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-25.webp",
+       "full": "portfolio/schedule/basic-25.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-26.webp",
+       "full": "portfolio/schedule/basic-26.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-27.webp",
+       "full": "portfolio/schedule/basic-27.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-28.webp",
+       "full": "portfolio/schedule/basic-28.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-29.webp",
+       "full": "portfolio/schedule/basic-29.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-30.webp",
+       "full": "portfolio/schedule/basic-30.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-31.webp",
+       "full": "portfolio/schedule/basic-31.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-32.webp",
+       "full": "portfolio/schedule/basic-32.png"
+      },
+      {
+       "src": "portfolio/schedule/basic-33.webp",
+       "full": "portfolio/schedule/basic-33.png"
+      }
+     ]
+    },
+    {
+     "name": "정방형",
+     "fmt": "grid",
+     "cols": 2,
+     "items": [
+      {
+       "src": "portfolio/schedule/square-01.webp",
+       "full": "portfolio/schedule/square-01.png"
+      },
+      {
+       "src": "portfolio/schedule/square-02.webp",
+       "full": "portfolio/schedule/square-02.png"
+      }
+     ]
+    },
+    {
+     "name": "세로형",
+     "fmt": "grid",
+     "cols": 3,
+     "items": [
+      {
+       "src": "portfolio/schedule/vertical-01.webp",
+       "full": "portfolio/schedule/vertical-01.png"
+      },
+      {
+       "src": "portfolio/schedule/vertical-02.webp",
+       "full": "portfolio/schedule/vertical-02.png"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "포스터",
+   "fmt": "grid",
+   "subs": [
+    {
+     "name": "RT 공개 포스터",
+     "cols": 4,
+     "items": [
+      {
+       "src": "portfolio/poster/rt-01.webp",
+       "full": "portfolio/poster/rt-01.png"
+      },
+      {
+       "src": "portfolio/poster/rt-02.webp",
+       "full": "portfolio/poster/rt-02.png"
+      },
+      {
+       "src": "portfolio/poster/rt-03.webp",
+       "full": "portfolio/poster/rt-03.png"
+      },
+      {
+       "src": "portfolio/poster/rt-04.webp",
+       "full": "portfolio/poster/rt-04.png"
+      },
+      {
+       "src": "portfolio/poster/rt-05.webp",
+       "full": "portfolio/poster/rt-05.png"
+      },
+      {
+       "src": "portfolio/poster/rt-06.webp",
+       "full": "portfolio/poster/rt-06.png"
+      },
+      {
+       "src": "portfolio/poster/rt-07.webp",
+       "full": "portfolio/poster/rt-07.png"
+      },
+      {
+       "src": "portfolio/poster/rt-08.webp",
+       "full": "portfolio/poster/rt-08.png"
+      },
+      {
+       "src": "portfolio/poster/rt-09.webp",
+       "full": "portfolio/poster/rt-09.png"
+      },
+      {
+       "src": "portfolio/poster/rt-10.webp",
+       "full": "portfolio/poster/rt-10.png"
+      },
+      {
+       "src": "portfolio/poster/rt-11.webp",
+       "full": "portfolio/poster/rt-11.png"
+      },
+      {
+       "src": "portfolio/poster/rt-12.webp",
+       "full": "portfolio/poster/rt-12.png"
+      },
+      {
+       "src": "portfolio/poster/rt-13.webp",
+       "full": "portfolio/poster/rt-13.png"
+      },
+      {
+       "src": "portfolio/poster/rt-14.webp",
+       "full": "portfolio/poster/rt-14.png"
+      },
+      {
+       "src": "portfolio/poster/rt-15.webp",
+       "full": "portfolio/poster/rt-15.png"
+      },
+      {
+       "src": "portfolio/poster/rt-16.webp",
+       "full": "portfolio/poster/rt-16.png"
+      },
+      {
+       "src": "portfolio/poster/rt-17.webp",
+       "full": "portfolio/poster/rt-17.png"
+      },
+      {
+       "src": "portfolio/poster/rt-18.webp",
+       "full": "portfolio/poster/rt-18.png"
+      },
+      {
+       "src": "portfolio/poster/rt-19.webp",
+       "full": "portfolio/poster/rt-19.png"
+      }
+     ]
+    },
+    {
+     "name": "키 비주얼 포스터",
+     "cols": 4,
+     "items": [
+      {
+       "src": "portfolio/poster/kv-01.webp",
+       "full": "portfolio/poster/kv-01.png"
+      },
+      {
+       "src": "portfolio/poster/kv-02.webp",
+       "full": "portfolio/poster/kv-02.png"
+      },
+      {
+       "src": "portfolio/poster/kv-03.webp",
+       "full": "portfolio/poster/kv-03.png"
+      }
+     ]
+    },
+    {
+     "name": "굿즈 판매 인포",
+     "cols": 2,
+     "items": [
+      {
+       "src": "portfolio/poster/goods-01-1.webp",
+       "full": "portfolio/poster/goods-01-1.png",
+       "set": [
+        "portfolio/poster/goods-01-1.png",
+        "portfolio/poster/goods-01-2.png",
+        "portfolio/poster/goods-01-3.png",
+        "portfolio/poster/goods-01-4.png"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "일반 포스터",
+     "vars": [
+      {
+       "v": "3:4 비율",
+       "fmt": "grid",
+       "cols": 4,
+       "items": [
+        {
+         "src": "portfolio/poster/general-01.webp",
+         "full": "portfolio/poster/general-01.png"
+        },
+        {
+         "src": "portfolio/poster/general-02.webp",
+         "full": "portfolio/poster/general-02.png"
+        },
+        {
+         "src": "portfolio/poster/general-03.webp",
+         "full": "portfolio/poster/general-03.png"
+        },
+        {
+         "src": "portfolio/poster/general-04.webp",
+         "full": "portfolio/poster/general-04.png"
+        },
+        {
+         "src": "portfolio/poster/general-05.webp",
+         "full": "portfolio/poster/general-05.png"
+        },
+        {
+         "src": "portfolio/poster/general-06.webp",
+         "full": "portfolio/poster/general-06.png"
+        },
+        {
+         "src": "portfolio/poster/general-07.webp",
+         "full": "portfolio/poster/general-07.png"
+        },
+        {
+         "src": "portfolio/poster/general-08.webp",
+         "full": "portfolio/poster/general-08.png"
+        },
+        {
+         "src": "portfolio/poster/general-09.webp",
+         "full": "portfolio/poster/general-09.png"
+        },
+        {
+         "src": "portfolio/poster/general-10.webp",
+         "full": "portfolio/poster/general-10.png"
+        },
+        {
+         "src": "portfolio/poster/general-11.webp",
+         "full": "portfolio/poster/general-11.png"
+        },
+        {
+         "src": "portfolio/poster/general-12.webp",
+         "full": "portfolio/poster/general-12.png"
+        },
+        {
+         "src": "portfolio/poster/general-13.webp",
+         "full": "portfolio/poster/general-13.png"
+        },
+        {
+         "src": "portfolio/poster/general-14.webp",
+         "full": "portfolio/poster/general-14.png"
+        },
+        {
+         "src": "portfolio/poster/general-15.webp",
+         "full": "portfolio/poster/general-15.png"
+        },
+        {
+         "src": "portfolio/poster/general-16.webp",
+         "full": "portfolio/poster/general-16.png"
+        },
+        {
+         "src": "portfolio/poster/general-22.webp",
+         "full": "portfolio/poster/general-22.png"
+        },
+        {
+         "src": "portfolio/poster/general-17.webp",
+         "full": "portfolio/poster/general-17.png"
+        },
+        {
+         "src": "portfolio/poster/general-18.webp",
+         "full": "portfolio/poster/general-18.png"
+        },
+        {
+         "src": "portfolio/poster/general-19.webp",
+         "full": "portfolio/poster/general-19.png"
+        },
+        {
+         "src": "portfolio/poster/general-20.webp",
+         "full": "portfolio/poster/general-20.png"
+        },
+        {
+         "src": "portfolio/poster/general-21.webp",
+         "full": "portfolio/poster/general-21.png"
+        }
+       ]
+      },
+      {
+       "v": "16:9 비율",
+       "fmt": "slide",
+       "items": []
+      },
+      {
+       "v": "1:1 비율",
+       "fmt": "grid",
+       "cols": 3,
+       "items": [
+        {
+         "src": "portfolio/poster/square-01.webp",
+         "full": "portfolio/poster/square-01.png"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "PPT",
+   "fmt": "slide",
+   "items": [
+    {
+     "src": "portfolio/ppt/deck-02-01.webp",
+     "full": "portfolio/ppt/deck-02-01.jpg",
+     "pages": [
+      {
+       "src": "portfolio/ppt/deck-02-01.webp",
+       "full": "portfolio/ppt/deck-02-01.jpg"
+      },
+      {
+       "src": "portfolio/ppt/deck-02-02.webp",
+       "full": "portfolio/ppt/deck-02-02.jpg"
+      },
+      {
+       "src": "portfolio/ppt/deck-02-03.webp",
+       "full": "portfolio/ppt/deck-02-03.jpg"
+      },
+      {
+       "src": "portfolio/ppt/deck-02-04.webp",
+       "full": "portfolio/ppt/deck-02-04.jpg"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "로고",
+   "fmt": "grid",
+   "subs": [
+    {
+     "name": "로고",
+     "cols": 3,
+     "tile": 1,
+     "items": [
+      {
+       "src": "portfolio/logo/logo-01.webp",
+       "full": "portfolio/logo/logo-01.png"
+      }
+     ]
+    },
+    {
+     "name": "일회성 로고",
+     "cols": 3,
+     "tile": 1,
+     "items": []
+    }
+   ]
+  },
+  {
+   "name": "배너",
+   "fmt": "grid",
+   "subs": [
+    {
+     "name": "치지직",
+     "fmt": "row",
+     "theme": 1,
+     "items": [
+      {
+       "src": "portfolio/banner/chzzk-01-1.png",
+       "full": "portfolio/banner/chzzk-01-1.png",
+       "set": [
+        "portfolio/banner/chzzk-01-1.png",
+        "portfolio/banner/chzzk-01-2.png",
+        "portfolio/banner/chzzk-01-3.png",
+        "portfolio/banner/chzzk-01-4.png"
+       ],
+       "row": 1
+      }
+     ]
+    },
+    {
+     "name": "SOOP",
+     "fmt": "groups",
+     "items": [],
+     "groups": [
+      {
+       "name": "플로팅 배너",
+       "size": "세로형",
+       "cls": "float",
+       "items": [
+        {
+         "src": "portfolio/banner/soop-float-01.png",
+         "full": "portfolio/banner/soop-float-01.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-02.png",
+         "full": "portfolio/banner/soop-float-02.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-03.png",
+         "full": "portfolio/banner/soop-float-03.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-04.png",
+         "full": "portfolio/banner/soop-float-04.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-05.png",
+         "full": "portfolio/banner/soop-float-05.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-06.png",
+         "full": "portfolio/banner/soop-float-06.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-07.png",
+         "full": "portfolio/banner/soop-float-07.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-08.png",
+         "full": "portfolio/banner/soop-float-08.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-09.png",
+         "full": "portfolio/banner/soop-float-09.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-10.png",
+         "full": "portfolio/banner/soop-float-10.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-11.png",
+         "full": "portfolio/banner/soop-float-11.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-12.png",
+         "full": "portfolio/banner/soop-float-12.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-float-13.png",
+         "full": "portfolio/banner/soop-float-13.png",
+         "note": ""
+        }
+       ]
+      },
+      {
+       "name": "하단 배너 · 플랫폼 연결용",
+       "size": "720×150 · 4개 세트",
+       "cls": "link",
+       "rows": 4,
+       "items": [
+        {
+         "src": "portfolio/banner/soop-link-01.png",
+         "full": "portfolio/banner/soop-link-01.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-link-02.png",
+         "full": "portfolio/banner/soop-link-02.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-link-03.png",
+         "full": "portfolio/banner/soop-link-03.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-link-04.png",
+         "full": "portfolio/banner/soop-link-04.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-link-05.png",
+         "full": "portfolio/banner/soop-link-05.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-link-06.png",
+         "full": "portfolio/banner/soop-link-06.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-link-07.png",
+         "full": "portfolio/banner/soop-link-07.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-link-08.png",
+         "full": "portfolio/banner/soop-link-08.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-link-09.png",
+         "full": "portfolio/banner/soop-link-09.png",
+         "note": ""
+        },
+        {
+         "src": "portfolio/banner/soop-link-10.png",
+         "full": "portfolio/banner/soop-link-10.png",
+         "note": ""
+        }
+       ]
+      },
+      {
+       "name": "하단 배너 · 배포용",
+       "size": "1개 / 분할 2·3·4·6개",
+       "cls": "dist",
+       "items": [
+        {
+         "src": "portfolio/banner/soop-dist-01.png",
+         "full": "portfolio/banner/soop-dist-01.png",
+         "note": "1개"
+        },
+        {
+         "src": "portfolio/banner/soop-dist-03.png",
+         "full": "portfolio/banner/soop-dist-03.png",
+         "note": "1개"
+        },
+        {
+         "src": "portfolio/banner/soop-dist-04.png",
+         "full": "portfolio/banner/soop-dist-04.png",
+         "note": "1개"
+        },
+        {
+         "src": "portfolio/banner/soop-dist-05.png",
+         "full": "portfolio/banner/soop-dist-05.png",
+         "note": "1개"
+        },
+        {
+         "src": "portfolio/banner/soop-dist-02.png",
+         "full": "portfolio/banner/soop-dist-02.png",
+         "note": "2분할"
+        },
+        {
+         "src": "portfolio/banner/soop-dist-06.png",
+         "full": "portfolio/banner/soop-dist-06.png",
+         "note": "2분할"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "썸네일",
+   "fmt": "slide",
+   "subs": [
+    {
+     "name": "방송 썸네일",
+     "items": [
+      {
+       "src": "portfolio/thumb/live-01.webp",
+       "full": "portfolio/thumb/live-01.jpg"
+      },
+      {
+       "src": "portfolio/thumb/live-02.webp",
+       "full": "portfolio/thumb/live-02.jpg"
+      },
+      {
+       "src": "portfolio/thumb/live-03.webp",
+       "full": "portfolio/thumb/live-03.jpg"
+      },
+      {
+       "src": "portfolio/thumb/live-04.webp",
+       "full": "portfolio/thumb/live-04.jpg"
+      },
+      {
+       "src": "portfolio/thumb/live-05.webp",
+       "full": "portfolio/thumb/live-05.jpg"
+      }
+     ]
+    },
+    {
+     "name": "다시보기 틀",
+     "items": [
+      {
+       "src": "portfolio/thumb/vod-01.webp",
+       "full": "portfolio/thumb/vod-01.jpg"
+      },
+      {
+       "src": "portfolio/thumb/vod-02.webp",
+       "full": "portfolio/thumb/vod-02.jpg"
+      },
+      {
+       "src": "portfolio/thumb/vod-03.webp",
+       "full": "portfolio/thumb/vod-03.jpg"
+      },
+      {
+       "src": "portfolio/thumb/vod-04.webp",
+       "full": "portfolio/thumb/vod-04.jpg"
+      }
+     ]
+    },
+    {
+     "name": "커버곡 썸네일",
+     "items": [
+      {
+       "src": "portfolio/thumb/cover-01.webp",
+       "full": "portfolio/thumb/cover-01.jpg"
+      },
+      {
+       "src": "portfolio/thumb/cover-02.webp",
+       "full": "portfolio/thumb/cover-02.jpg"
+      },
+      {
+       "src": "portfolio/thumb/cover-03.webp",
+       "full": "portfolio/thumb/cover-03.jpg"
+      },
+      {
+       "src": "portfolio/thumb/cover-04.webp",
+       "full": "portfolio/thumb/cover-04.jpg"
+      },
+      {
+       "src": "portfolio/thumb/cover-05.webp",
+       "full": "portfolio/thumb/cover-05.jpg"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "채널아트",
+   "fmt": "grid",
+   "subs": [
+    {
+     "name": "유튜브 채널아트",
+     "fmt": "slide",
+     "ratio": "2560 / 423",
+     "sqth": 1,
+     "items": [
+      {
+       "src": "portfolio/channel/yt-01.webp",
+       "full": "portfolio/channel/yt-01.png",
+       "th": "portfolio/channel/yt-01-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-02.webp",
+       "full": "portfolio/channel/yt-02.png",
+       "th": "portfolio/channel/yt-02-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-03.webp",
+       "full": "portfolio/channel/yt-03.png",
+       "th": "portfolio/channel/yt-03-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-04.webp",
+       "full": "portfolio/channel/yt-04.png",
+       "th": "portfolio/channel/yt-04-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-05.webp",
+       "full": "portfolio/channel/yt-05.png",
+       "th": "portfolio/channel/yt-05-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-06.webp",
+       "full": "portfolio/channel/yt-06.png",
+       "th": "portfolio/channel/yt-06-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-07.webp",
+       "full": "portfolio/channel/yt-07.png",
+       "th": "portfolio/channel/yt-07-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-08.webp",
+       "full": "portfolio/channel/yt-08.png",
+       "th": "portfolio/channel/yt-08-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-09.webp",
+       "full": "portfolio/channel/yt-09.png",
+       "th": "portfolio/channel/yt-09-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-10.webp",
+       "full": "portfolio/channel/yt-10.png",
+       "th": "portfolio/channel/yt-10-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-11.webp",
+       "full": "portfolio/channel/yt-11.png",
+       "th": "portfolio/channel/yt-11-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-12.webp",
+       "full": "portfolio/channel/yt-12.png",
+       "th": "portfolio/channel/yt-12-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-13.webp",
+       "full": "portfolio/channel/yt-13.png",
+       "th": "portfolio/channel/yt-13-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-14.webp",
+       "full": "portfolio/channel/yt-14.png",
+       "th": "portfolio/channel/yt-14-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-15.webp",
+       "full": "portfolio/channel/yt-15.png",
+       "th": "portfolio/channel/yt-15-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-16.webp",
+       "full": "portfolio/channel/yt-16.png",
+       "th": "portfolio/channel/yt-16-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-17.webp",
+       "full": "portfolio/channel/yt-17.png",
+       "th": "portfolio/channel/yt-17-th.webp"
+      },
+      {
+       "src": "portfolio/channel/yt-18.webp",
+       "full": "portfolio/channel/yt-18.png",
+       "th": "portfolio/channel/yt-18-th.webp"
+      }
+     ]
+    },
+    {
+     "name": "SOOP 방송국 타이틀",
+     "fmt": "slide",
+     "ratio": "auto",
+     "sqth": 1,
+     "items": [
+      {
+       "src": "portfolio/channel/channel-261101-200947-dneg.webp",
+       "full": "portfolio/channel/channel-261101-200947-dneg-full.png",
+       "th": "portfolio/channel/channel-261101-201425-1o56-th.webp"
+      },
+      {
+       "src": "portfolio/channel/channel-261101-200957-xiyv.webp",
+       "full": "portfolio/channel/channel-261101-200957-xiyv-full.png",
+       "th": "portfolio/channel/channel-261101-201429-99vy-th.webp"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "팬카페",
+   "fmt": "grid",
+   "cafe": 1,
+   "items": [
+    {
+     "cafe": [
+      {
+       "src": "portfolio/fancafe/cafe-01-banner.webp",
+       "full": "portfolio/fancafe/cafe-01-banner.png",
+       "cap": "팬카페 배너"
+      },
+      {
+       "src": "portfolio/fancafe/cafe-01-main.webp",
+       "full": "portfolio/fancafe/cafe-01-main.png",
+       "cap": "팬카페 대문"
+      }
+     ]
+    },
+    {
+     "cafe": [
+      {
+       "src": "portfolio/fancafe/cafe-02-banner.webp",
+       "full": "portfolio/fancafe/cafe-02-banner.png",
+       "cap": "팬카페 배너"
+      },
+      {
+       "src": "portfolio/fancafe/cafe-02-main.webp",
+       "full": "portfolio/fancafe/cafe-02-main.png",
+       "cap": "팬카페 대문"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "ETC",
+   "fmt": "grid",
+   "items": []
+  }
+ ]
+}
