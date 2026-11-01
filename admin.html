@@ -164,6 +164,18 @@ details.more[open]>summary{margin-bottom:10px;}
 .ordadd{width:118px;min-height:146px;border:1.5px dashed #d8d8d8;border-radius:10px;background:#fafafa;color:#666;font-size:13px;font-weight:700;}
 .ordadd:hover:not(:disabled){border-color:#ffd040;background:#fffbea;color:#1a1a1a;}
 .ordadd:disabled{opacity:.6;cursor:default;}
+.lgw{display:flex;gap:16px;align-items:flex-start;margin-bottom:12px;}
+.lgcrop{position:relative;flex:1;min-width:0;background:repeating-conic-gradient(#eee 0 25%,#fff 0 50%) 0 0/16px 16px;border-radius:10px;overflow:hidden;touch-action:none;user-select:none;}
+.lgcrop canvas{display:block;width:100%;height:auto;}
+.lgbox{position:absolute;box-sizing:border-box;border:2px solid #ffd040;box-shadow:0 0 0 9999px rgba(0,0,0,.4);cursor:move;}
+.lgbox i{position:absolute;width:14px;height:14px;background:#ffd040;border:2px solid #fff;border-radius:50%;}
+.lgbox i[data-h=nw]{left:-2px;top:-2px;cursor:nwse-resize;}.lgbox i[data-h=ne]{right:-2px;top:-2px;cursor:nesw-resize;}
+.lgbox i[data-h=sw]{left:-2px;bottom:-2px;cursor:nesw-resize;}.lgbox i[data-h=se]{right:-2px;bottom:-2px;cursor:nwse-resize;}
+.lgbox i{width:18px;height:18px;}
+.lgside{flex:none;width:200px;display:flex;flex-direction:column;gap:8px;}
+.lgtile{width:200px;height:200px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #ffe79a;border-radius:12px;overflow:hidden;}
+.lgtile canvas{display:block;object-fit:contain;}
+.lgside input[type=range]{width:100%;accent-color:#ffd040;}
 /* 대화상자 */
 .ov{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.45);}
 .ov.on{display:flex;}
@@ -449,7 +461,7 @@ function renderBox(){
       '<div class="bd">'+(b.kind==='soop'&&b.ref.items.some(function(x){return x.note;})||b.kind==='soop'&&/배포/.test(b.ref.name)?'<input data-note="'+i+'" placeholder="분할 (예: 1개, 2분할)" value="'+esc(it.note||'')+'">':'')+
       (b.kind!=='cafe'?'<input data-cap="'+i+'" placeholder="이름 (비우면 세부 품목 이름)" value="'+esc(it.cap||'')+'">':'')+
       '<label class="vis"><input type="checkbox" data-vis="'+i+'"'+(it.hidden?'':' checked')+'><span>'+(it.hidden?'비공개 · 페이지에 안 보여요':'공개 중')+'</span></label>'+
-      '<div class="acts">'+((it.set||it.pages)?'<button data-act="ord" title="세트 안 이미지 순서 바꾸기·추가·삭제">세트</button>':'')+(b.kind==='ca'?'<button data-act="th" title="미리보기 칸에 보일 정사각 썸네일 지정">썸네일</button>':'')+'<button data-act="move" title="다른 칸으로 옮기기">옮기기</button><button data-act="rep" title="이미지 바꾸기">교체</button><button class="del" data-act="del">삭제</button></div></div></div>';
+      '<div class="acts">'+((it.set||it.pages)?'<button data-act="ord" title="세트 안 이미지 순서 바꾸기·추가·삭제">세트</button>':'')+(b.ref&&b.ref.tile?'<button data-act="lg" title="로고 크기 조절·자르기">크기·자르기</button>':'')+(b.kind==='ca'?'<button data-act="th" title="미리보기 칸에 보일 정사각 썸네일 지정">썸네일</button>':'')+'<button data-act="move" title="다른 칸으로 옮기기">옮기기</button><button data-act="rep" title="이미지 바꾸기">교체</button><button class="del" data-act="del">삭제</button></div></div></div>';
   });
   if(!b.items.length)h='<div class="empty"><b>아직 샘플이 없어요</b><span>'+esc(KIND[b.kind].n)+'<br>위의 <b>+ 이미지 추가</b>를 누르거나 이곳에 이미지 파일을 끌어다 놓으세요.</span></div>';
   $('items').innerHTML=h;
@@ -478,6 +490,7 @@ $('items').addEventListener('click',function(e){
   if(act==='move'){startMove(i);}
   if(act==='th'){editThumb(b,i);return;}
   if(act==='ord'){editOrder(b,i);return;}
+  if(act==='lg'){editLogo(b,i);return;}
   if(act==='rep'){repIdx=i;$('fRep').accept=b.video?'image/*,video/mp4':'image/*';$('fRep').multiple=KIND[b.kind].max>1;$('fRep').value='';$('fRep').click();}
 });
 function startMove(i){moving={b:cur,i:i};$('moveBar').classList.add('on');$('moveT').textContent=boxes[cur].label.join(' › ')+'의 '+(i+1)+'번 샘플 → 같은 칸에서 놓을 자리(샘플)를 누르거나, 왼쪽에서 옮길 칸을 누르세요.';renderTree();renderBox();}
@@ -542,6 +555,45 @@ function buildItem(b,r){
 }
 
 
+
+/* ===== 로고: 표시 크기 조절 · 자르기 ===== */
+function editLogo(b,i){
+  var it=b.items[i],srcPath=it.full||it.src,img=new Image(),cr={x:0,y:0,w:0,h:0},sc=+it.scale||1,cv,box,tile,tc;
+  dialog('<h3>로고 크기·자르기</h3><p>왼쪽에서 노란 네모를 끌거나 모서리를 당겨 남길 부분을 고르고, 오른쪽 <b>크기</b> 막대로 페이지 칸 안에서 보일 크기를 조절해요. 오른쪽 칸이 실제 페이지에 보이는 모습이에요.</p>'+
+    '<div class="lgw"><div class="lgcrop" id="lgC"><canvas id="lgCv"></canvas><div class="lgbox" id="lgB"><i data-h="nw"></i><i data-h="ne"></i><i data-h="sw"></i><i data-h="se"></i></div></div>'+
+    '<div class="lgside"><div class="lgtile" id="lgT"><canvas id="lgTc"></canvas></div><label class="f"><span>크기 <b id="lgZv"></b></span><input type="range" id="lgZ" min="40" max="200" step="5"></label><button class="btn" id="lgR">자르기 처음으로</button></div></div>'+
+    '<div class="row"><button class="btn" data-x>취소</button><button class="btn y" id="dOk" disabled>저장</button></div>');
+  cv=$('lgCv');box=$('lgB');tile=$('lgT');tc=$('lgTc');var z=$('lgZ');z.value=Math.round(sc*100);
+  img.onload=function(){var W=img.naturalWidth,H=img.naturalHeight,k=Math.min(1,900/W);cv.width=Math.round(W*k);cv.height=Math.round(H*k);cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);cr={x:0,y:0,w:W,h:H};$('dOk').disabled=false;draw();};
+  img.onerror=function(){toast('이미지를 불러오지 못했어요.');};
+  img.src=urls[srcPath]||srcPath;
+  function clamp(){var W=img.naturalWidth,H=img.naturalHeight,m=8;cr.w=Math.max(m,Math.min(cr.w,W));cr.h=Math.max(m,Math.min(cr.h,H));cr.x=Math.max(0,Math.min(cr.x,W-cr.w));cr.y=Math.max(0,Math.min(cr.y,H-cr.h));}
+  function draw(){if(!img.naturalWidth)return;clamp();var k=cv.getBoundingClientRect().width/img.naturalWidth;
+    box.style.left=cr.x*k+'px';box.style.top=cr.y*k+'px';box.style.width=cr.w*k+'px';box.style.height=cr.h*k+'px';
+    /* 페이지와 같은 계산으로 칸 안 크기 */
+    var a=cr.w/cr.h,base=Math.min(1,Math.sqrt(.42*a),a),wp=Math.min(1,base*sc),T=200,w=T*wp,h=w/a,mh=T*Math.min(1,.84*sc);if(h>mh){h=mh;w=h*a;}
+    tc.width=Math.max(1,Math.round(w*2));tc.height=Math.max(1,Math.round(h*2));tc.style.width=Math.round(w)+'px';tc.style.height=Math.round(h)+'px';
+    var x=tc.getContext('2d');x.imageSmoothingQuality='high';x.clearRect(0,0,tc.width,tc.height);x.drawImage(img,cr.x,cr.y,cr.w,cr.h,0,0,tc.width,tc.height);
+    $('lgZv').textContent=Math.round(sc*100)+'%';}
+  z.addEventListener('input',function(){sc=this.value/100;draw();});
+  $('lgR').onclick=function(){cr={x:0,y:0,w:img.naturalWidth,h:img.naturalHeight};draw();};
+  var drag=null;
+  box.addEventListener('pointerdown',function(e){drag={h:e.target.getAttribute('data-h'),x:e.clientX,y:e.clientY,o:{x:cr.x,y:cr.y,w:cr.w,h:cr.h}};box.setPointerCapture(e.pointerId);e.preventDefault();});
+  box.addEventListener('pointermove',function(e){if(!drag)return;var k=img.naturalWidth/cv.getBoundingClientRect().width,dx=(e.clientX-drag.x)*k,dy=(e.clientY-drag.y)*k,o=drag.o,W=img.naturalWidth,H=img.naturalHeight;
+    if(!drag.h){cr.x=Math.round(o.x+dx);cr.y=Math.round(o.y+dy);}
+    else{var x1=o.x,y1=o.y,x2=o.x+o.w,y2=o.y+o.h;if(/w/.test(drag.h))x1=Math.max(0,Math.min(x2-8,o.x+dx));if(/e/.test(drag.h))x2=Math.min(W,Math.max(x1+8,x2+dx));if(/n/.test(drag.h))y1=Math.max(0,Math.min(y2-8,o.y+dy));if(/s/.test(drag.h))y2=Math.min(H,Math.max(y1+8,y2+dy));cr={x:Math.round(x1),y:Math.round(y1),w:Math.round(x2-x1),h:Math.round(y2-y1)};}
+    draw();});
+  box.addEventListener('pointerup',function(){drag=null;});
+  window.addEventListener('resize',function rz(){if(!$('lgCv')){window.removeEventListener('resize',rz);return;}draw();});
+  $('dOk').onclick=function(){
+    var full=cr.x===0&&cr.y===0&&cr.w===img.naturalWidth&&cr.h===img.naturalHeight,done=function(){if(Math.abs(sc-1)<.001)delete it.scale;else it.scale=Math.round(sc*100)/100;closeDlg();pfChanged(true);renderBox();toast('로고를 저장했어요. 사이트에 반영하면 적용돼요.');};
+    if(full){done();return;}
+    var c=document.createElement('canvas');c.width=cr.w;c.height=cr.h;c.getContext('2d').drawImage(img,cr.x,cr.y,cr.w,cr.h,0,0,cr.w,cr.h);
+    var s2=Math.min(1,1920/Math.max(cr.w,cr.h)),c2=draw2(c,Math.round(cr.w*s2),Math.round(cr.h*s2));
+    Promise.all([toBlob(c2,'image/webp',.9),toBlob(c,'image/png')]).then(function(r){var base=folderOf(b)+'/'+(FOLDER[b.objs[0].name]||'logo')+'-'+stamp();it.src=keep(base+'.webp',r[0]);it.full=keep(base+'-full.png',r[1]);done();});
+  };
+  function draw2(src,w,h){var c=document.createElement('canvas');c.width=Math.max(1,w);c.height=Math.max(1,h);var x=c.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(src,0,0,c.width,c.height);return c;}
+}
 /* ===== 세트 안 순서 바꾸기 (치지직 배너·PPT·굿즈 판매 인포 등) ===== */
 function editOrder(b,i){
   var it=b.items[i],deck=!!it.pages,arr=(deck?it.pages:it.set).slice(),mx=(KIND[b.kind]&&KIND[b.kind].max>1?KIND[b.kind].max:20),busyAdd=false;

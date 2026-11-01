@@ -900,7 +900,7 @@ window.__orbitaApp=function(){
     if(s&&s.vars){if(vCur!==s){vCur=s;vSel=0;}var base=s,vv=s.vars[vSel];s={name:base.name,fmt:vv.fmt,cols:vv.cols,tile:vv.tile,items:vv.items};
       varEl.hidden=false;varEl.innerHTML='<div class="pf-gg-hw"><button type="button" class="pf-gg-h" aria-haspopup="true" aria-expanded="false"><span>'+esc(vv.v)+'</span><span class="pf-caret" aria-hidden="true"></span></button><div class="pf-menu pf-gg-menu" hidden>'+base.vars.map(function(x,q){return '<button type="button" class="pf-mi'+(q===vSel?' is-on':'')+'" data-vs="'+q+'"><span>'+esc(x.v)+'</span><span class="pf-mi-tick" aria-hidden="true"></span></button>';}).join('')+'</div></div>';}
     else{varEl.hidden=true;varEl.innerHTML='';}
-    list=(s?s.items:c.items).map(function(it){return {cafe:it.cafe,src:it.src,full:it.full,th:it.th,set:it.set,row:it.row,video:it.video,poster:it.poster,pages:it.pages,cap:it.cap||(s?s.name:c.name)};});
+    list=(s?s.items:c.items).map(function(it){return {cafe:it.cafe,src:it.src,full:it.full,th:it.th,set:it.set,row:it.row,video:it.video,poster:it.poster,pages:it.pages,scale:it.scale,cap:it.cap||(s?s.name:c.name)};});
     [].forEach.call(tabs.children,function(w,j){var on=j===i;w.classList.toggle('is-on',on);w.querySelector('.pf-tab-s').textContent=on&&s?s.name:'';var nn=w.querySelector('.pf-tab-n'),cc=nn.querySelector('.pf-cnt');if(!PF[j].subs){if(on){if(!cc){cc=document.createElement('span');cc.className='pf-cnt';nn.appendChild(cc);}cc.textContent=' ('+cnt(PF[j])+')';}else if(cc)cc.remove();}
       w.querySelectorAll('.pf-mi').forEach(function(x,q){x.classList.toggle('is-on',on&&q===k);});});
     var mode=(s&&s.fmt)||c.fmt,slide=mode==='slide'; slidebox.hidden=!slide; grid.hidden=mode!=='grid'; rowbox.hidden=mode!=='row'; groupsEl.hidden=mode!=='groups';
@@ -925,7 +925,7 @@ window.__orbitaApp=function(){
       var isCafe=!!c.cafe&&!s;grid.classList.toggle('pf-grid-cafe',isCafe);
       if(isCafe){cafeAll=list;cafeI=0;renderCafe();return;}
       grid.innerHTML=list.length?list.map(function(it,q){return '<button type="button" class="pf-gi" data-k="'+q+'" aria-label="'+esc(it.cap+(it.set?' '+it.set.length+'장 세트':'')+' 크게 보기')+'"><img src="'+esc(it.src)+'" alt="'+esc(it.cap+' 샘플')+'" loading="lazy">'+(it.set?'<span class="pf-setmark">'+it.set.length+'장 세트</span>':'')+'</button>';}).join(''):'<div class="pf-empty pf-empty-grid">샘플 준비 중이에요.</div>';
-      if(s&&s.tile) grid.querySelectorAll('.pf-gi img').forEach(function(im){var fit=function(){var a=im.naturalWidth/im.naturalHeight,R=1,k=0.42;im.style.width=Math.round(Math.min(1,Math.sqrt(k*a/R),a/R)*100)+'%';};if(im.complete&&im.naturalWidth)fit();else im.addEventListener('load',fit);});
+      if(s&&s.tile) grid.querySelectorAll('.pf-gi img').forEach(function(im){var g=im.closest('.pf-gi'),sc=g&&list[+g.getAttribute('data-k')]?(+list[+g.getAttribute('data-k')].scale||1):1;var fit=function(){var a=im.naturalWidth/im.naturalHeight,R=1,k=0.42;im.style.width=Math.round(Math.min(1,Math.min(1,Math.sqrt(k*a/R),a/R)*sc)*100)+'%';im.style.maxHeight=Math.round(Math.min(100,84*sc))+'%';};if(im.complete&&im.naturalWidth)fit();else im.addEventListener('load',fit);});
     }
   }
   /* 치지직 밝은/어두운 테마 배경 */
