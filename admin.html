@@ -140,6 +140,17 @@ details.more[open]>summary{margin-bottom:10px;}
 .thprev{flex:none;width:96px;height:96px;border-radius:10px;border:1px solid #ececec;background:#fafafa;}
 .throw .f{flex:1;}
 .throw input[type=range]{width:100%;accent-color:#ffd040;}
+.ordl{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 4px;}
+.ordi{position:relative;width:118px;display:flex;flex-direction:column;gap:6px;padding:6px;border:1px solid #ececec;border-radius:10px;background:#fff;cursor:grab;}
+.ordi.drag{opacity:.4;}
+.ordi.over{border-color:#ffd040;box-shadow:0 0 0 2px rgba(255,208,64,.5);}
+.ordi .im{height:96px;display:flex;align-items:center;justify-content:center;background:#fafafa;border-radius:6px;overflow:hidden;}
+.ordi img{max-width:100%;max-height:100%;object-fit:contain;pointer-events:none;}
+.ordi .n{position:absolute;left:10px;top:10px;min-width:20px;padding:0 6px;border-radius:10px;background:#1a1a1a;color:#ffd040;font-size:11px;font-weight:700;line-height:20px;text-align:center;}
+.ordi .ab{display:flex;gap:4px;}
+.ordi .ab button{flex:1;height:26px;padding:0;border:1px solid #e8e8e8;border-radius:6px;background:#fff;font-size:13px;}
+.ordi .ab button:hover:not(:disabled){border-color:#ffd040;}
+.ordi .ab button:disabled{opacity:.3;cursor:default;}
 /* 대화상자 */
 .ov{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.45);}
 .ov.on{display:flex;}
@@ -424,7 +435,7 @@ function renderBox(){
       '<div class="ph" title="끌어서 순서 바꾸기">'+(vid?'<video src="'+esc(th)+'" muted></video>':th?'<img src="'+esc(th)+'" alt="" loading="lazy">':'')+(countOf(it)>1?'<span class="multi">'+countOf(it)+'장</span>':'')+(isNew(it)?'<span class="new">새 이미지</span>':'')+'<span class="ix">'+(i+1)+'</span></div>'+
       '<div class="bd">'+(b.kind==='soop'&&b.ref.items.some(function(x){return x.note;})||b.kind==='soop'&&/배포/.test(b.ref.name)?'<input data-note="'+i+'" placeholder="분할 (예: 1개, 2분할)" value="'+esc(it.note||'')+'">':'')+
       (b.kind!=='cafe'?'<input data-cap="'+i+'" placeholder="이름 (비우면 세부 품목 이름)" value="'+esc(it.cap||'')+'">':'')+
-      '<div class="acts">'+(b.kind==='ca'?'<button data-act="th" title="미리보기 칸에 보일 정사각 썸네일 지정">썸네일</button>':'')+'<button data-act="move" title="다른 칸으로 옮기기">옮기기</button><button data-act="rep" title="이미지 바꾸기">교체</button><button class="del" data-act="del">삭제</button></div></div></div>';
+      '<div class="acts">'+(countOf(it)>1&&(it.set||it.pages)?'<button data-act="ord" title="세트 안 이미지 순서 바꾸기">순서</button>':'')+(b.kind==='ca'?'<button data-act="th" title="미리보기 칸에 보일 정사각 썸네일 지정">썸네일</button>':'')+'<button data-act="move" title="다른 칸으로 옮기기">옮기기</button><button data-act="rep" title="이미지 바꾸기">교체</button><button class="del" data-act="del">삭제</button></div></div></div>';
   });
   if(!b.items.length)h='<div class="empty"><b>아직 샘플이 없어요</b><span>'+esc(KIND[b.kind].n)+'<br>위의 <b>+ 이미지 추가</b>를 누르거나 이곳에 이미지 파일을 끌어다 놓으세요.</span></div>';
   $('items').innerHTML=h;
@@ -451,6 +462,7 @@ $('items').addEventListener('click',function(e){
   if(act==='del'){if(!confirm((i+1)+'번 샘플을 삭제할까요?'))return;b.items.splice(i,1);sel=null;pfChanged();renderBox();toast('삭제했어요. 사이트에 반영해야 페이지에서도 빠져요.');}
   if(act==='move'){startMove(i);}
   if(act==='th'){editThumb(b,i);return;}
+  if(act==='ord'){editOrder(b,i);return;}
   if(act==='rep'){repIdx=i;$('fRep').accept=b.video?'image/*,video/mp4':'image/*';$('fRep').multiple=KIND[b.kind].max>1;$('fRep').value='';$('fRep').click();}
 });
 function startMove(i){moving={b:cur,i:i};$('moveBar').classList.add('on');$('moveT').textContent=boxes[cur].label.join(' › ')+'의 '+(i+1)+'번 샘플 → 같은 칸에서 놓을 자리(샘플)를 누르거나, 왼쪽에서 옮길 칸을 누르세요.';renderTree();renderBox();}
@@ -514,6 +526,27 @@ function buildItem(b,r){
   var it={src:x.src,full:x.full};if(k==='ca'&&x.th)it.th=x.th;if(k==='soop')it.note='';return it;
 }
 
+
+/* ===== 세트 안 순서 바꾸기 (치지직 배너·PPT·굿즈 판매 인포 등) ===== */
+function editOrder(b,i){
+  var it=b.items[i],deck=!!it.pages,arr=(deck?it.pages:it.set).slice();
+  function pic(x){var p=deck?(x.src||x.full):x;return urls[p]||p;}
+  function render(){
+    $('ordL').innerHTML=arr.map(function(x,k){return '<div class="ordi" draggable="true" data-k="'+k+'"><span class="n">'+(k+1)+'</span><div class="im"><img src="'+esc(pic(x))+'" alt=""></div><div class="ab"><button data-mv="-1"'+(k?'':' disabled')+' aria-label="앞으로">◀</button><button data-mv="1"'+(k<arr.length-1?'':' disabled')+' aria-label="뒤로">▶</button></div></div>';}).join('');
+  }
+  dialog('<h3>세트 순서 바꾸기</h3><p>이미지를 끌어서 놓거나 ◀ ▶ 버튼으로 순서를 바꿔요. 1번 이미지가 세트의 맨 앞(대표)이 돼요.'+(b.kind==='row'?' <b>치지직 배너는 유튜브가 첫 번째, 다시보기가 유튜브보다 앞에 오지 않게</b> 놓아 주세요.':'')+'</p><div class="ordl" id="ordL"></div><div class="row"><button class="btn" data-x>취소</button><button class="btn y" id="dOk">순서 저장</button></div>');
+  render();
+  var L=$('ordL'),from=null;
+  L.addEventListener('click',function(e){var bt=e.target.closest('[data-mv]');if(!bt)return;var k=+bt.closest('.ordi').getAttribute('data-k'),t=k+(+bt.getAttribute('data-mv'));if(t<0||t>=arr.length)return;var x=arr.splice(k,1)[0];arr.splice(t,0,x);render();});
+  L.addEventListener('dragstart',function(e){var c=e.target.closest('.ordi');if(!c)return;from=+c.getAttribute('data-k');c.classList.add('drag');try{e.dataTransfer.setData('text/plain','o');}catch(x){}});
+  L.addEventListener('dragend',function(){from=null;L.querySelectorAll('.ordi').forEach(function(x){x.classList.remove('drag','over');});});
+  L.addEventListener('dragover',function(e){if(from==null)return;e.preventDefault();var c=e.target.closest('.ordi');L.querySelectorAll('.ordi').forEach(function(x){x.classList.toggle('over',x===c);});});
+  L.addEventListener('drop',function(e){if(from==null)return;e.preventDefault();var c=e.target.closest('.ordi');if(!c)return;var t=+c.getAttribute('data-k'),x=arr.splice(from,1)[0];arr.splice(t,0,x);from=null;render();});
+  $('dOk').onclick=function(){
+    if(deck){it.pages=arr;it.src=arr[0].src;it.full=arr[0].full;}
+    else{var o0=it.set[0];it.set=arr;if(arr[0]!==o0){it.src=arr[0];it.full=arr[0];}}
+    closeDlg();pfChanged(true);renderBox();toast('세트 순서를 바꿨어요. 사이트에 반영하면 적용돼요.');};
+}
 /* ===== 채널아트 썸네일 지정 (정사각 영역 고르기 또는 다른 이미지 올리기) ===== */
 function editThumb(b,i){
   var it=b.items[i],srcPath=it.full||it.src,img=new Image(),sel={x:0,y:0,s:0},cv,box,prev,zoom,own=null;
