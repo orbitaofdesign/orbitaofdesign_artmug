@@ -1399,53 +1399,64 @@
      "tile": 1,
      "items": [
       {
-       "src": "portfolio/logo/logo-261102-230204-e2zi.webp",
-       "full": "portfolio/logo/logo-261102-230204-e2zi-full.png",
-       "scale": 1.3
+       "src": "portfolio/logo/logo-261102-233840-u4w6.webp",
+       "full": "portfolio/logo/logo-261102-233840-u4w6-full.png",
+       "scale": 0.95
       },
       {
-       "src": "portfolio/logo/logo-261102-230156-8eez.webp",
-       "full": "portfolio/logo/logo-261102-230156-8eez-full.png",
-       "scale": 2
+       "src": "portfolio/logo/logo-261102-233841-ktvs.webp",
+       "full": "portfolio/logo/logo-261102-233841-ktvs-full.png",
+       "scale": 0.95
       },
       {
-       "src": "portfolio/logo/logo-261102-230710-ovme.webp",
-       "full": "portfolio/logo/logo-261102-230710-ovme-full.png",
-       "scale": 2
+       "src": "portfolio/logo/logo-261102-233841-lkpi.webp",
+       "full": "portfolio/logo/logo-261102-233841-lkpi-full.png",
+       "scale": 0.9
       },
       {
-       "src": "portfolio/logo/logo-261102-230705-esld.webp",
-       "full": "portfolio/logo/logo-261102-230705-esld-full.png",
-       "scale": 2
+       "src": "portfolio/logo/logo-261102-233841-45cf.webp",
+       "full": "portfolio/logo/logo-261102-233841-45cf-full.png",
+       "scale": 0.95
       },
       {
-       "src": "portfolio/logo/logo-261102-230659-cpu1.webp",
-       "full": "portfolio/logo/logo-261102-230659-cpu1-full.png",
-       "scale": 2
+       "src": "portfolio/logo/logo-261102-233841-2eyk.webp",
+       "full": "portfolio/logo/logo-261102-233841-2eyk-full.png",
+       "scale": 0.95
       },
       {
-       "src": "portfolio/logo/logo-261102-230655-edno.webp",
-       "full": "portfolio/logo/logo-261102-230655-edno-full.png",
-       "scale": 2
+       "src": "portfolio/logo/logo-261102-233841-tn4j.webp",
+       "full": "portfolio/logo/logo-261102-233841-tn4j-full.png",
+       "scale": 0.8
       },
       {
-       "src": "portfolio/logo/logo-261102-230651-2lh3.webp",
-       "full": "portfolio/logo/logo-261102-230651-2lh3-full.png",
-       "scale": 2
+       "src": "portfolio/logo/logo-261102-233840-vsel.webp",
+       "full": "portfolio/logo/logo-261102-233840-vsel-full.png",
+       "scale": 0.85
       },
       {
-       "src": "portfolio/logo/logo-261102-230647-o4fq.webp",
-       "full": "portfolio/logo/logo-261102-230647-o4fq-full.png"
+       "src": "portfolio/logo/logo-261102-233840-f0hv.webp",
+       "full": "portfolio/logo/logo-261102-233840-f0hv-full.png",
+       "scale": 0.85
       },
       {
-       "src": "portfolio/logo/logo-261102-230315-g26h.webp",
-       "full": "portfolio/logo/logo-261102-230315-g26h-full.png",
-       "scale": 2
+       "src": "portfolio/logo/logo-261102-233840-ombd.webp",
+       "full": "portfolio/logo/logo-261102-233840-ombd-full.png",
+       "scale": 0.85
       },
       {
-       "src": "portfolio/logo/logo-261102-230210-ekc9.webp",
-       "full": "portfolio/logo/logo-261102-230210-ekc9-full.png",
-       "scale": 2
+       "src": "portfolio/logo/logo-261102-233840-yaqn.webp",
+       "full": "portfolio/logo/logo-261102-233840-yaqn-full.png",
+       "scale": 0.9
+      },
+      {
+       "src": "portfolio/logo/logo-261102-233840-b9h2.webp",
+       "full": "portfolio/logo/logo-261102-233840-b9h2-full.png",
+       "scale": 0.95
+      },
+      {
+       "src": "portfolio/logo/logo-261102-233840-axm9.webp",
+       "full": "portfolio/logo/logo-261102-233840-axm9-full.png",
+       "scale": 0.9
       }
      ]
     },
