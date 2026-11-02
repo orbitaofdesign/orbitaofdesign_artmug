@@ -1399,12 +1399,53 @@
      "tile": 1,
      "items": [
       {
-       "src": "portfolio/logo/logo-261102-225813-q0ju.webp",
-       "full": "portfolio/logo/logo-261102-225813-q0ju-full.png"
+       "src": "portfolio/logo/logo-261102-230204-e2zi.webp",
+       "full": "portfolio/logo/logo-261102-230204-e2zi-full.png",
+       "scale": 1.3
       },
       {
-       "src": "portfolio/logo/logo-261102-225819-0tzn.webp",
-       "full": "portfolio/logo/logo-261102-225819-0tzn-full.png"
+       "src": "portfolio/logo/logo-261102-230156-8eez.webp",
+       "full": "portfolio/logo/logo-261102-230156-8eez-full.png",
+       "scale": 2
+      },
+      {
+       "src": "portfolio/logo/logo-261102-230710-ovme.webp",
+       "full": "portfolio/logo/logo-261102-230710-ovme-full.png",
+       "scale": 2
+      },
+      {
+       "src": "portfolio/logo/logo-261102-230705-esld.webp",
+       "full": "portfolio/logo/logo-261102-230705-esld-full.png",
+       "scale": 2
+      },
+      {
+       "src": "portfolio/logo/logo-261102-230659-cpu1.webp",
+       "full": "portfolio/logo/logo-261102-230659-cpu1-full.png",
+       "scale": 2
+      },
+      {
+       "src": "portfolio/logo/logo-261102-230655-edno.webp",
+       "full": "portfolio/logo/logo-261102-230655-edno-full.png",
+       "scale": 2
+      },
+      {
+       "src": "portfolio/logo/logo-261102-230651-2lh3.webp",
+       "full": "portfolio/logo/logo-261102-230651-2lh3-full.png",
+       "scale": 2
+      },
+      {
+       "src": "portfolio/logo/logo-261102-230647-o4fq.webp",
+       "full": "portfolio/logo/logo-261102-230647-o4fq-full.png"
+      },
+      {
+       "src": "portfolio/logo/logo-261102-230315-g26h.webp",
+       "full": "portfolio/logo/logo-261102-230315-g26h-full.png",
+       "scale": 2
+      },
+      {
+       "src": "portfolio/logo/logo-261102-230210-ekc9.webp",
+       "full": "portfolio/logo/logo-261102-230210-ekc9-full.png",
+       "scale": 2
       }
      ]
     },
