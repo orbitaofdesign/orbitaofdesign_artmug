@@ -1146,13 +1146,20 @@ window.__orbitaApp=function(){
   function hash(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return (h>>>0).toString(36);}
   function norm(s){return s.replace(/\s+/g,' ').trim();}
   function hasText(el){for(var n=el.firstChild;n;n=n.nextSibling)if(n.nodeType===3&&n.nodeValue.trim())return true;return false;}
+  function protOf(el){return [].filter.call(el.querySelectorAll(PROT),function(p){var up=p.parentElement&&p.parentElement.closest(PROT);return !(up&&el.contains(up));});}
+  function hasBr(el){for(var n=el.firstChild;n;n=n.nextSibling)if(n.nodeType===1&&n.tagName==='BR')return true;return false;}
+  /* <br> 사이 내용을 줄마다 <span class="orb-ln"> 으로 감쌈 */
+  function splitLines(el){var out=[],seg=[];
+    function flush(){if(!seg.length)return;var has=seg.some(function(n){return (n.textContent||'').trim()||(n.nodeType===1&&n.matches&&n.matches(PROT));});
+      if(has){var sp=document.createElement('span');sp.className='orb-ln';el.insertBefore(sp,seg[0]);seg.forEach(function(n){sp.appendChild(n);});out.push(sp);}seg=[];}
+    [].slice.call(el.childNodes).forEach(function(n){if(n.nodeType===1&&n.tagName==='BR')flush();else seg.push(n);});flush();return out;}
   function excluded(el){return el.closest&&el.closest(EXC);}
   /* 보호할 자식(ⓘ·입력칸 등)은 자리표시로 바꿔서 저장 */
   function ser(u){var c=u.el.cloneNode(true);[].forEach.call(c.querySelectorAll('.orb-utip'),function(x){var n=document.createElement('span');n.className='orb-utip';n.setAttribute('data-tip',x.getAttribute('data-tip')||'');x.replaceWith(n);});var ps=c.querySelectorAll(PROT),k=0;[].forEach.call(ps,function(p){if(p.parentElement&&p.parentElement.closest(PROT)&&c.contains(p.parentElement.closest(PROT)))return;var r=document.createElement('i');r.setAttribute('data-orbp',String(k++));p.replaceWith(r);});
     [].forEach.call(c.querySelectorAll('[contenteditable]'),function(x){x.removeAttribute('contenteditable');});c.removeAttribute('contenteditable');
     return c.innerHTML.trim();}
   function scan(){
-    var sec='top',seenT={},seenA={};
+    var sec='top',seenT={},seenA={},seenL={};
     function visit(el){
       if(el.nodeType!==1) return;
       if(el.classList&&el.classList.contains('orb-sec')) sec=el.id;
@@ -1163,15 +1170,26 @@ window.__orbitaApp=function(){
         seenA[ab]=(seenA[ab]||0)+1;O.attrs.push({key:ab+(seenA[ab]>1?'.'+(seenA[ab]-1):''),el:el,attr:an,def:av,sec:sec});
       }
       if(hasText(el)&&!el.matches('svg,svg *')){
-        var protect=[].filter.call(el.querySelectorAll(PROT),function(p){var up=p.parentElement&&p.parentElement.closest(PROT);return !(up&&el.contains(up));});
-        var u={el:el,sec:sec,protect:protect};
-        var d=ser(u),b=sec+'.'+hash(norm(d));seenT[b]=(seenT[b]||0)+1;u.key=b+(seenT[b]>1?'.'+(seenT[b]-1):'');u.def=d;
-        O.units.push(u);
-        /* 보호 자식 안의 ⓘ 등도 계속 찾음 */
-        protect.forEach(function(p){if(p.matches('[data-tip]'))visit2(p);});
+        /* 줄바꿈(<br>)으로 여러 줄이 묶인 문단은 한 줄씩 따로 편집 */
+        if(hasBr(el)){
+          var u0={el:el,protect:protOf(el)},d0=ser(u0),b0=sec+'.'+hash(norm(d0));seenL[b0]=(seenL[b0]||0)+1;b0+=(seenL[b0]>1?'.'+(seenL[b0]-1):'');
+          var T0=(O.c&&O.c.texts)||{};if(Object.prototype.hasOwnProperty.call(T0,b0))setUnit(u0,T0[b0]); /* 예전에 문단 통째로 고친 내용 */
+          splitLines(el).forEach(function(sp){mk(sp);});
+          return;
+        }
+        mk(el);
         return;
       }
       for(var c=el.firstElementChild;c;c=c.nextElementSibling)visit(c);
+    }
+    function mk(el){
+      var protect=protOf(el);
+      var u={el:el,sec:sec,protect:protect};
+      var d=ser(u),b=sec+'.'+hash(norm(d));seenT[b]=(seenT[b]||0)+1;u.key=b+(seenT[b]>1?'.'+(seenT[b]-1):'');u.def=d;
+      O.units.push(u);
+      /* 보호 자식 안의 ⓘ 등도 계속 찾음 */
+      protect.forEach(function(p){if(p.matches('[data-tip]'))visit2(p);});
+      /* 보호 자식이 아닌 하위 요소의 ⓘ/입력칸 */
     }
     function visit2(p){var an='data-tip',av=p.getAttribute(an),ab='a.'+sec+'.tip.'+hash(av);seenA[ab]=(seenA[ab]||0)+1;O.attrs.push({key:ab+(seenA[ab]>1?'.'+(seenA[ab]-1):''),el:p,attr:an,def:av,sec:sec});}
     visit(document.body);

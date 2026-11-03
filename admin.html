@@ -159,20 +159,22 @@ details.more[open]>summary{margin-bottom:10px;}
 .fe-od summary{cursor:pointer;}
 .fe-od .fe-qmeta{margin-top:6px;}
 .fe-addq{display:flex;align-items:center;gap:8px;margin-top:16px;}
-.pr-list{display:flex;flex-direction:column;gap:14px;}
-.pr-it{padding-bottom:12px;border-bottom:1px solid var(--line);}
-.pr-it:last-child{border-bottom:0;padding-bottom:0;}
-.pr-name{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:14px;font-weight:700;}
-.pr-go{margin-left:auto;border:0;background:transparent;font-size:12px;color:var(--g);}
-.pr-go:hover{color:var(--k);text-decoration:underline;}
-.pr-row{display:flex;align-items:center;gap:10px;padding:4px 0 4px 12px;font-size:13px;}
-.pr-l{flex:1;min-width:0;}
-.pr-q{color:var(--g2);font-size:12px;}
-.pr-q::after{content:' ›';}
-.pr-in{display:inline-flex;align-items:center;gap:4px;flex:none;}
-.pr-in input{width:120px;height:32px;padding:0 8px;border:1px solid #e0e0e0;border-radius:8px;text-align:right;font-size:13px;}
-.pr-in i{font-style:normal;width:16px;color:var(--g);font-size:12px;}
-.pr-tag{flex:none;width:130px;font-size:11px;color:var(--g2);}
+.pr-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:1100px;margin:0 auto 12px;align-items:start;}
+.pr-cols .card{margin:0;max-width:none;}
+.pr-cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 24px;align-items:start;}
+.pr-it{padding:10px 0;border-top:1px solid var(--line);}
+.pr-col h4+.pr-it,.pr-cols3>.pr-it{border-top:0;padding-top:0;}
+.pr-name{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:13px;font-weight:700;}
+.pr-go{margin-left:auto;width:24px;height:24px;border:0;border-radius:6px;background:transparent;font-size:16px;line-height:1;color:var(--g2);}
+.pr-go:hover{background:var(--y2);color:var(--k);}
+.pr-row{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:13px;}
+.pr-l{flex:1;min-width:0;display:flex;flex-direction:column;line-height:17px;word-break:keep-all;}
+.pr-l small{font-size:11px;color:var(--g2);line-height:15px;}
+.pr-in{display:inline-flex;align-items:center;gap:3px;flex:none;}
+.pr-in input{width:96px;height:30px;padding:0 8px;border:1px solid #e0e0e0;border-radius:8px;text-align:right;font-size:13px;}
+.pr-in i{font-style:normal;width:14px;color:var(--g);font-size:12px;}
+@media (max-width:1250px){.pr-cols,.pr-cols3{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}}
+@media (max-width:980px){.pr-cols,.pr-cols3{grid-template-columns:minmax(0,1fr);}}
 .tippos{display:flex;flex-direction:column;gap:6px;margin:0 0 12px;}
 .tippos label{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid #e6e6e6;border-radius:10px;cursor:pointer;}
 .tippos label:has(input:checked){border-color:var(--y);background:var(--y3);}
@@ -651,27 +653,32 @@ function openItemPreview(id){var rl=needReload;pendingOpen=id;showView('text');i
 /* ===== 가격 ===== */
 function buildPrice(){
   if(!O||!O.defaults||!O.defaults.form){$('plist').innerHTML='<p class="note">미리보기를 불러오는 중이에요. 잠시 후 다시 눌러 주세요.</p>';return;}
-  var F=formData(),C=calcData(),h='<div class="pagehead"><div><h2>가격</h2><p>모든 품목과 팝업 선택지의 금액이에요. 여기서 바꾸면 신청 양식 팝업에 보이는 금액, <b>예상 견적 계산</b>, 패키지 안내 카드 가격이 함께 바뀌어요. 선택지 문구나 가격 방식은 <b>신청 양식 항목</b>에서 바꿔요.</p></div></div>';
-  ['p','s'].forEach(function(g){
-    h+='<div class="card"><h4>'+(g==='p'?'패키지 품목':'단일 품목')+'</h4><div class="pr-list">';
-    F.forEach(function(s,si){if(s.g!==g)return;
-      h+='<div class="pr-it"><div class="pr-name">'+(s.cat?'<b class="fcat'+(s.chz?' chz':'')+'">'+esc(s.cat)+'</b> ':'')+esc(s.name)+'<button type="button" class="pr-go" data-goit="'+esc(s.id)+'">질문 편집 ›</button></div>';
-      if(g==='p'||s.price!=null)h+=prow(si,'','',g==='p'?'판매 가격':'기본 가격',s.price,'price');
-      if(g==='p')h+=prow(si,'','','정가 (취소선)',s.was,'was','비우면 숨김');
-      s.f.forEach(function(f,qi){(f.opts||[]).forEach(function(o,oi){if(!o.pm||o.pm==='none')return;h+=prow(si,qi,oi,'<span class="pr-q">'+esc(f.label||f.t||'')+'</span> '+esc(o.label),o.price,'opt',PM[o.pm]+(o.u&&(o.pm==='per'||o.pm==='basePer')?' · '+o.u:''));});
-        if(f.disc)h+=prow(si,qi,'','<span class="pr-q">'+esc(f.label||f.t||'')+'</span> 고르면 할인',Math.round(f.disc*1000)/10,'disc','%');});
-      h+='</div>';});
-    h+='</div></div>';});
-  h+='<div class="card"><h4>견적 계산</h4><div class="pr-list"><div class="pr-it"><div class="pr-name">5. 원하는 마감일</div>';
-  Object.keys(C.due||{}).forEach(function(k){var r=C.due[k]||{};if(r.mul!=null)h+=crow('due-mul',k,k+' (커미션가 ×)',r.mul,'배','0.1');else if(r.add!=null)h+=crow('due-add',k,k+' (추가 금액)',r.add,'원','1000');else h+='<div class="pr-row"><span class="pr-l">'+esc(k)+'</span><span class="note">추가 금액 없음</span></div>';});
-  h+='</div><div class="pr-it"><div class="pr-name">7. 추가 옵션 (최종 커미션가 대비)</div>';
-  Object.keys(C.opt||{}).forEach(function(k){h+=crow('opt',k,k,Math.round((C.opt[k]||0)*1000)/10,'%','5');});
-  h+='</div><div class="pr-it"><div class="pr-name">팀 할인</div>'+crow('team','','2인 이상 신청 시 인원 1명당 할인',Math.round((C.team||0)*1000)/10,'%','1')+'<p class="note">할인이 여러 개면(팀 할인·협업 할인) 할인율이 큰 쪽 하나만 적용돼요.</p></div></div>';
-  h+='<p class="note" style="margin-top:10px">※ 마감일·추가 옵션 안내 문구(ⓘ 등)에 금액이나 배율을 적어 두었다면 <b>페이지 문구</b>에서 같이 고쳐 주세요.</p></div>';
+  var F=formData(),C=calcData();
+  var h='<div class="pagehead"><div><h2>가격</h2><p>여기서 바꾸면 신청 양식 팝업에 보이는 금액, <b>예상 견적 계산</b>, 패키지 안내 카드 가격이 함께 바뀌어요. 선택지 문구나 가격 방식은 <b>신청 양식 항목</b>에서 바꿔요.</p></div></div><div class="pr-cols">';
+  function head(s){return '<div class="pr-name">'+(s.cat?'<b class="fcat'+(s.chz?' chz':'')+'">'+esc(s.cat)+'</b> ':'')+esc(s.name)+'<button type="button" class="pr-go" data-goit="'+esc(s.id)+'" title="질문 편집">›</button></div>';}
+  /* 1. 패키지 품목 */
+  var a='';F.forEach(function(s,si){if(s.g!=='p')return;a+='<div class="pr-it">'+head(s)+prow(si,'','','판매 가격',s.price,'price')+prow(si,'','','정가 (취소선)',s.was,'was','비우면 숨김')+'</div>';});
+  /* 2. 단일 품목: 기본 가격·세부 품목 금액 */
+  var b='';F.forEach(function(s,si){if(s.g!=='s')return;var r='';if(s.price!=null)r+=prow(si,'','','기본 가격',s.price,'price');
+    s.f.forEach(function(f,qi){(f.opts||[]).forEach(function(o,oi){if(o.pm==='base'||o.pm==='basePer')r+=prow(si,qi,oi,o.label,o.price,'opt',o.pm==='basePer'?(o.u||'개당')+' 금액':'');});});
+    if(r)b+='<div class="pr-it">'+head(s)+r+'</div>';});
+  /* 3. 추가 옵션: 추가 금액·개수당 추가·할인 */
+  var c='';F.forEach(function(s,si){var r='';
+    s.f.forEach(function(f,qi){(f.opts||[]).forEach(function(o,oi){if(o.pm==='add'||o.pm==='per')r+=prow(si,qi,oi,o.label,o.price,'opt',(f.label||f.t||'').replace(/^\d+\.\s*/,'')+(o.pm==='per'?' · '+(o.u||'개당')+' 추가':''));});
+      if(f.disc)r+=prow(si,qi,'',(f.label||f.t||'').replace(/^\d+\.\s*/,'')+' 고르면 할인',Math.round(f.disc*1000)/10,'disc');});
+    if(r)c+='<div class="pr-it">'+head(s)+r+'</div>';});
+  h+='<div class="card pr-col"><h4>패키지 품목</h4>'+a+'</div><div class="card pr-col"><h4>단일 품목</h4>'+b+'</div><div class="card pr-col"><h4>추가 옵션</h4>'+c+'</div></div>';
+  /* 견적 계산 */
+  var d='<div class="pr-it"><div class="pr-name">원하는 마감일</div>';
+  Object.keys(C.due||{}).forEach(function(k){var r=C.due[k]||{};if(r.mul!=null)d+=crow('due-mul',k,k,r.mul,'배','0.1','커미션가에 곱하기');else if(r.add!=null)d+=crow('due-add',k,k,r.add,'원','1000','추가 금액');else d+='<div class="pr-row"><span class="pr-l">'+esc(k)+'<small>추가 금액 없음</small></span></div>';});
+  d+='</div><div class="pr-it"><div class="pr-name">작업물 추가 옵션</div>';
+  Object.keys(C.opt||{}).forEach(function(k){d+=crow('opt',k,k,Math.round((C.opt[k]||0)*1000)/10,'%','5','최종 커미션가 대비');});
+  d+='</div><div class="pr-it"><div class="pr-name">팀 할인</div>'+crow('team','','2인 이상, 인원 1명당',Math.round((C.team||0)*1000)/10,'%','1','')+'<p class="note">할인이 여러 개면(팀 할인·협업 할인) 할인율이 큰 쪽 하나만 적용돼요.</p></div>';
+  h+='<div class="card pr-calc"><h4>견적 계산</h4><div class="pr-cols3">'+d+'</div><p class="note" style="margin-top:10px">※ 마감일·추가 옵션 안내 문구(ⓘ 등)에 금액이나 배율을 적어 두었다면 <b>페이지 문구</b>에서 같이 고쳐 주세요.</p></div>';
   $('plist').innerHTML=h;
 }
-function prow(si,qi,oi,label,v,kind,tag){return '<div class="pr-row" data-si="'+si+'" data-qi="'+qi+'" data-oi="'+oi+'" data-kind="'+kind+'"><span class="pr-l">'+label+'</span><span class="pr-in"><input type="number" min="0" step="'+(kind==='disc'?'1':'1000')+'" value="'+esc(v==null?'':v)+'"><i>'+(kind==='disc'?'%':'원')+'</i></span>'+'<span class="pr-tag">'+esc(tag||'')+'</span></div>';}
-function crow(kind,key,label,v,unit,step){return '<div class="pr-row" data-ck="'+kind+'" data-key="'+esc(key)+'"><span class="pr-l">'+esc(label)+'</span><span class="pr-in"><input type="number" min="0" step="'+step+'" value="'+esc(v==null?'':v)+'"><i>'+unit+'</i></span><span class="pr-tag"></span></div>';}
+function prow(si,qi,oi,label,v,kind,sub){return '<div class="pr-row" data-si="'+si+'" data-qi="'+qi+'" data-oi="'+oi+'" data-kind="'+kind+'"><span class="pr-l">'+esc(label)+(sub?'<small>'+esc(sub)+'</small>':'')+'</span><span class="pr-in"><input type="number" min="0" step="'+(kind==='disc'?'1':'1000')+'" value="'+esc(v==null?'':v)+'"><i>'+(kind==='disc'?'%':'원')+'</i></span></div>';}
+function crow(kind,key,label,v,unit,step,sub){return '<div class="pr-row" data-ck="'+kind+'" data-key="'+esc(key)+'"><span class="pr-l">'+esc(label)+(sub?'<small>'+esc(sub)+'</small>':'')+'</span><span class="pr-in"><input type="number" min="0" step="'+step+'" value="'+esc(v==null?'':v)+'"><i>'+unit+'</i></span></div>';}
 $('plist').addEventListener('input',function(e){
   var t=e.target,r=t.closest('.pr-row');if(!r||t.tagName!=='INPUT')return;var v=t.value;
   if(r.hasAttribute('data-ck')){var C=calcData(),k=r.getAttribute('data-ck'),key=r.getAttribute('data-key'),n=v===''?0:+v;
