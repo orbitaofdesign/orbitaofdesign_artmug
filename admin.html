@@ -181,6 +181,9 @@ details.more[open]>summary{margin-bottom:10px;}
 .tippos input{margin-top:3px;accent-color:#1a1a1a;}
 .tippos span{display:flex;flex-direction:column;gap:2px;font-size:13px;}
 .tippos small{font-size:12px;color:var(--g);}
+#bDelM{margin-left:auto;flex:none;height:32px;padding:0 12px;font-size:13px;}
+#bDelM.on{background:#e53935;border-color:#e53935;color:#fff;}
+#bDelM+#bTip{margin-left:0;}
 #bTip{margin-left:auto;flex:none;height:32px;padding:0 12px;font-size:13px;}
 .btn.red:hover{border-color:var(--red);}
 .btn:disabled{opacity:.4;cursor:default;}
@@ -327,13 +330,13 @@ details.more[open]>summary{margin-bottom:10px;}
   <main class="main">
     <section class="view on" id="v-text">
       <div class="pv">
-        <div class="pvbar"><div class="seg" id="segW"><button class="on" data-w="pc">PC</button><button data-w="m">모바일</button></div><span>글자를 눌러 고치고, 노란 점선 ⓘ·입력칸은 눌러서 안내 문구를 바꿔요. 굵게: Ctrl+B</span><button class="btn y sm" id="bTip" type="button" title="미리보기에서 ⓘ를 넣을 곳을 누른 뒤 이 버튼을 눌러요">ⓘ 넣기</button></div>
+        <div class="pvbar"><div class="seg" id="segW"><button class="on" data-w="pc">PC</button><button data-w="m">모바일</button></div><span>글자를 눌러 고치고, 노란 점선 ⓘ·입력칸은 눌러서 안내 문구를 바꿔요. 굵게: Ctrl+B</span><button class="btn sm" id="bDelM" type="button" title="미리보기에서 지울 덩어리를 눌러 골라요">✂ 지우기</button><button class="btn y sm" id="bTip" type="button" title="미리보기에서 ⓘ를 넣을 곳을 누른 뒤 이 버튼을 눌러요">ⓘ 넣기</button></div>
         <div class="pvbox" id="pvbox"><iframe id="pv" title="페이지 미리보기"></iframe></div>
       </div>
       <aside class="side">
         <h3>문구 목록</h3>
         <input class="search" id="q" type="search" placeholder="문구 찾기">
-        <div class="filters"><button class="chip on" data-fl="all">전체</button><button class="chip" data-fl="ch">수정한 문구</button><button class="chip" data-fl="attr">ⓘ·입력칸 안내</button></div>
+        <div class="filters"><button class="chip on" data-fl="all">전체</button><button class="chip" data-fl="ch">수정한 문구</button><button class="chip" data-fl="del">지운 항목</button><button class="chip" data-fl="attr">ⓘ·입력칸 안내</button></div>
         <div class="list" id="tlist"></div>
       </aside>
     </section>
@@ -387,8 +390,8 @@ $('repoName').textContent=CFG.owner+'/'+CFG.repo;
 
 /* ===== 상태 ===== */
 var draft=empty(),base=null,baseSha=null,dirty=false,O=null,files={},urls={};
-function empty(){return {v:1,texts:{},attrs:{},items:{map:{},byId:{}},pf:null,collab:null,form:null,calc:null};}
-function norm(c){c=c&&typeof c==='object'?c:{};var d=empty();d.texts=c.texts||{};d.attrs=c.attrs||{};d.items=c.items||{map:{},byId:{}};d.items.map=d.items.map||{};d.items.byId=d.items.byId||{};d.pf=Array.isArray(c.pf)?c.pf:null;d.collab=Array.isArray(c.collab)?c.collab:null;d.form=Array.isArray(c.form)?c.form:null;d.calc=c.calc&&typeof c.calc==='object'?c.calc:null;return d;}
+function empty(){return {v:1,texts:{},attrs:{},items:{map:{},byId:{}},pf:null,collab:null,form:null,calc:null,hidden:[]};}
+function norm(c){c=c&&typeof c==='object'?c:{};var d=empty();d.texts=c.texts||{};d.attrs=c.attrs||{};d.items=c.items||{map:{},byId:{}};d.items.map=d.items.map||{};d.items.byId=d.items.byId||{};d.pf=Array.isArray(c.pf)?c.pf:null;d.collab=Array.isArray(c.collab)?c.collab:null;d.form=Array.isArray(c.form)?c.form:null;d.calc=c.calc&&typeof c.calc==='object'?c.calc:null;d.hidden=Array.isArray(c.hidden)?c.hidden:[];return d;}
 function setStatus(t,cls){var s=$('status');s.className='status'+(cls?' '+cls:'');$('statusT').textContent=t;}
 function changed(){dirty=true;setStatus('반영 안 된 변경 사항 있음','dirty');autosave();}
 var asT=null;function autosave(){clearTimeout(asT);asT=setTimeout(function(){saveLocal(true);},800);}
@@ -427,8 +430,9 @@ function loadRemote(ref){
 var previewScroll=0,needReload=false;
 window.ORBITA_ADMIN={
   draft:function(){var d=clone(draft);if(d.pf)d.pf=mapPaths(d.pf,function(p){return urls[p]||p;});if(d.collab)d.collab.forEach(function(c){if(c.img&&urls[c.img])c.img=urls[c.img];});return d;},
-  ready:function(o){O=o;try{$('pv').contentWindow.scrollTo(0,previewScroll);}catch(e){}buildTextList();markPreview();if(!pfReady)initPf();if(pendingOpen&&O.openItem){var po=pendingOpen;pendingOpen=null;setTimeout(function(){O.openItem(po);},300);}},
-  onText:function(key,html){var u=unit(key);if(!u)return;if(html===u.def)delete draft.texts[key];else draft.texts[key]=html;changed();markPreview();refreshRow(key);},
+  ready:function(o){O=o;if(delOn&&O.setDelMode)O.setDelMode(true);updDelCount();try{$('pv').contentWindow.scrollTo(0,previewScroll);}catch(e){}buildTextList();markPreview();if(!pfReady)initPf();if(pendingOpen&&O.openItem){var po=pendingOpen;pendingOpen=null;setTimeout(function(){O.openItem(po);},300);}},
+  onText:function(key,html){setTextAll(key,html,true);},
+  onHide:function(key,on){var H=draft.hidden,i=H.indexOf(key);if(on&&i<0)H.push(key);if(!on&&i>-1)H.splice(i,1);changed();updDelCount();if(fl==='del')buildTextList();},
   onFocus:function(key){var r=document.querySelector('.lrow[data-k="'+cssq(key)+'"]');if(r)r.scrollIntoView({block:'nearest'});},
   editAttr:function(key){editAttr(key);},
   editUtip:function(cur,cb){
@@ -438,6 +442,10 @@ window.ORBITA_ADMIN={
     $('dOk').onclick=function(){var v=t.value.trim();if(!v){t.focus();return;}cb(v);closeDlg();};
   }
 };
+/* 지우기 모드 */
+var delOn=false;
+$('bDelM').addEventListener('click',function(){if(!O||!O.setDelMode)return;delOn=!delOn;O.setDelMode(delOn);this.classList.toggle('on',delOn);this.textContent=delOn?'✂ 지우기 끝내기':'✂ 지우기';
+  if(delOn)toast('미리보기에서 지울 곳을 누르세요. ▲ 더 크게로 상자 전체를, ▼ 더 작게로 한 줄만 고를 수 있어요.',4000);});
 /* 내가 고른 글자 뒤에 ⓘ 넣기 */
 $('bTip').addEventListener('mousedown',function(e){e.preventDefault();});
 $('bTip').addEventListener('click',function(){
@@ -462,6 +470,11 @@ var secF='';
 var SECGO={'sec-collab':['카드 문구·사진·링크는','collab','협업 작가 카드'],'sec-form':['품목 팝업의 이름·가격·질문은','items','신청 양식 항목'],'sec-portfolio':['샘플 이미지는','pf','포트폴리오 샘플']};
 function goSec(){if(!O||!secF)return;try{var w=$('pv').contentWindow,el=w.document.getElementById(secF);if(secF==='sec-top'||!el)w.scrollTo({top:0,behavior:'smooth'});else el.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}}
 var fl='all';
+/* 같은 문구는 마지막에 고친 내용으로 모두 통일 */
+function setTextAll(key,html,live){var u=unit(key);if(!u)return;O.units.forEach(function(x){if(x.def!==u.def)return;var v=html==null?x.def:html;if(v===x.def)delete draft.texts[x.key];else draft.texts[x.key]=v;if(x.key!==key||!live)O.setUnit(x.key,html);refreshRow(x.key);});changed();markPreview();}
+function setAttrAll(key,v){var a=attrU(key);if(!a)return;O.attrs.forEach(function(x){if(x.def!==a.def||x.attr!==a.attr)return;var w=v==null?x.def:v;if(w===x.def)delete draft.attrs[x.key];else draft.attrs[x.key]=w;O.setAttr(x.key,w);});changed();}
+function updDelCount(){var c=document.querySelector('.chip[data-fl="del"]');if(c)c.textContent='지운 항목'+(draft.hidden.length?' '+draft.hidden.length:'');}
+
 function buildTextList(){
   if(!O)return;var q=$('q').value.trim().toLowerCase(),h='',last='';
   var st=document.querySelector('.side h3');if(st)st.textContent=secF?(SECN[secF]+' 문구'):'문구 목록';
@@ -469,6 +482,7 @@ function buildTextList(){
   O.units.forEach(function(u){rows.push({k:u.key,sec:u.sec,a:0,txt:plain(draft.texts[u.key]!=null?draft.texts[u.key]:u.def),ch:draft.texts[u.key]!=null});});
   O.attrs.forEach(function(a){rows.push({k:a.key,sec:a.sec,a:a.attr,txt:draft.attrs[a.key]!=null?draft.attrs[a.key]:a.def,ch:draft.attrs[a.key]!=null,def:a.def});});
   rows.sort(function(x,y){var o=Object.keys(SECN);return o.indexOf(x.sec)-o.indexOf(y.sec);});
+  if(fl==='del'){var hh='<p class="note" style="padding:4px 8px 10px">미리보기 위 <b>✂ 지우기</b>로 지운 덩어리예요. 되살리기를 누르면 다시 보여요.</p>';draft.hidden.forEach(function(k){hh+='<div class="lrow ch" data-hk="'+esc(k)+'"><span class="t">'+esc(O.blockLabel?O.blockLabel(k):k)+'</span><span class="m"><button class="rv" data-res="1">되살리기</button></span></div>';});$('tlist').innerHTML=draft.hidden.length?hh:'<p class="note" style="padding:12px">지운 항목이 없어요.</p>';updDelCount();return;}
   rows.forEach(function(r){
     if(secF&&r.sec!==secF)return;if(fl==='ch'&&!r.ch)return;if(fl==='attr'&&!r.a)return;if(q&&r.txt.toLowerCase().indexOf(q)<0)return;
     if(r.sec!==last){h+='<div class="lsec">'+esc(SECN[r.sec]||r.sec)+'</div>';last=r.sec;}
@@ -482,20 +496,21 @@ function refreshRow(k){var r=document.querySelector('.lrow[data-k="'+cssq(k)+'"]
 $('q').addEventListener('input',buildTextList);
 document.querySelector('.filters').addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;fl=b.getAttribute('data-fl');[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});buildTextList();});
 $('tlist').addEventListener('click',function(e){
+  var hr=e.target.closest('[data-hk]');if(hr){var hk=hr.getAttribute('data-hk');if(e.target.closest('[data-res]')){O.setHidden(hk,false);var i=draft.hidden.indexOf(hk);if(i>-1)draft.hidden.splice(i,1);changed();buildTextList();}else{var b=O.blockByKey&&O.blockByKey(hk);if(b)b.el.scrollIntoView({block:'center',behavior:'smooth'});}return;}
   var go=e.target.closest('[data-go]');if(go){showView(go.getAttribute('data-go'));return;}
   var row=e.target.closest('[data-k]');if(!row)return;var k=row.getAttribute('data-k');
-  if(e.target.closest('[data-rv]')){e.stopPropagation();if(row.classList.contains('arow')){delete draft.attrs[k];O.setAttr(k,null);}else{delete draft.texts[k];O.setUnit(k,null);markPreview();}changed();buildTextList();return;}
+  if(e.target.closest('[data-rv]')){e.stopPropagation();if(row.classList.contains('arow'))setAttrAll(k,null);else setTextAll(k,null,false);buildTextList();return;}
   if(row.classList.contains('lrow')&&O)O.focusKey(k);
 });
 $('tlist').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.classList.contains('lrow'))e.target.click();});
 $('tlist').addEventListener('input',function(e){var t=e.target;if(!t.matches('textarea[data-a]'))return;var row=t.closest('[data-k]'),k=row.getAttribute('data-k'),a=attrU(k);if(!a)return;
-  if(t.value===a.def)delete draft.attrs[k];else draft.attrs[k]=t.value;O.setAttr(k,t.value);row.classList.toggle('ch',t.value!==a.def);changed();});
+  setAttrAll(k,t.value);row.classList.toggle('ch',t.value!==a.def);});
 $('tlist').addEventListener('focusin',function(e){var row=e.target.closest('.arow');if(row&&O)O.focusKey(row.getAttribute('data-k'));});
 function editAttr(key){var a=attrU(key);if(!a)return;var cur=draft.attrs[key]!=null?draft.attrs[key]:a.def;
   dialog('<h3>'+(a.attr==='data-tip'?'ⓘ 말풍선 문구':'입력칸 안내 문구')+'</h3><p>원래 문구: '+esc(a.def)+'</p><label class="f"><span>바꿀 문구</span><textarea id="dA" rows="3">'+esc(cur)+'</textarea></label><div class="row"><button class="btn" data-x>취소</button><button class="btn" id="dR">원래대로</button><button class="btn y" id="dOk">적용</button></div>');
   var t=$('dA');t.focus();t.select();
   $('dR').onclick=function(){t.value=a.def;};
-  $('dOk').onclick=function(){var v=t.value;if(v===a.def)delete draft.attrs[key];else draft.attrs[key]=v;O.setAttr(key,v);changed();buildTextList();closeDlg();};
+  $('dOk').onclick=function(){setAttrAll(key,t.value);buildTextList();closeDlg();};
 }
 
 /* ===== 신청 양식 항목 (팝업 구성 그대로 편집) ===== */
@@ -517,13 +532,15 @@ function buildItems(){
   if(!curItem||!L.some(function(s){return s.id===curItem;}))curItem=L.length?L[0].id:null;
   var t='<div class="c">'+(grpF==='p'?'패키지 품목':'단일 품목')+'</div>';
   L.forEach(function(s){t+='<button type="button" data-fi="'+esc(s.id)+'"'+(s.id===curItem?' class="on"':'')+'>'+(s.cat?'<b class="fcat'+(s.chz?' chz':'')+'">'+esc(s.cat)+'</b> ':'')+esc(s.name||'(이름 없음)')+'</button>';});
+  var gone=O.defaults.form.filter(function(d){return d.g===grpF&&!F.some(function(x){return x.id===d.id;});});
+  if(gone.length){t+='<div class="c" style="margin-top:18px">삭제한 품목</div>';gone.forEach(function(d){t+='<button type="button" data-fres="'+esc(d.id)+'" title="눌러서 되살리기">↺ '+esc(itName(d))+'</button>';});}
   t+='<div class="c" style="margin-top:18px">'+(grpF==='p'?'단일 품목':'패키지 품목')+'</div><button type="button" data-fg="'+(grpF==='p'?'s':'p')+'">'+(grpF==='p'?'단일 품목 보기 ›':'패키지 품목 보기 ›')+'</button>';
   $('ftree').innerHTML=t;
   renderFE();
 }
 function renderFE(){
   var s=curIt(),box=$('ilist'),st=box.scrollTop;if(!s){box.innerHTML='<p class="note">품목이 없어요.</p>';return;}
-  var pk=s.g==='p',h='<div class="pagehead"><div><h2>'+esc(itName(s))+'</h2><p>신청 양식에서 이 품목을 누르면 나오는 <b>팝업 그대로</b>예요. 질문과 선택지를 고치고, <b>+ 추가</b>·<b>▲▼</b>·<b>✕</b>로 넣고 빼고 순서를 바꿀 수 있어요. 가격은 <b>가격</b> 메뉴에서도 한 번에 고칠 수 있어요.</p></div><span class="sp"></span><button class="btn" id="feReset">이 품목 기본값으로</button><button class="btn y" id="fePrev">팝업 미리보기</button></div>';
+  var pk=s.g==='p',h='<div class="pagehead"><div><h2>'+esc(itName(s))+'</h2><p>신청 양식에서 이 품목을 누르면 나오는 <b>팝업 그대로</b>예요. 질문과 선택지를 고치고, <b>+ 추가</b>·<b>▲▼</b>·<b>✕</b>로 넣고 빼고 순서를 바꿀 수 있어요. 가격은 <b>가격</b> 메뉴에서도 한 번에 고칠 수 있어요.</p></div><span class="sp"></span><button class="btn red" id="feDel">이 품목 삭제</button><button class="btn" id="feReset">이 품목 기본값으로</button><button class="btn y" id="fePrev">팝업 미리보기</button></div>';
   h+='<div class="fe-pop">';
   /* 머리 */
   h+='<div class="fe-head">';
@@ -634,6 +651,7 @@ function mv(arr,i,d){var j=i+d;if(j<0||j>=arr.length)return;arr.splice(j,0,arr.s
 $('ilist').addEventListener('click',function(e){
   var b=e.target.closest('[data-act]');var s=curIt();
   if(e.target.id==='fePrev'){openItemPreview(curItem);return;}
+  if(e.target.id==='feDel'){if(!confirm('‘'+itName(s)+'’ 품목을 신청 양식에서 삭제할까요? (왼쪽 목록 아래에서 다시 되살릴 수 있어요)'))return;var F0=formData();F0.splice(F0.indexOf(s),1);curItem=null;formChanged();buildItems();toast('품목을 삭제했어요.');return;}
   if(e.target.id==='feReset'){if(!confirm('이 품목의 이름·가격·질문·선택지를 기본값으로 되돌릴까요?'))return;var F=formData(),i=F.indexOf(s),d=O.defaults.form.filter(function(x){return x.id===s.id;})[0];if(d&&i>-1){F[i]=clone(d);formChanged();buildItems();toast('기본값으로 되돌렸어요.');}return;}
   if(!b||!s)return;var a=b.getAttribute('data-act'),ck=s.g==='p'?'incl':'mincl';
   if(a==='chip-add'){(s[ck]=s[ck]||[]).push('새 구성');formChanged();renderFE();return;}
@@ -647,9 +665,24 @@ $('ilist').addEventListener('click',function(e){
   if(a==='o-up'||a==='o-down'){mv(f.opts,oi,a==='o-up'?-1:1);formChanged();renderFE();return;}
   if(a==='o-del'){if(f.opts.length<=1){toast('선택지는 하나 이상 있어야 해요. 질문을 지우려면 질문의 ✕를 눌러 주세요.');return;}var o=f.opts[oi];f.opts.splice(oi,1);dropOpts(s,[o.id]);formChanged();renderFE();return;}
 });
-$('ftree').addEventListener('click',function(e){var b=e.target.closest('[data-fi]');if(b){curItem=b.getAttribute('data-fi');buildItems();$('ilist').scrollTop=0;return;}var g=e.target.closest('[data-fg]');if(g){grpF=g.getAttribute('data-fg');curItem=null;showView('items');}});
+$('ftree').addEventListener('click',function(e){var rs=e.target.closest('[data-fres]');if(rs){var id=rs.getAttribute('data-fres'),D=O.defaults.form,F=formData(),d=D.filter(function(x){return x.id===id;})[0],di=D.indexOf(d),pos=F.length;for(var i=0;i<F.length;i++){if(D.map(function(x){return x.id;}).indexOf(F[i].id)>di){pos=i;break;}}F.splice(pos,0,clone(d));curItem=id;formChanged();buildItems();toast('품목을 되살렸어요.');return;}var b=e.target.closest('[data-fi]');if(b){curItem=b.getAttribute('data-fi');buildItems();$('ilist').scrollTop=0;return;}var g=e.target.closest('[data-fg]');if(g){grpF=g.getAttribute('data-fg');curItem=null;showView('items');}});
 function openItemPreview(id){var rl=needReload;pendingOpen=id;showView('text');if(!rl&&O&&O.openItem){pendingOpen=null;O.openItem(id);}}
 
+/* 같은 문구·금액은 마지막에 고친 것으로 통일 (다른 품목까지) */
+$('ilist').addEventListener('focusin',function(e){var t=e.target;if(t.tagName==='INPUT'||t.tagName==='TEXTAREA')t.setAttribute('data-old',t.value);});
+$('ilist').addEventListener('change',function(e){
+  var t=e.target;if(!t.hasAttribute('data-old'))return;var old=t.getAttribute('data-old'),nv=t.value;t.setAttribute('data-old',nv);if(old===nv||old==='')return;
+  var F=formData(),s=curIt(),n=0,here=0,ak;
+  function hit(x){n++;if(x===s)here++;}
+  if(t.hasAttribute('data-chip')){F.forEach(function(it){['incl','mincl'].forEach(function(ck){(it[ck]||[]).forEach(function(c,i){if(c===old){it[ck][i]=nv;hit(it);}});});});}
+  else if((ak=t.getAttribute('data-it'))==='tip'){F.forEach(function(it){if(it.tip===old){it.tip=nv;hit(it);}});}
+  else if((ak=t.getAttribute('data-qf'))&&['label','t','hint','ph','add','empty'].indexOf(ak)>-1){F.forEach(function(it){it.f.forEach(function(f){if(f[ak]===old){f[ak]=nv;hit(it);}});});}
+  else if((ak=t.getAttribute('data-of'))&&['label','note','extra','en'].indexOf(ak)>-1){F.forEach(function(it){it.f.forEach(function(f){(f.opts||[]).forEach(function(o){if(o[ak]===old){o[ak]=nv;hit(it);}});});});}
+  else if(ak==='price'){var q=t.closest('.fe-q'),oe=t.closest('.fe-o');if(q&&oe){var o0=s.f[+q.getAttribute('data-q')].opts[+oe.getAttribute('data-o')];F.forEach(function(it){it.f.forEach(function(f){(f.opts||[]).forEach(function(o){if(o!==o0&&o.label===o0.label&&String(o.price)===old){o.price=+nv||0;hit(it);}});});});}}
+  else return;
+  /* 고친 칸 자신은 입력하면서 이미 바뀌어 있어서 여기엔 다른 곳만 잡혀요 */
+  if(n>0){formChanged();toast('같은 문구'+(ak==='price'?'·금액':'')+' '+n+'곳도 함께 바꿨어요.');if(here>0){var st=$('ilist').scrollTop;renderFE();$('ilist').scrollTop=st;}}
+});
 /* ===== 가격 ===== */
 function buildPrice(){
   if(!O||!O.defaults||!O.defaults.form){$('plist').innerHTML='<p class="note">미리보기를 불러오는 중이에요. 잠시 후 다시 눌러 주세요.</p>';return;}
@@ -688,6 +721,11 @@ $('plist').addEventListener('input',function(e){
   else{var f=s.f[+r.getAttribute('data-qi')];if(kind==='disc'){if(v===''||!(+v>0))delete f.disc;else f.disc=Math.round(+v*10)/1000;}else setNum(f.opts[+r.getAttribute('data-oi')],'price',v);}
   formChanged();
 });
+$('plist').addEventListener('focusin',function(e){var t=e.target;if(t.tagName==='INPUT')t.setAttribute('data-old',t.value);});
+$('plist').addEventListener('change',function(e){var t=e.target,r=t.closest('.pr-row');if(!r||r.getAttribute('data-kind')!=='opt')return;var old=t.getAttribute('data-old'),nv=t.value;t.setAttribute('data-old',nv);if(old===nv)return;
+  var F=formData(),s=F[+r.getAttribute('data-si')],o0=s.f[+r.getAttribute('data-qi')].opts[+r.getAttribute('data-oi')],n=0;
+  F.forEach(function(it){it.f.forEach(function(f){(f.opts||[]).forEach(function(o){if(o!==o0&&o.label===o0.label&&o.pm===o0.pm&&String(o.price==null?'':o.price)===old){o.price=+nv||0;n++;}});});});
+  if(n){formChanged();var st=$('plist').scrollTop;buildPrice();$('plist').scrollTop=st;toast('같은 선택지 '+n+'곳의 금액도 함께 바꿨어요.');}});
 $('plist').addEventListener('click',function(e){var b=e.target.closest('[data-goit]');if(!b)return;var id=b.getAttribute('data-goit'),s=formData().filter(function(x){return x.id===id;})[0];grpF=s.g;curItem=id;showView('items');});
 
 /* ===== 포트폴리오 ===== */
