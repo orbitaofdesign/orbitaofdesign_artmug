@@ -1070,12 +1070,12 @@ window.__orbitaApp=function(){
     R.style.left=x+'px';
     if(inIframe){
       var endY=Math.round(wrap.getBoundingClientRect().bottom+window.scrollY);
-      var y=wide?v.top+(v.height-h)/2:v.top+v.height-h-16;
+      var y=wide?v.top+Math.min(Math.max(96,v.height*0.18),v.height-h-16):v.top+v.height-h-Math.max(16,v.height*0.14);
       y=Math.max(16,Math.min(Math.round(y),endY-h));
       R.style.position='absolute';R.style.top=y+'px';R.style.bottom='auto';
     }else{
       R.style.position='fixed';
-      if(wide){R.style.top=Math.round((window.innerHeight-h)/2)+'px';R.style.bottom='auto';}else{R.style.top='auto';R.style.bottom='16px';}
+      if(wide){R.style.top=Math.round(Math.min(Math.max(96,window.innerHeight*0.18),window.innerHeight-h-16))+'px';R.style.bottom='auto';}else{R.style.top='auto';R.style.bottom=Math.round(Math.max(16,window.innerHeight*0.14))+'px';}
     }
   }
   function goY(y){

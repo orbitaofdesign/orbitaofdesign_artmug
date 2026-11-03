@@ -40,8 +40,8 @@
     var probe=H*0.35,act=-1; secs.forEach(function(s,i){if(r.top+s.t-24<=probe)act=i;}); if(act>=0&&r.top+end<=H+8)act=secs.length-1;
     items.forEach(function(b,i){var on=i===act;b.classList.toggle('is-on',on);if(on)b.setAttribute('aria-current','true');else b.removeAttribute('aria-current');});
     var w=R.offsetWidth,h=R.offsetHeight;
-    if(wide){R.style.left=Math.round(right+(gut-w)/2)+'px';R.style.top=Math.round((H-h)/2)+'px';R.style.bottom='auto';}
-    else{R.style.left=Math.round(W-w-16)+'px';R.style.top='auto';R.style.bottom='16px';}
+    if(wide){R.style.left=Math.round(right+(gut-w)/2)+'px';R.style.top=Math.round(Math.min(Math.max(96,H*0.18),H-h-16))+'px';R.style.bottom='auto';}
+    else{R.style.left=Math.round(W-w-16)+'px';R.style.top='auto';R.style.bottom=Math.round(Math.max(16,H*0.14))+'px';} /* 화면 위쪽으로 조금 올림 */
   }
   function go(y){window.scrollTo({top:Math.max(0,Math.round(window.scrollY+f.getBoundingClientRect().top+y)),behavior:'smooth'});}
   R.addEventListener('click',function(e){
