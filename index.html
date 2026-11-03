@@ -291,150 +291,56 @@
 <script>
 window.__orbitaApp=function(){
 (function(){
-  /* ===== 가격 설정: null 은 '상담 후 안내'로 표시돼요 ===== */
+  /* ===== 가격 설정 · 신청 양식 품목·질문·선택지·가격 (기본값) =====
+     관리자 페이지에서 고치면 content.json 의 form / calc 가 이 기본값 대신 쓰여요.
+     선택지 가격 방식(pm): base=기본 금액, add=추가 금액, per=개수당 추가, basePer=개수당 기본 금액, 없으면 금액 없음 */
+  var FORM_DEF=[{"id":"chzzk-a","g":"p","cat":"CHZZK","name":"PACKAGE A","chz":1,"price":70000,"was":90000,"incl":["치지직 홈 배너 4종","유튜브 채널아트"],"f":[{"k":"people","type":"people","label":"신청 인원"},{"type":"sec","label":"1. 치지직 홈 배너 4종","k":"_s1"},{"k":"bannerKinds","type":"text","label":"필요한 배너 종류","t":"필요한 배너 종류","ph":"예) 유튜브, 트위터 등"},{"type":"sec","label":"2. 유튜브 채널아트","k":"_s2"},{"k":"channelText","type":"text","label":"들어갈 문구","t":"채널아트에 들어갈 문구"}]},{"id":"chzzk-b","g":"p","cat":"CHZZK","name":"PACKAGE B","chz":1,"price":140000,"was":195000,"incl":["치지직 홈 배너 4종","유튜브 채널아트","팬카페 배너&대문"],"f":[{"k":"people","type":"people","label":"신청 인원"},{"type":"sec","label":"1. 치지직 홈 배너 4종","k":"_s3"},{"k":"bannerKinds","type":"text","label":"필요한 배너 종류","t":"필요한 배너 종류","ph":"예) 유튜브, 트위터 등"},{"type":"sec","label":"2. 유튜브 채널아트","k":"_s4"},{"k":"channelText","type":"text","label":"들어갈 문구","t":"채널아트에 들어갈 문구"},{"type":"sec","label":"3. 팬카페 배너&대문","k":"_s5"},{"k":"cafeBanner","type":"text","label":"배너에 들어갈 팬카페 이름 또는 문구","t":"팬카페 배너"},{"k":"cafeMain","type":"list","label":"대문에 연결할 플랫폼 링크","t":"팬카페 대문 연결 링크","ph":"예) 트위터: https://x.com/...","max":8,"add":"+ 링크 추가"}]},{"id":"overlay-a","g":"p","cat":"OVERLAY","name":"PACKAGE A","price":200000,"was":220000,"incl":["채팅화면","게임화면"],"f":[{"k":"people","type":"people","label":"신청 인원"}]},{"id":"overlay-b","g":"p","cat":"OVERLAY","name":"PACKAGE B","price":120000,"was":140000,"incl":["로딩화면","오프라인 화면"],"f":[{"k":"people","type":"people","label":"신청 인원"},{"k":"motion","type":"radio","label":"모션 추가 여부","t":"모션 추가","opts":[{"id":"motion-1","label":"추가"},{"id":"motion-2","label":"추가 안 함"}]},{"k":"motionWhich","type":"radio","label":"모션 추가할 화면","t":"모션 추가할 화면","opts":[{"id":"motionWhich-1","label":"로딩화면만 모션 추가","price":20000,"pm":"add"},{"id":"motionWhich-2","label":"오프라인 화면만 모션 추가","price":20000,"pm":"add"},{"id":"motionWhich-3","label":"둘 다 모션 추가","price":30000,"pm":"add"}],"show":{"k":"motion","any":["motion-1"]}},{"type":"sec","label":"1. 들어갈 문구","k":"_s6"},{"k":"texts","type":"textarea","label":"각 화면에 들어갈 문구","t":"들어갈 문구","ph":"생략 시 LOADING, OFFLINE으로 고정돼요."}]},{"id":"debut-a","g":"p","cat":"DEBUT","name":"PACKAGE A","price":290000,"was":320000,"incl":["RT 공개 포스터 5장","로고","자기소개 PPT 6장"],"f":[{"k":"people","type":"people","label":"신청 인원"},{"type":"sec","label":"1. RT 공개 포스터","k":"_s7"},{"k":"poster","type":"text","label":"필요한 장 수 및 구성","t":"RT 공개 포스터 장 수 및 구성","ph":"예) 5장 / 0, 100, 200, 300, 400RT"},{"type":"sec","label":"2. 로고","k":"_s8"},{"k":"logoUse","type":"radio","label":"사용 용도","t":"로고 사용 용도","opts":[{"id":"logoUse-1","label":"방송용"},{"id":"logoUse-2","label":"상업용","price":50000,"pm":"add"}]},{"k":"logoScript","type":"checks","label":"표기 (최대 2개)","t":"로고 표기","max":2,"opts":[{"id":"logoScript-1","label":"한국어"},{"id":"logoScript-2","label":"영어","extra":"예) ORBITA"},{"id":"logoScript-3","label":"일본어","extra":"예) オルビタ"}]},{"type":"sec","label":"3. 자기소개 PPT","k":"_s9"},{"k":"ppt","type":"text","label":"필요한 장 수 및 구성","t":"자기소개 PPT 장 수 및 구성","ph":"예) 6장 / 1. 프로필, 2. 좋아하는 것~"},{"k":"collab","type":"radio","label":"4. 협업 신청 여부","t":"협업 신청 여부","hint":"협업 작가님께 동시 신청 시에만 15% 할인이 적용돼요.","disc":0.15,"opts":[{"id":"collab-1","label":"루한 작가님"},{"id":"collab-2","label":"TOMA 작가님"}]}]},{"id":"debut-b","g":"p","cat":"DEBUT","name":"PACKAGE B","price":380000,"was":420000,"incl":["DEBUT PACKAGE A","스케줄표"],"f":[{"k":"people","type":"people","label":"신청 인원"},{"type":"sec","label":"1. RT 공개 포스터","k":"_s10"},{"k":"poster","type":"text","label":"필요한 장 수 및 구성","t":"RT 공개 포스터 장 수 및 구성","ph":"예) 5장 / 0, 100, 200, 300, 400RT"},{"type":"sec","label":"2. 로고","k":"_s11"},{"k":"logoUse","type":"radio","label":"사용 용도","t":"로고 사용 용도","opts":[{"id":"logoUse-1","label":"방송용"},{"id":"logoUse-2","label":"상업용","price":50000,"pm":"add"}]},{"k":"logoScript","type":"checks","label":"표기 (최대 2개)","t":"로고 표기","max":2,"opts":[{"id":"logoScript-1","label":"한국어"},{"id":"logoScript-2","label":"영어","extra":"예) ORBITA"},{"id":"logoScript-3","label":"일본어","extra":"예) オルビタ"}]},{"type":"sec","label":"3. 자기소개 PPT","k":"_s12"},{"k":"ppt","type":"text","label":"필요한 장 수 및 구성","t":"자기소개 PPT 장 수 및 구성","ph":"예) 6장 / 1. 프로필, 2. 좋아하는 것~"},{"type":"sec","label":"4. 스케줄표","k":"_s13"},{"k":"scheduleOff","type":"radio","t":"스케줄표 오프라인 칸","opts":[{"id":"scheduleOff-1","label":"오프라인 칸 추가","price":20000,"pm":"add"},{"id":"scheduleOff-2","label":"추가 안 함"}]},{"k":"offText","type":"text","label":"오프라인 칸에 들어갈 문구","t":"오프라인 칸 문구","ph":"예) OFFLINE / 휴방 / 쉬어갑니다","show":{"k":"scheduleOff","any":["scheduleOff-1"]}}]},{"id":"full","g":"p","cat":"FULL","name":"PACKAGE","price":540000,"was":640000,"incl":["채팅화면","게임화면","RT 공개 포스터 5장","로고","자기소개 PPT 6장","스케줄표"],"f":[{"k":"people","type":"people","label":"신청 인원"},{"type":"sec","label":"1. RT 공개 포스터","k":"_s14"},{"k":"poster","type":"text","label":"필요한 장 수 및 구성","t":"RT 공개 포스터 장 수 및 구성","ph":"예) 5장 / 0, 100, 200, 300, 400RT"},{"type":"sec","label":"2. 로고","k":"_s15"},{"k":"logoUse","type":"radio","label":"사용 용도","t":"로고 사용 용도","opts":[{"id":"logoUse-1","label":"방송용"},{"id":"logoUse-2","label":"상업용","price":50000,"pm":"add"}]},{"k":"logoScript","type":"checks","label":"표기 (최대 2개)","t":"로고 표기","max":2,"opts":[{"id":"logoScript-1","label":"한국어"},{"id":"logoScript-2","label":"영어","extra":"예) ORBITA"},{"id":"logoScript-3","label":"일본어","extra":"예) オルビタ"}]},{"type":"sec","label":"3. 자기소개 PPT","k":"_s16"},{"k":"ppt","type":"text","label":"필요한 장 수 및 구성","t":"자기소개 PPT 장 수 및 구성","ph":"예) 6장 / 1. 프로필, 2. 좋아하는 것~"},{"type":"sec","label":"4. 스케줄표","k":"_s17"},{"k":"scheduleOff","type":"radio","t":"스케줄표 오프라인 칸","opts":[{"id":"scheduleOff-1","label":"오프라인 칸 추가","price":20000,"pm":"add"},{"id":"scheduleOff-2","label":"추가 안 함"}]},{"k":"offText","type":"text","label":"오프라인 칸에 들어갈 문구","t":"오프라인 칸 문구","ph":"예) OFFLINE / 휴방 / 쉬어갑니다","show":{"k":"scheduleOff","any":["scheduleOff-1"]}}]},{"id":"s-overlay","g":"s","name":"화면 오버레이","price":null,"f":[{"k":"parts","type":"checks","label":"필요한 화면","t":"필요한 화면","page":1,"opts":[{"id":"parts-1","label":"채팅화면","price":120000,"pm":"base"},{"id":"parts-2","label":"게임화면","price":100000,"pm":"base"},{"id":"parts-3","label":"로딩화면","price":80000,"pm":"base"},{"id":"parts-4","label":"오프라인 화면","price":60000,"pm":"base"}]},{"k":"motion","type":"radio","label":"모션 추가 여부","t":"모션 추가","opts":[{"id":"motion-1","label":"추가","price":20000,"pm":"per","u":"화면당","per":{"k":"parts","any":["parts-3","parts-4"]},"en":"모션 추가"},{"id":"motion-2","label":"추가 안 함"}],"show":{"k":"parts","any":["parts-3","parts-4"]}},{"k":"texts","type":"text","label":"들어갈 문구","t":"들어갈 문구","ph":"생략 시 LOADING, OFFLINE으로 고정돼요.","show":{"k":"parts","any":["parts-3","parts-4"]}}]},{"id":"s-schedule","g":"s","name":"스케줄표","price":null,"tip":"PSD 파일 기본 제공","ttl":"{} 스케줄표","f":[{"k":"kind","type":"radio","label":"형태","t":"스케줄표 형태","page":1,"opts":[{"id":"kind-1","label":"일반","price":100000,"pm":"base"},{"id":"kind-2","label":"정방형","price":80000,"pm":"base"},{"id":"kind-3","label":"세로형 · 일러스트 삽입 불가","price":60000,"pm":"base"}]},{"k":"opts","type":"checks","label":"추가 옵션","t":"추가 옵션","opts":[{"id":"opts-1","label":"오프라인 칸 추가","price":20000,"pm":"add"},{"id":"opts-2","label":"팀 스케줄표로 변경","price":50000,"pm":"add"}]},{"k":"offText","type":"text","label":"오프라인 칸에 들어갈 문구","t":"오프라인 칸 문구","ph":"예) OFFLINE / 휴방 / 쉬어갑니다","show":{"k":"opts","any":["opts-1"]}}]},{"id":"s-poster","g":"s","name":"포스터","price":null,"f":[{"k":"kind","type":"checks","label":"포스터 종류","t":"포스터 종류","page":1,"opts":[{"id":"kind-1","label":"RT 공개 포스터 5장","price":100000,"pm":"base"},{"id":"kind-2","label":"키 비주얼 포스터","price":80000,"pm":"base"},{"id":"kind-3","label":"굿즈 판매 인포 4장","price":40000,"pm":"base","note":"굿즈 판매 인포 신청 시 완성된 굿즈 이미지를 꼭 함께 보내 주세요."},{"id":"kind-4","label":"일반 포스터","price":30000,"pm":"base"}]},{"k":"rt","type":"text","label":"필요한 장 수 및 구성","t":"RT 공개 포스터 장 수 및 구성","ph":"예) 5장 / 0, 100, 200, 300, 400RT","show":{"k":"kind","any":["kind-1"]}},{"k":"texts","type":"textarea","label":"들어갈 내용","t":"포스터에 들어갈 내용","ph":"포스터별로 들어갈 내용을 적어 주세요.","show":{"k":"kind","any":["kind-2","kind-3","kind-4"]}},{"k":"more","type":"checks","label":"추가 옵션","t":"추가 옵션","opts":[{"id":"more-1","label":"장 수 추가","price":10000,"pm":"per","u":"장당","per":{"k":"moreN"}}]},{"k":"moreN","type":"count","label":"추가할 장 수","t":"추가 장 수","max":20,"unit":"장","show":{"k":"more","any":["more-1"]}}]},{"id":"s-ppt","g":"s","name":"PPT","price":120000,"tip":"PNG(이미지) 파일로 제공됩니다. 모션 작업X","mincl":["자기소개 PPT 6장"],"f":[{"k":"ppt","type":"text","label":"필요한 장 수 및 구성","t":"PPT 장 수 및 구성","ph":"예) 6장 / 1. 프로필, 2. 좋아하는 것~"},{"k":"opts","type":"checks","label":"추가 옵션","t":"추가 옵션","opts":[{"id":"opts-1","label":"장 수 추가","price":10000,"pm":"per","u":"장당","per":{"k":"moreN"}},{"id":"opts-2","label":"표지, Q&A 페이지 제공 (추가금 없음)"}]},{"k":"moreN","type":"count","label":"추가할 장 수","t":"추가 장 수","max":20,"unit":"장","show":{"k":"opts","any":["opts-1"]}}]},{"id":"s-logo","g":"s","name":"로고","price":null,"f":[{"k":"kind","type":"radio","label":"로고 종류","t":"로고 종류","page":1,"pageNote":1,"opts":[{"id":"kind-1","label":"로고","price":100000,"pm":"base"},{"id":"kind-2","label":"일회성 로고 · 방송 콘텐츠용","price":70000,"pm":"base"}]},{"k":"use","type":"radio","label":"사용 용도","t":"로고 사용 용도","opts":[{"id":"use-1","label":"방송용"},{"id":"use-2","label":"상업용","price":50000,"pm":"add"}]},{"k":"script","type":"checks","label":"표기 (최대 2개)","t":"로고 표기","max":2,"opts":[{"id":"script-1","label":"한국어"},{"id":"script-2","label":"영어","extra":"예) ORBITA"},{"id":"script-3","label":"일본어","extra":"예) オルビタ"}]}]},{"id":"s-banner","g":"s","name":"배너","price":null,"ttl":"{} 배너","f":[{"k":"platform","type":"checks","label":"플랫폼","t":"배너 플랫폼","page":1,"opts":[{"id":"platform-1","label":"치지직"},{"id":"platform-2","label":"SOOP"}]},{"k":"_s1","type":"sec","label":"치지직 배너","show":{"k":"platform","any":["platform-1"]}},{"k":"chz","type":"checks","label":"신청할 배너","t":"치지직 배너","hint":"첫 신청 시 4개 이상부터 신청할 수 있어요.","opts":[{"id":"chz-1","label":"치지직 홈 배너 기본 4개","price":40000,"pm":"base"},{"id":"chz-2","label":"배너 추가","price":5000,"pm":"per","u":"개당","per":{"k":"chzN"}}],"show":{"k":"platform","any":["platform-1"]}},{"k":"chzN","type":"count","label":"추가할 배너 개수","t":"치지직 배너 추가 개수","max":20,"unit":"개","show":{"k":"chz","any":["chz-2"]}},{"k":"chzKinds","type":"text","label":"필요한 배너 종류","t":"치지직 배너 종류","ph":"예) 유튜브, 트위터 등","show":{"k":"platform","any":["platform-1"]}},{"k":"_s2","type":"sec","label":"SOOP 배너","show":{"k":"platform","any":["platform-2"]}},{"k":"soop","type":"checks","label":"신청할 배너","t":"SOOP 배너","hint":"배포용 하단 배너는 분할 배너도 1개로 계산돼요.","opts":[{"id":"soop-1","label":"플로팅 배너 기본 2개","price":20000,"pm":"base"},{"id":"soop-2","label":"하단 배너 · 플랫폼 연결용","price":10000,"pm":"basePer","u":"개당","per":{"k":"linkN"}},{"id":"soop-3","label":"하단 배너 · 배포용","price":25000,"pm":"base"}],"show":{"k":"platform","any":["platform-2"]}},{"k":"floatText","type":"textarea","label":"플로팅 배너 - 필요한 배너 종류 또는 들어갈 문구","t":"플로팅 배너 종류 또는 문구","show":{"k":"soop","any":["soop-1"]}},{"k":"linkN","type":"count","label":"하단 배너(플랫폼 연결용) - 필요한 개수","t":"하단 배너(플랫폼 연결용) 개수","max":10,"unit":"개","show":{"k":"soop","any":["soop-2"]}},{"k":"linkKinds","type":"text","label":"하단 배너(플랫폼 연결용) - 필요한 배너 종류","t":"하단 배너(플랫폼 연결용) 종류","ph":"예) 유튜브, 트위터 등","show":{"k":"soop","any":["soop-2"]}},{"k":"distText","type":"text","label":"하단 배너(배포용) - 들어갈 문구","t":"하단 배너(배포용) 문구","show":{"k":"soop","any":["soop-3"]}},{"k":"distSplit","type":"text","label":"하단 배너(배포용) - 분할 신청 시 필요한 개수","t":"하단 배너(배포용) 분할 개수","ph":"예) 3분할","show":{"k":"soop","any":["soop-3"]}}]},{"id":"s-thumb","g":"s","name":"썸네일","price":null,"f":[{"k":"kind","type":"checks","label":"썸네일 종류","t":"썸네일 종류","page":1,"opts":[{"id":"kind-1","label":"방송 썸네일","price":30000,"pm":"base"},{"id":"kind-2","label":"다시보기 틀","price":20000,"pm":"base"},{"id":"kind-3","label":"커버곡 썸네일","price":15000,"pm":"base"}]},{"k":"_s3","type":"sec","label":"방송 썸네일","show":{"k":"kind","any":["kind-1"]}},{"k":"liveKind","type":"radio","label":"종류","t":"방송 썸네일 종류","opts":[{"id":"liveKind-1","label":"데뷔 썸네일"},{"id":"liveKind-2","label":"콘텐츠 썸네일"},{"id":"liveKind-3","label":"기타","extra":"직접 적어 주세요"}],"show":{"k":"kind","any":["kind-1"]}},{"k":"liveText","type":"text","label":"들어갈 문구","t":"방송 썸네일 문구","show":{"k":"kind","any":["kind-1"]}},{"k":"_s4","type":"sec","label":"다시보기 틀","show":{"k":"kind","any":["kind-2"]}},{"k":"vodDate","type":"text","label":"날짜 표기 위치","t":"다시보기 틀 날짜 위치","ph":"미작성 시 오른쪽 상단으로 고정돼요.","show":{"k":"kind","any":["kind-2"]}},{"k":"vodMain","type":"radio","label":"메인 텍스트 위치","t":"다시보기 틀 메인 텍스트 위치","def":"왼쪽","opts":[{"id":"vodMain-1","label":"왼쪽"},{"id":"vodMain-2","label":"중앙"},{"id":"vodMain-3","label":"오른쪽"}],"show":{"k":"kind","any":["kind-2"]}},{"k":"vodSub","type":"radio","label":"서브 텍스트 유무","t":"다시보기 틀 서브 텍스트","opts":[{"id":"vodSub-1","label":"유"},{"id":"vodSub-2","label":"무"}],"show":{"k":"kind","any":["kind-2"]}},{"k":"_s5","type":"sec","label":"커버곡 썸네일","show":{"k":"kind","any":["kind-3"]}},{"k":"song","type":"text","label":"곡 정보","t":"커버곡 정보","ph":"예) 원곡 아티스트 - 곡 제목","show":{"k":"kind","any":["kind-3"]}},{"k":"credit","type":"radio","label":"크레딧 표기 유무","t":"크레딧 표기","xwide":1,"opts":[{"id":"credit-1","label":"유","extra":"예) Vocal 오르비타 / Mix ○○"},{"id":"credit-2","label":"무"}],"show":{"k":"kind","any":["kind-3"]}},{"k":"bg","type":"checks","label":"추가 옵션","t":"추가 옵션","opts":[{"id":"bg-1","label":"배경 일러스트 미제공","price":10000,"pm":"add"}],"show":{"k":"kind","any":["kind-3"]}}]},{"id":"s-channelart","g":"s","name":"채널아트","price":null,"f":[{"k":"kind","type":"checks","label":"종류","t":"채널아트 종류","page":1,"opts":[{"id":"kind-1","label":"유튜브 채널아트","price":50000,"pm":"base"},{"id":"kind-2","label":"SOOP 방송국 타이틀","price":50000,"pm":"base"}]},{"k":"texts","type":"text","label":"들어갈 문구","t":"들어갈 문구"}]},{"id":"s-fancafe","g":"s","name":"팬카페","price":80000,"mincl":["팬카페 배너&대문"],"f":[{"k":"cafeName","type":"text","label":"팬카페 이름","t":"팬카페 이름","ph":"예) 오르비타 팬카페"},{"k":"cafePlat","type":"checks","label":"대문에 연결할 플랫폼","t":"대문에 연결할 플랫폼","opts":[{"id":"cafePlat-1","label":"치지직"},{"id":"cafePlat-2","label":"유튜브"},{"id":"cafePlat-3","label":"다시보기"},{"id":"cafePlat-4","label":"트위터"},{"id":"cafePlat-5","label":"기타","extra":"직접 작성"}]},{"k":"opts","type":"checks","label":"추가 옵션","t":"추가 옵션","opts":[{"id":"opts-1","label":"대문 HTML 세팅","price":20000,"pm":"add"},{"id":"opts-2","label":"배너 모바일 버전 추가 제공","price":5000,"pm":"add"}]},{"k":"cafeLinks","type":"list","label":"플랫폼 링크","t":"플랫폼 링크","ph":"예) 트위터","max":8,"add":"+ 링크 추가","lph":"링크","show":{"k":"opts","any":["opts-1"]},"link":{"k":"opts","any":["opts-1"]}}]}];
+  var CALC_DEF={"due":{"24시간 이내":{"mul":2.5},"3일 이내":{"mul":2},"5일 이내":{"mul":1.5},"지정일 마감":{"add":20000},"일반 마감":{}},"opt":{"샘플 비공개":0.25,"상업용 전환":0.5,"저작권 구매":1},"team":0.05};
+  var O0=window.ORBITA||{},C0=O0.c||{};
+  function cl(x){return JSON.parse(JSON.stringify(x));}
+  if(O0.defaults){O0.defaults.form=cl(FORM_DEF);O0.defaults.calc=cl(CALC_DEF);}
+  var FORM=Array.isArray(C0.form)&&C0.form.length?C0.form:FORM_DEF;
+  var CALC=C0.calc&&typeof C0.calc==='object'?C0.calc:CALC_DEF;
   /* 마감: mul = 커미션가 곱하기, add = 금액 추가 */
-  var DUE_RULE={'24시간 이내':{mul:2.5},'3일 이내':{mul:2},'5일 이내':{mul:1.5},'지정일 마감':{add:20000},'일반 마감':{}};
+  var DUE_RULE=CALC.due||CALC_DEF.due;
   /* 추가 옵션: 최종 커미션가 대비 추가 비율 */
-  var OPT_RATE={'샘플 비공개':0.25,'상업용 전환':0.5,'저작권 구매':1};
+  var OPT_RATE=CALC.opt||CALC_DEF.opt;
   var DESIGNATED_MIN_DAYS=8; /* 지정일 마감: 신청일로부터 7일 이내 날짜는 고를 수 없음 */
-  var TEAM_RATE=0.05; /* 2인 이상 팀: 인원 1명당 추가 할인율 */
-
-  var CONCEPT_PH='예) 우주, 별, 달이 들어간 세련된 느낌 / 귀여운 분위기 / 넣고 싶은 소품이나 키워드';
-  var REQ_PH='그 밖에 전달하고 싶은 내용을 자유롭게 적어 주세요.';
-  function C(n){return {k:'concept',label:(n?n+'. ':'')+'원하는 디자인 요소',t:'원하는 디자인 요소',type:'textarea',ph:CONCEPT_PH};}
-  function R(n){return {k:'req',label:(n?n+'. ':'')+'그 외 요청사항',t:'그 외 요청사항',type:'textarea',ph:REQ_PH,sep:!n};}
-  function SEC(t){return {type:'sec',label:t};}
-  var PEOPLE={k:'people',label:'신청 인원',type:'people'};
-  /* 패키지 공통 블록 */
-  var DEBUT_DATE={k:'debut',label:'데뷔 날짜',t:'데뷔 날짜',type:'date',empty:'미정',hint:'비워 두면 미정으로 전달돼요.'};
-  function debutCore(){return [
-    SEC('1. RT 공개 포스터'),{k:'poster',label:'필요한 장 수 및 구성',t:'RT 공개 포스터 장 수 및 구성',type:'text',ph:'예) 5장 / 0, 100, 200, 300, 400RT'},
-    SEC('2. 로고'),{k:'logoUse',label:'사용 용도',t:'로고 사용 용도',type:'radio',opts:['방송용','상업용 (+50,000원)'],price:{'상업용 (+50,000원)':50000}},
-    {k:'logoScript',label:'표기 (최대 2개)',t:'로고 표기',type:'checks',max:2,opts:['한국어','영어','일본어'],extra:{'영어':'예) ORBITA','일본어':'예) オルビタ'}},
-    SEC('3. 자기소개 PPT'),{k:'ppt',label:'필요한 장 수 및 구성',t:'자기소개 PPT 장 수 및 구성',type:'text',ph:'예) 6장 / 1. 프로필, 2. 좋아하는 것~'}
-  ];}
-  var SCHEDULE=[SEC('4. 스케줄표'),{k:'scheduleOff',label:'',t:'스케줄표 오프라인 칸',type:'radio',opts:['오프라인 칸 추가 (+20,000원)','추가 안 함'],price:{'오프라인 칸 추가 (+20,000원)':20000}},{k:'offText',label:'오프라인 칸에 들어갈 문구',t:'오프라인 칸 문구',type:'text',ph:'예) OFFLINE / 휴방 / 쉬어갑니다',show:{k:'scheduleOff',any:['오프라인 칸 추가 (+20,000원)']}}];
-  var CHZZK_COMMON=[
-    SEC('1. 치지직 홈 배너 4종'),{k:'bannerKinds',label:'필요한 배너 종류',t:'필요한 배너 종류',type:'text',ph:'예) 유튜브, 트위터 등'},
-    SEC('2. 유튜브 채널아트'),{k:'channelText',label:'들어갈 문구',t:'채널아트에 들어갈 문구',type:'text',ph:''}
-  ];
-  /* 단일 항목: 선택지 이름의 (금액)으로 견적을 계산해요 */
-  var OV1='채팅화면 (120,000원)',OV2='게임화면 (100,000원)',OV3='로딩화면 (80,000원)',OV4='오프라인 화면 (60,000원)';
-  var PO1='RT 공개 포스터 5장 (100,000원)',PO2='키 비주얼 포스터 (80,000원)',PO3='굿즈 판매 인포 4장 (40,000원)',PO4='일반 포스터 (30,000원)',MORE='장 수 추가 (장당 +10,000원)';
-  var BN1='치지직 홈 배너 기본 4개 (40,000원)',BN2='배너 추가 (개당 +5,000원)';
-  var SB1='플로팅 배너 기본 2개 (20,000원)',SB2='하단 배너 · 플랫폼 연결용 (개당 10,000원)',SB3='하단 배너 · 배포용 (25,000원)';
-  var TH1='방송 썸네일 (30,000원)',TH2='다시보기 틀 (20,000원)',TH3='커버곡 썸네일 (15,000원)';
+  var TEAM_RATE=typeof CALC.team==='number'?CALC.team:CALC_DEF.team; /* 2인 이상 팀: 인원 1명당 추가 할인율 */
+  function fmtN(n){return Number(n||0).toLocaleString('ko-KR');}
+  /* 선택지 화면 문구 = 문구 + 가격 표시 */
+  function sfx(o){var p=+o.price;if(!o.pm||o.pm==='none'||!(p>0))return '';var w=fmtN(p)+'원',u=o.u||'개당';
+    return o.pm==='base'?' ('+w+')':o.pm==='add'?' (+'+w+')':o.pm==='per'?' ('+u+' +'+w+')':' ('+u+' '+w+')';}
   function nm(o){return String(o).replace(/\s*\([^()]*\d원[^()]*\)/g,'');}
   function num(o){var m=String(o).match(/([\d,]+)원/);return m?+m[1].replace(/,/g,''):0;}
   function sel(v,k){var x=v[k];return x==null||x===''?[]:Array.isArray(x)?x:[x];}
-  function opt(v,k,base){return sel(v,k).filter(function(o){return /\d원/.test(o);}).map(function(o){return {n:nm(o),p:num(o),base:!!base};});}
-  function per(v,k,o,nk,label,unit,base){if(sel(v,k).indexOf(o)<0)return [];var n=v[nk]||1;return [{n:label+' '+n+unit,p:num(o)*n,base:!!base}];}
-  function only(v,k,o,base){return sel(v,k).indexOf(o)<0?[]:[{n:nm(o),p:num(o),base:!!base}];}
-  function CS(){var c=C('');c.sep=1;return c;}
-  var sn=0; function SECS(t,show){return {type:'sec',label:t,k:'_s'+(++sn),show:show};}
-  var CAFE_HTML='대문 HTML 세팅 (+20,000원)';
-  var MOT='추가 (화면당 +20,000원)';
-  var ITEMS=[
-    {id:'chzzk-a',g:'p',cat:'CHZZK',chz:1,name:'PACKAGE A',price:70000,incl:['치지직 홈 배너 4종','유튜브 채널아트'],f:[PEOPLE].concat(CHZZK_COMMON,[C(3),R(4)])},
-    {id:'chzzk-b',g:'p',cat:'CHZZK',chz:1,name:'PACKAGE B',price:140000,incl:['치지직 홈 배너 4종','유튜브 채널아트','팬카페 배너&대문'],f:[PEOPLE].concat(CHZZK_COMMON,[
-      SEC('3. 팬카페 배너&대문'),{k:'cafeBanner',label:'배너에 들어갈 팬카페 이름 또는 문구',t:'팬카페 배너',type:'text',ph:''},
-      {k:'cafeMain',label:'대문에 연결할 플랫폼 링크',t:'팬카페 대문 연결 링크',type:'list',max:8,add:'+ 링크 추가',ph:'예) 트위터: https://x.com/...'},C(4),R(5)])},
-    {id:'overlay-a',g:'p',cat:'OVERLAY',name:'PACKAGE A',price:200000,incl:['채팅화면','게임화면'],f:[PEOPLE,C(1),R(2)]},
-    {id:'overlay-b',g:'p',cat:'OVERLAY',name:'PACKAGE B',price:120000,incl:['로딩화면','오프라인 화면'],f:[PEOPLE,
-      {k:'motion',label:'모션 추가 여부',t:'모션 추가',type:'radio',opts:['추가','추가 안 함']},
-      {k:'motionWhich',label:'모션 추가할 화면',t:'모션 추가할 화면',type:'radio',opts:['로딩화면만 모션 추가 (+20,000원)','오프라인 화면만 모션 추가 (+20,000원)','둘 다 모션 추가 (+40,000원)'],price:{'로딩화면만 모션 추가 (+20,000원)':20000,'오프라인 화면만 모션 추가 (+20,000원)':20000,'둘 다 모션 추가 (+40,000원)':40000},show:{k:'motion',any:['추가']}},
-      SEC('1. 들어갈 문구'),{k:'texts',label:'각 화면에 들어갈 문구',t:'들어갈 문구',type:'textarea',ph:'생략 시 LOADING, OFFLINE으로 고정돼요.'},C(2),R(3)]},
-    {id:'debut-a',g:'p',cat:'DEBUT',name:'PACKAGE A',price:290000,incl:['RT 공개 포스터 5장','로고','자기소개 PPT 6장'],f:[PEOPLE].concat(debutCore(),[{k:'collab',label:'4. 협업 신청 여부',t:'협업 신청 여부',type:'radio',opts:['루한 작가님','TOMA 작가님'],disc:0.15,hint:'협업 작가님께 동시 신청 시에만 15% 할인이 적용돼요.'},C(5),R(6)])},
-    {id:'debut-b',g:'p',cat:'DEBUT',name:'PACKAGE B',price:380000,incl:['DEBUT PACKAGE A','스케줄표'],f:[PEOPLE].concat(debutCore(),SCHEDULE,[C(5),R(6)])},
-    {id:'full',g:'p',cat:'FULL',name:'PACKAGE',price:540000,incl:['채팅화면','게임화면','RT 공개 포스터 5장','로고','자기소개 PPT 6장','스케줄표'],f:[PEOPLE].concat(debutCore(),SCHEDULE,[C(5),R(6)])},
-    {id:'s-overlay',g:'s',name:'화면 오버레이',f:[
-      {k:'parts',label:'필요한 화면',t:'필요한 화면',type:'checks',page:1,opts:[OV1,OV2,OV3,OV4]},
-      {k:'motion',label:'모션 추가 여부',t:'모션 추가',type:'radio',opts:[MOT,'추가 안 함'],show:{k:'parts',any:[OV3,OV4]}},
-      {k:'texts',label:'들어갈 문구',t:'들어갈 문구',type:'text',ph:'생략 시 LOADING, OFFLINE으로 고정돼요.',show:{k:'parts',any:[OV3,OV4]}},CS(),R('')],
-      calc:function(v){var a=opt(v,'parts',1),n=sel(v,'parts').filter(function(o){return o===OV3||o===OV4;}).length;if(v.motion===MOT&&n)a.push({n:'모션 추가'+(n>1?' × '+n:''),p:20000*n});return a;}},
-    {id:'s-schedule',g:'s',name:'스케줄표',tip:'PSD 파일 기본 제공',ttl:function(k){return k+' 스케줄표';},f:[
-      {k:'kind',label:'형태',t:'스케줄표 형태',type:'radio',page:1,opts:['일반 (100,000원)','정방형 (80,000원)','세로형 · 일러스트 삽입 불가 (60,000원)']},
-      {k:'opts',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:['오프라인 칸 추가 (+20,000원)','팀 스케줄표로 변경 (+50,000원)']},{k:'offText',label:'오프라인 칸에 들어갈 문구',t:'오프라인 칸 문구',type:'text',ph:'예) OFFLINE / 휴방 / 쉬어갑니다',show:{k:'opts',any:['오프라인 칸 추가 (+20,000원)']}},CS(),R('')],
-      calc:function(v){return opt(v,'kind',1).concat(opt(v,'opts'));}},
-    {id:'s-poster',g:'s',name:'포스터',f:[
-      {k:'kind',label:'포스터 종류',t:'포스터 종류',type:'checks',page:1,opts:[PO1,PO2,PO3,PO4],notes:{'굿즈 판매 인포 4장 (40,000원)':'굿즈 판매 인포 신청 시 완성된 굿즈 이미지를 꼭 함께 보내 주세요.'}},
-      {k:'rt',label:'필요한 장 수 및 구성',t:'RT 공개 포스터 장 수 및 구성',type:'text',ph:'예) 5장 / 0, 100, 200, 300, 400RT',show:{k:'kind',any:[PO1]}},
-      {k:'texts',label:'들어갈 내용',t:'포스터에 들어갈 내용',type:'textarea',ph:'포스터별로 들어갈 내용을 적어 주세요.',show:{k:'kind',any:[PO2,PO3,PO4]}},
-      {k:'more',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:[MORE]},
-      {k:'moreN',label:'추가할 장 수',t:'추가 장 수',type:'count',unit:'장',max:20,show:{k:'more',any:[MORE]}},CS(),R('')],
-      calc:function(v){return opt(v,'kind',1).concat(per(v,'more',MORE,'moreN','장 수 추가','장'));}},
-    {id:'s-ppt',g:'s',name:'PPT',tip:'PNG(이미지) 파일로 제공됩니다. 모션 작업X',price:120000,mincl:['자기소개 PPT 6장'],f:[
-      {k:'ppt',label:'필요한 장 수 및 구성',t:'PPT 장 수 및 구성',type:'text',ph:'예) 6장 / 1. 프로필, 2. 좋아하는 것~'},
-      {k:'opts',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:[MORE,'표지, Q&A 페이지 제공 (추가금 없음)']},
-      {k:'moreN',label:'추가할 장 수',t:'추가 장 수',type:'count',unit:'장',max:20,show:{k:'opts',any:[MORE]}},CS(),R('')],
-      calc:function(v){return per(v,'opts',MORE,'moreN','장 수 추가','장');}},
-    {id:'s-logo',g:'s',name:'로고',f:[
-      {k:'kind',label:'로고 종류',t:'로고 종류',type:'radio',page:1,pageNote:1,opts:['로고 (100,000원)','일회성 로고 · 방송 콘텐츠용 (70,000원)']},
-      {k:'use',label:'사용 용도',t:'로고 사용 용도',type:'radio',opts:['방송용','상업용 (+50,000원)'],price:{'상업용 (+50,000원)':50000}},
-      {k:'script',label:'표기 (최대 2개)',t:'로고 표기',type:'checks',max:2,opts:['한국어','영어','일본어'],extra:{'영어':'예) ORBITA','일본어':'예) オルビタ'}},CS(),R('')],
-      calc:function(v){return opt(v,'kind',1).concat(opt(v,'use'));}},
-    {id:'s-banner',g:'s',name:'배너',ttl:function(k){return k+' 배너';},f:[
-      {k:'platform',label:'플랫폼',t:'배너 플랫폼',type:'checks',page:1,opts:['치지직','SOOP']},
-      SECS('치지직 배너',{k:'platform',any:['치지직']}),
-      {k:'chz',label:'신청할 배너',t:'치지직 배너',type:'checks',opts:[BN1,BN2],hint:'첫 신청 시 4개 이상부터 신청할 수 있어요.',show:{k:'platform',any:['치지직']}},
-      {k:'chzN',label:'추가할 배너 개수',t:'치지직 배너 추가 개수',type:'count',unit:'개',max:20,show:{k:'chz',any:[BN2]}},
-      {k:'chzKinds',label:'필요한 배너 종류',t:'치지직 배너 종류',type:'text',ph:'예) 유튜브, 트위터 등',show:{k:'platform',any:['치지직']}},
-      SECS('SOOP 배너',{k:'platform',any:['SOOP']}),
-      {k:'soop',label:'신청할 배너',t:'SOOP 배너',type:'checks',opts:[SB1,SB2,SB3],hint:'배포용 하단 배너는 분할 배너도 1개로 계산돼요.',show:{k:'platform',any:['SOOP']}},
-      {k:'floatText',label:'플로팅 배너 - 필요한 배너 종류 또는 들어갈 문구',t:'플로팅 배너 종류 또는 문구',type:'textarea',ph:'',show:{k:'soop',any:[SB1]}},
-      {k:'linkN',label:'하단 배너(플랫폼 연결용) - 필요한 개수',t:'하단 배너(플랫폼 연결용) 개수',type:'count',unit:'개',max:10,show:{k:'soop',any:[SB2]}},
-      {k:'linkKinds',label:'하단 배너(플랫폼 연결용) - 필요한 배너 종류',t:'하단 배너(플랫폼 연결용) 종류',type:'text',ph:'예) 유튜브, 트위터 등',show:{k:'soop',any:[SB2]}},
-      {k:'distText',label:'하단 배너(배포용) - 들어갈 문구',t:'하단 배너(배포용) 문구',type:'text',ph:'',show:{k:'soop',any:[SB3]}},
-      {k:'distSplit',label:'하단 배너(배포용) - 분할 신청 시 필요한 개수',t:'하단 배너(배포용) 분할 개수',type:'text',ph:'예) 3분할',show:{k:'soop',any:[SB3]}},CS(),R('')],
-      calc:function(v){return only(v,'chz',BN1,1).concat(per(v,'chz',BN2,'chzN',nm(BN2).replace(/\s*\(.*$/,''),'개'),only(v,'soop',SB1,1),per(v,'soop',SB2,'linkN',nm(SB2),'개',1),only(v,'soop',SB3,1));}},
-    {id:'s-thumb',g:'s',name:'썸네일',f:[
-      {k:'kind',label:'썸네일 종류',t:'썸네일 종류',type:'checks',page:1,opts:[TH1,TH2,TH3]},
-      SECS('방송 썸네일',{k:'kind',any:[TH1]}),
-      {k:'liveKind',label:'종류',t:'방송 썸네일 종류',type:'radio',opts:['데뷔 썸네일','콘텐츠 썸네일','기타'],extra:{'기타':'직접 적어 주세요'},show:{k:'kind',any:[TH1]}},
-      {k:'liveText',label:'들어갈 문구',t:'방송 썸네일 문구',type:'text',ph:'',show:{k:'kind',any:[TH1]}},
-      SECS('다시보기 틀',{k:'kind',any:[TH2]}),
-      {k:'vodDate',label:'날짜 표기 위치',t:'다시보기 틀 날짜 위치',type:'text',ph:'미작성 시 오른쪽 상단으로 고정돼요.',show:{k:'kind',any:[TH2]}},
-      {k:'vodMain',label:'메인 텍스트 위치',t:'다시보기 틀 메인 텍스트 위치',type:'radio',opts:['왼쪽','중앙','오른쪽'],def:'왼쪽',show:{k:'kind',any:[TH2]}},
-      {k:'vodSub',label:'서브 텍스트 유무',t:'다시보기 틀 서브 텍스트',type:'radio',opts:['유','무'],show:{k:'kind',any:[TH2]}},
-      SECS('커버곡 썸네일',{k:'kind',any:[TH3]}),
-      {k:'song',label:'곡 정보',t:'커버곡 정보',type:'text',ph:'예) 원곡 아티스트 - 곡 제목',show:{k:'kind',any:[TH3]}},
-      {k:'credit',label:'크레딧 표기 유무',t:'크레딧 표기',type:'radio',opts:['유','무'],extra:{'유':'예) Vocal 오르비타 / Mix ○○'},xwide:1,show:{k:'kind',any:[TH3]}},
-      {k:'bg',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:['배경 일러스트 미제공 (+10,000원)'],show:{k:'kind',any:[TH3]}},CS(),R('')],
-      calc:function(v){return opt(v,'kind',1).concat(opt(v,'bg'));}},
-    {id:'s-channelart',g:'s',name:'채널아트',f:[
-      {k:'kind',label:'종류',t:'채널아트 종류',type:'checks',page:1,opts:['유튜브 채널아트 (50,000원)','SOOP 방송국 타이틀 (50,000원)']},
-      {k:'texts',label:'들어갈 문구',t:'들어갈 문구',type:'text',ph:''},CS(),R('')],
-      calc:function(v){return opt(v,'kind',1);}},
-    {id:'s-fancafe',g:'s',name:'팬카페',price:80000,mincl:['팬카페 배너&대문'],f:[
-      {k:'cafeName',label:'팬카페 이름',t:'팬카페 이름',type:'text',ph:'예) 오르비타 팬카페'},
-      {k:'cafePlat',label:'대문에 연결할 플랫폼',t:'대문에 연결할 플랫폼',type:'checks',opts:['치지직','유튜브','다시보기','트위터','기타'],extra:{'기타':'직접 작성'}},
-      {k:'opts',label:'추가 옵션',t:'추가 옵션',type:'checks',opts:[CAFE_HTML,'배너 모바일 버전 추가 제공 (+5,000원)']},
-      {k:'cafeLinks',label:'플랫폼 링크',t:'플랫폼 링크',type:'list',max:8,add:'+ 링크 추가',ph:'예) 트위터',lph:'링크',link:{k:'opts',any:[CAFE_HTML]},show:{k:'opts',any:[CAFE_HTML]}},CS(),R('')],
-      calc:function(v){return opt(v,'opts');}}
-  ];
-  /* 컨셉·요청사항은 기본 양식(7·8번)에서 한 번에 받아요 */
-  ITEMS.forEach(function(it){it.f=it.f.filter(function(f){return f.k!=='concept'&&f.k!=='req';});});
-  /* 관리자 페이지에서 바꾼 문구·가격 적용 */
-  (function(){
-    var O=window.ORBITA||{},CI=(O.c&&O.c.items)||{},M=CI.map||{},B=CI.byId||{};
-    var SKIP={id:1,g:1,k:1,type:1,calc:1,ttl:1};
-    var DISP=['label','t','ph','hint','add','lph','empty','unit','knote'];
-    function T(x){return typeof x==='string'&&Object.prototype.hasOwnProperty.call(M,x)&&M[x]!==''?M[x]:x;}
-    if(O.defaults){O.defaults.items=ITEMS.map(function(it){var S=[],seen={};function add(x){if(typeof x==='string'&&x.trim()&&!seen[x]){seen[x]=1;S.push(x);}}
-      (it.incl||[]).forEach(add);(it.mincl||[]).forEach(add);
-      (it.f||[]).forEach(function(f){DISP.forEach(function(k){add(f[k]);});(f.opts||[]).forEach(add);if(f.notes)Object.keys(f.notes).forEach(function(k){add(f.notes[k]);});if(f.extra)Object.keys(f.extra).forEach(function(k){add(f.extra[k]);});});
-      return {id:it.id,g:it.g,cat:it.cat||'',name:it.name,tip:it.tip||'',price:typeof it.price==='number'?it.price:null,strings:S};});}
-    function walk(o){
-      if(Array.isArray(o)){for(var i=0;i<o.length;i++){if(typeof o[i]==='string')o[i]=T(o[i]);else if(o[i]&&typeof o[i]==='object')walk(o[i]);}return;}
-      Object.keys(o).forEach(function(k){if(SKIP[k]&&k!=='k')return;var x=o[k];if(k==='k'||typeof x==='function')return;
-        if(typeof x==='string')o[k]=T(x);
-        else if(Array.isArray(x))walk(x);
-        else if(x&&typeof x==='object'){if(k==='price'||k==='notes'||k==='extra'){var n={};Object.keys(x).forEach(function(kk){n[T(kk)]=typeof x[kk]==='string'?T(x[kk]):x[kk];});o[k]=n;}else walk(x);}});
-    }
-    ITEMS.forEach(walk);
-    OV1=T(OV1);OV2=T(OV2);OV3=T(OV3);OV4=T(OV4);PO1=T(PO1);PO2=T(PO2);PO3=T(PO3);PO4=T(PO4);MORE=T(MORE);BN1=T(BN1);BN2=T(BN2);SB1=T(SB1);SB2=T(SB2);SB3=T(SB3);TH1=T(TH1);TH2=T(TH2);TH3=T(TH3);CAFE_HTML=T(CAFE_HTML);MOT=T(MOT);
-    ITEMS.forEach(function(it){var o=B[it.id];if(!o)return;['name','cat','tip'].forEach(function(k){if(o[k]!=null&&o[k]!=='')it[k]=o[k];});if(o.price!=null&&o.price!==''&&!isNaN(+o.price))it.price=+o.price;});
-  })();
+  function compile(F){return F.map(function(s){
+    var it={id:s.id,g:s.g,cat:s.cat||'',name:s.name||'',chz:s.chz?1:0,price:(s.price===''||s.price==null||isNaN(+s.price))?null:+s.price,was:s.was,tip:s.tip||''};
+    if(s.incl&&s.incl.length)it.incl=s.incl.slice(); if(s.mincl&&s.mincl.length)it.mincl=s.mincl.slice();
+    if(s.ttl&&s.ttl.indexOf('{}')>-1){var tt=s.ttl;it.ttl=function(k){return tt.replace('{}',k);};}
+    var disp={};
+    it.f=(s.f||[]).map(function(f){var x={};Object.keys(f).forEach(function(k){if(k!=='opts'&&k!=='show'&&k!=='link')x[k]=f[k];});
+      if(Array.isArray(f.opts)){x.opts=[];x.meta={};var nt={},ex={},hn=0,he=0;
+        f.opts.forEach(function(o){var str=String(o.label||'')+sfx(o);if(x.meta[str])return;x.opts.push(str);x.meta[str]=cl(o);disp[o.id]=str;if(o.note){nt[str]=o.note;hn=1;}if(o.extra){ex[str]=o.extra;he=1;}});
+        if(hn)x.notes=nt; if(he)x.extra=ex;}
+      return x;});
+    it.f.forEach(function(x,i){var f=s.f[i];['show','link'].forEach(function(k){if(f[k]&&f[k].k)x[k]={k:f[k].k,any:(f[k].any||[]).map(function(a){return disp[a];}).filter(Boolean)};});
+      if(x.meta)Object.keys(x.meta).forEach(function(str){var m=x.meta[str];if(m.per&&m.per.any)m._any=m.per.any.map(function(a){return disp[a];}).filter(Boolean);});});
+    return it;});}
+  /* 고른 선택지로 금액 계산 (base: 기본 금액, 나머지: 추가 금액) */
+  function partsOf(it,v){var out=[];
+    it.f.forEach(function(f){if(!f.meta)return;sel(v,f.k).forEach(function(o){var m=f.meta[o];if(!m||!m.pm||m.pm==='none')return;var p=+m.price||0;if(!p)return;var n0=m.en||nm(o);
+      if(m.pm==='base'||m.pm==='add'){out.push({n:n0,p:p,base:m.pm==='base'});return;}
+      var src=m.per&&it.f.filter(function(x){return x.k===m.per.k;})[0],n=1,lab=n0;
+      if(src&&(src.type==='count'||src.type==='people')){n=+v[src.k]||1;lab=n0+' '+n+(src.unit||'개');}
+      else if(src){var a=m._any||[];n=sel(v,src.k).filter(function(x){return !a.length||a.indexOf(x)>-1;}).length;lab=n0+(n>1?' × '+n:'');}
+      if(n>0)out.push({n:lab,p:p*n,base:m.pm==='basePer'});});});
+    return out;}
+  var ITEMS=compile(FORM);
+  /* 패키지 안내 카드 가격도 같은 가격으로 */
+  (function(){FORM.forEach(function(s){if(s.g!=='p')return;var c=document.querySelector('.pk-card[data-pk="'+s.id+'"]');if(!c)return;var nw=c.querySelector('.pk-now'),ws=c.querySelector('.pk-was');
+    if(nw&&s.price!=null&&s.price!=='')nw.textContent=fmtN(s.price)+'원';
+    if(ws){var on=s.was!=null&&s.was!==''&&+s.was>0;ws.hidden=!on;if(on)ws.textContent=fmtN(s.was)+'원';}});})();
   var byId={};ITEMS.forEach(function(it){byId[it.id]=it;});
   var picked={},order=[];
   var form=document.getElementById('af'); if(!form) return;
@@ -462,7 +368,7 @@ window.__orbitaApp=function(){
   function subId(it,i){return it.id+'--'+i;}
   function subsOf(it){var f=pageField(it);return f.opts.map(function(o,i){return byId[subId(it,i)];});}
   ITEMS.forEach(function(it){var f=pageField(it);if(!f)return;f.opts.forEach(function(o,i){
-    var kp=nm(o).split(' · ');byId[subId(it,i)]={id:subId(it,i),g:'s',name:it.name,kind:kp[0],knote:(f.pageNote?'':kp[1])||(f.notes&&f.notes[o])||'',title:it.ttl?it.ttl(kp[0]):kp[0],hprice:num(o),parent:it,f:it.f,calc:it.calc,pv:f.type==='radio'?o:[o]};});});
+    var kp=nm(o).split(' · ');byId[subId(it,i)]={id:subId(it,i),g:'s',name:it.name,kind:kp[0],knote:(f.pageNote?'':kp[1])||(f.notes&&f.notes[o])||'',title:it.ttl?it.ttl(kp[0]):kp[0],hprice:num(o),parent:it,f:it.f,pv:f.type==='radio'?o:[o]};});});
   /* 추가로 물어볼 질문이 없는 세부 품목은 체크만 */
   function hasQ(sb){var pf=pageField(sb.parent),v={};v[pf.k]=sb.pv;return sb.f.some(function(f){return f.type!=='sec'&&!f.page&&shownV(f,sb.parent,v);});}
   function pickCard(it){
@@ -607,6 +513,10 @@ window.__orbitaApp=function(){
     var first=modal.querySelector('input:not([type=checkbox]),textarea'); (first||modal.querySelector('[data-act=save]')).focus({preventScroll:true});
   }
 
+  /* 관리자 미리보기: 품목 팝업 바로 열기 */
+  if(window.ORBITA)window.ORBITA.openItem=function(id){var it=byId[id];if(!it)return;var w=form.querySelector('.af-item[data-id="'+id+'"]');if(!w)return;w.scrollIntoView({block:'center'});
+    if(pageField(it)){var hd=w.querySelector('.af-xhead'),pn=w.querySelector('.af-pick');if(pn&&pn.hidden)hd.click();var sb=subsOf(it).filter(function(x){return x&&hasQ(x);})[0]||subsOf(it)[0];var r=sb&&w.querySelector('[data-go="'+sb.id+'"]');if(sb&&r)openModal(sb,r);}
+    else openModal(it,w);};
   /* 패키지 안내 '이 구성으로 문의' → 신청 양식 팝업과 연결 */
   document.querySelectorAll('.pk-ask').forEach(function(b){b.addEventListener('click',function(){var it=byId[b.getAttribute('data-pk')];if(it)openModal(it,b);});});
   function syncAsk(){document.querySelectorAll('.pk-ask').forEach(function(b){var on=!!picked[b.getAttribute('data-pk')];b.classList.toggle('is-on',on);b.textContent=on?'문의 작성 완료 · 수정':'이 구성으로 문의';b.style.width='';var w=b.getBoundingClientRect().width;if(w)b.style.width=Math.ceil(w)+'px';});}
@@ -642,11 +552,11 @@ window.__orbitaApp=function(){
   function itemCalc(id){
     var it=byId[id],v=picked[id]||{},p=priceOf(it);
     if(p==null) return {n:it.name,unit:null,people:1,sub:null,disc:0,rate:0,adds:[]};
-    if(it.g==='s'){var cs=it.calc?it.calc(v):[],u=p+cs.reduce(function(a,x){return a+x.p;},0);
+    if(it.g==='s'){var cs=partsOf(it,v),u=p+cs.reduce(function(a,x){return a+x.p;},0);
       if(it.parent){var bs=cs.filter(function(a){return a.base;}).reduce(function(a,x){return a+x.p;},0);return {n:fullName(it),unit:u,people:1,sub:u,disc:0,rate:0,adds:cs.filter(function(a){return !a.base;}),base:bs,single:1};}
       return {n:it.name,unit:u,people:1,sub:u,disc:0,rate:0,adds:cs,base:p,single:1};}
     var adds=[];
-    it.f.forEach(function(f){if(!f.price)return;var x=v[f.k];(Array.isArray(x)?x:[x]).forEach(function(o){if(f.price[o])adds.push({n:o.replace(/\s*\(.*\)$/,''),p:f.price[o]});});});
+    adds=partsOf(it,v);
     var unit=p+adds.reduce(function(a,x){return a+x.p;},0),people=it.g==='p'?(v.people||1):1,sub=unit*people,rate=people>=2?TEAM_RATE*people:0,disc=Math.round(sub*rate);
     /* 협업 할인: 협업 작가를 고르면 할인 */
     var cb=null;it.f.forEach(function(f){if(f.disc&&v[f.k])cb={who:v[f.k],rate:f.disc,p:Math.round(sub*f.disc)};});
@@ -1228,7 +1138,7 @@ window.__orbitaApp=function(){
   var ADMIN=null; if(EDIT){try{ADMIN=window.parent&&window.parent!==window&&window.parent.ORBITA_ADMIN||null;}catch(e){ADMIN=null;}}
   O.edit=!!ADMIN;
   /* 편집하면 안 되는 곳: 인트로(글꼴 일부만 들어 있음)·자바스크립트가 채우는 곳 */
-  var EXC='script,style,noscript,.cb-list,.orbita-hero,[data-noedit],.orbita-num,.af-items,#af-review,.af-est-list,#af-est-total,#af-msg,.af-err,#pf-tabs,#pf-var,.pf-slidebox,.pf-rowbox,.pf-grid,.pf-groups,.pk-ask,.orb-rm,.af-etc,.af-overlay,.af-modal,.pf-lb';
+  var EXC='script,style,noscript,.cb-list,.pk-price,.orbita-hero,[data-noedit],.orbita-num,.af-items,#af-review,.af-est-list,#af-est-total,#af-msg,.af-err,#pf-tabs,#pf-var,.pf-slidebox,.pf-rowbox,.pf-grid,.pf-groups,.pk-ask,.orb-rm,.af-etc,.af-overlay,.af-modal,.pf-lb';
   var PROT='.orbita-tip,input,select,textarea,button,svg,img,video';
   /* 관리자에서 직접 넣은 ⓘ: 저장은 <span class="orb-utip" data-tip="..."></span> 로, 화면에선 아이콘으로 */
   var TIP_SVG='<svg class="orbita-tip-i" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="#ffd040" stroke-width="1.6"/><circle cx="8" cy="4.9" r="1.1" fill="#ffd040"/><rect x="7.2" y="6.9" width="1.6" height="4.8" rx="0.8" fill="#ffd040"/></svg>';
