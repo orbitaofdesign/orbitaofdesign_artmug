@@ -1059,7 +1059,7 @@ window.__orbitaApp=function(){
     if(!v){R.classList.remove('is-show');return;}
     var cw=document.documentElement.clientWidth,wr=secs[0].el.getBoundingClientRect(),gut=cw-wr.right;
     var wide=gut>=188; R.classList.toggle('is-wide',wide); if(wide&&R.classList.contains('is-open'))R.classList.remove('is-open');
-    var show=v.top+v.height*0.5>absTop(secs[0].el); R.classList.toggle('is-show',show); if(!show&&R.classList.contains('is-open'))setOpen(false);
+    var show=true; /* 페이지 들어오자마자 보이게 */ R.classList.toggle('is-show',show); if(!show&&R.classList.contains('is-open'))setOpen(false);
     /* 지금 보고 있는 파트 */
     var probe=v.top+v.height*0.35,act=-1;
     secs.forEach(function(s,i){if(absTop(s.el)-24<=probe)act=i;});
