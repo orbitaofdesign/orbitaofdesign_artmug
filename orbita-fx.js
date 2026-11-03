@@ -36,7 +36,7 @@
     var r=f.getBoundingClientRect(),W=document.documentElement.clientWidth,H=window.innerHeight;
     var right=r.left+cr,gut=W-right,wide=gut>=188;
     R.classList.toggle('is-wide',wide); if(wide&&R.classList.contains('is-open'))R.classList.remove('is-open');
-    var show=r.top+end>H*0.5; /* 페이지 들어오자마자 보이고, 오르비타 영역을 지나 내려가면 숨김 */ R.classList.toggle('is-show',show); if(!show&&R.classList.contains('is-open'))R.classList.remove('is-open');
+    var show=true; /* 페이지 어디서든(문의·후기까지) 항상 보임 */ R.classList.toggle('is-show',show); if(!show&&R.classList.contains('is-open'))R.classList.remove('is-open');
     var probe=H*0.35,act=-1; secs.forEach(function(s,i){if(r.top+s.t-24<=probe)act=i;}); if(act>=0&&r.top+end<=H+8)act=secs.length-1;
     items.forEach(function(b,i){var on=i===act;b.classList.toggle('is-on',on);if(on)b.setAttribute('aria-current','true');else b.removeAttribute('aria-current');});
     var w=R.offsetWidth,h=R.offsetHeight;
