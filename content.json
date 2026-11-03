@@ -1,6 +1,8 @@
 {
  "v": 1,
- "texts": {},
+ "texts": {
+  "sec-top.7xlfap": "※ PC 환경에 맞춰 제작된 페이지입니다. 모바일 버전보다는 PC 버전으로 확인하시는 것을 추천드립니다."
+ },
  "attrs": {},
  "items": {
   "map": {
@@ -2278,5 +2280,1558 @@
    "items": []
   }
  ],
- "collab": null
+ "collab": [
+  {
+   "name": "루한",
+   "tag": "LIVE 2D ILLUST",
+   "color": "#0286ff",
+   "img": "portfolio/collab/luhan.webp",
+   "url": "https://artmug.kr/index.php?channel=view&uid=61875",
+   "text": "루한 작가님께 **버츄얼 일러스트** 신청 후 **데뷔 패키지 A** 신청 시 [[15%]] 할인해 드립니다.",
+   "note": "※ 동시 신청 시에만 적용됩니다."
+  },
+  {
+   "name": "TOMA",
+   "tag": "FAN CHARCTER DESIGN",
+   "color": "#fb6d6a",
+   "img": "portfolio/collab/toma.webp",
+   "url": "https://artmug.kr/index.php?channel=view&uid=59430",
+   "text": "TOMA 작가님께 **미니, 팬 캐릭터 디자인** 신청 후 **데뷔 패키지 A** 신청 시 [[15%]] 할인해 드립니다.",
+   "note": "※ 동시 신청 시에만 적용됩니다."
+  }
+ ],
+ "form": [
+  {
+   "id": "chzzk-a",
+   "g": "p",
+   "cat": "CHZZK",
+   "name": "PACKAGE A",
+   "chz": 1,
+   "price": 70000,
+   "was": 90000,
+   "incl": [
+    "치지직 홈 배너 4종",
+    "유튜브 채널아트"
+   ],
+   "f": [
+    {
+     "k": "people",
+     "type": "people",
+     "label": "신청 인원"
+    },
+    {
+     "type": "sec",
+     "label": "1. 치지직 홈 배너 4종",
+     "k": "_s1"
+    },
+    {
+     "k": "bannerKinds",
+     "type": "text",
+     "label": "필요한 배너 종류",
+     "t": "필요한 배너 종류",
+     "ph": "예) 유튜브, 트위터 등"
+    },
+    {
+     "type": "sec",
+     "label": "2. 유튜브 채널아트",
+     "k": "_s2"
+    },
+    {
+     "k": "channelText",
+     "type": "text",
+     "label": "들어갈 문구",
+     "t": "채널아트에 들어갈 문구"
+    }
+   ]
+  },
+  {
+   "id": "chzzk-b",
+   "g": "p",
+   "cat": "CHZZK",
+   "name": "PACKAGE B",
+   "chz": 1,
+   "price": 140000,
+   "was": 195000,
+   "incl": [
+    "치지직 홈 배너 4종",
+    "유튜브 채널아트",
+    "팬카페 배너&대문"
+   ],
+   "f": [
+    {
+     "k": "people",
+     "type": "people",
+     "label": "신청 인원"
+    },
+    {
+     "type": "sec",
+     "label": "1. 치지직 홈 배너 4종",
+     "k": "_s3"
+    },
+    {
+     "k": "bannerKinds",
+     "type": "text",
+     "label": "필요한 배너 종류",
+     "t": "필요한 배너 종류",
+     "ph": "예) 유튜브, 트위터 등"
+    },
+    {
+     "type": "sec",
+     "label": "2. 유튜브 채널아트",
+     "k": "_s4"
+    },
+    {
+     "k": "channelText",
+     "type": "text",
+     "label": "들어갈 문구",
+     "t": "채널아트에 들어갈 문구"
+    },
+    {
+     "type": "sec",
+     "label": "3. 팬카페 배너&대문",
+     "k": "_s5"
+    },
+    {
+     "k": "cafeBanner",
+     "type": "text",
+     "label": "배너에 들어갈 팬카페 이름 또는 문구",
+     "t": "팬카페 배너"
+    },
+    {
+     "k": "cafeMain",
+     "type": "list",
+     "label": "대문에 연결할 플랫폼 링크",
+     "t": "팬카페 대문 연결 링크",
+     "ph": "예) 트위터: https://x.com/...",
+     "max": 8,
+     "add": "+ 링크 추가"
+    }
+   ]
+  },
+  {
+   "id": "overlay-a",
+   "g": "p",
+   "cat": "OVERLAY",
+   "name": "PACKAGE A",
+   "price": 200000,
+   "was": 220000,
+   "incl": [
+    "채팅화면",
+    "게임화면"
+   ],
+   "f": [
+    {
+     "k": "people",
+     "type": "people",
+     "label": "신청 인원"
+    }
+   ]
+  },
+  {
+   "id": "overlay-b",
+   "g": "p",
+   "cat": "OVERLAY",
+   "name": "PACKAGE B",
+   "price": 120000,
+   "was": 140000,
+   "incl": [
+    "로딩화면",
+    "오프라인 화면"
+   ],
+   "f": [
+    {
+     "k": "people",
+     "type": "people",
+     "label": "신청 인원"
+    },
+    {
+     "k": "motion",
+     "type": "radio",
+     "label": "모션 추가 여부",
+     "t": "모션 추가",
+     "opts": [
+      {
+       "id": "motion-1",
+       "label": "추가"
+      },
+      {
+       "id": "motion-2",
+       "label": "추가 안 함"
+      }
+     ]
+    },
+    {
+     "k": "motionWhich",
+     "type": "radio",
+     "label": "모션 추가할 화면",
+     "t": "모션 추가할 화면",
+     "opts": [
+      {
+       "id": "motionWhich-1",
+       "label": "로딩화면만 모션 추가",
+       "price": 20000,
+       "pm": "add"
+      },
+      {
+       "id": "motionWhich-2",
+       "label": "오프라인 화면만 모션 추가",
+       "price": 20000,
+       "pm": "add"
+      },
+      {
+       "id": "motionWhich-3",
+       "label": "둘 다 모션 추가",
+       "price": 30000,
+       "pm": "add"
+      }
+     ],
+     "show": {
+      "k": "motion",
+      "any": [
+       "motion-1"
+      ]
+     }
+    },
+    {
+     "type": "sec",
+     "label": "1. 들어갈 문구",
+     "k": "_s6"
+    },
+    {
+     "k": "texts",
+     "type": "textarea",
+     "label": "각 화면에 들어갈 문구",
+     "t": "들어갈 문구",
+     "ph": "생략 시 LOADING, OFFLINE으로 고정돼요."
+    }
+   ]
+  },
+  {
+   "id": "debut-a",
+   "g": "p",
+   "cat": "DEBUT",
+   "name": "PACKAGE A",
+   "price": 290000,
+   "was": 320000,
+   "incl": [
+    "RT 공개 포스터 5장",
+    "로고",
+    "자기소개 PPT 6장"
+   ],
+   "f": [
+    {
+     "k": "people",
+     "type": "people",
+     "label": "신청 인원"
+    },
+    {
+     "type": "sec",
+     "label": "1. RT 공개 포스터",
+     "k": "_s7"
+    },
+    {
+     "k": "poster",
+     "type": "text",
+     "label": "필요한 장 수 및 구성",
+     "t": "RT 공개 포스터 장 수 및 구성",
+     "ph": "예) 5장 / 0, 100, 200, 300, 400RT"
+    },
+    {
+     "type": "sec",
+     "label": "2. 로고",
+     "k": "_s8"
+    },
+    {
+     "k": "logoUse",
+     "type": "radio",
+     "label": "사용 용도",
+     "t": "로고 사용 용도",
+     "opts": [
+      {
+       "id": "logoUse-1",
+       "label": "방송용"
+      },
+      {
+       "id": "logoUse-2",
+       "label": "상업용",
+       "price": 50000,
+       "pm": "add"
+      }
+     ]
+    },
+    {
+     "k": "logoScript",
+     "type": "checks",
+     "label": "표기 (최대 2개)",
+     "t": "로고 표기",
+     "max": 2,
+     "opts": [
+      {
+       "id": "logoScript-1",
+       "label": "한국어"
+      },
+      {
+       "id": "logoScript-2",
+       "label": "영어",
+       "extra": "예) ORBITA"
+      },
+      {
+       "id": "logoScript-3",
+       "label": "일본어",
+       "extra": "예) オルビタ"
+      }
+     ]
+    },
+    {
+     "type": "sec",
+     "label": "3. 자기소개 PPT",
+     "k": "_s9"
+    },
+    {
+     "k": "ppt",
+     "type": "text",
+     "label": "필요한 장 수 및 구성",
+     "t": "자기소개 PPT 장 수 및 구성",
+     "ph": "예) 6장 / 1. 프로필, 2. 좋아하는 것~"
+    },
+    {
+     "k": "collab",
+     "type": "radio",
+     "label": "4. 협업 신청 여부",
+     "t": "협업 신청 여부",
+     "hint": "협업 작가님께 동시 신청 시에만 15% 할인이 적용돼요.",
+     "disc": 0.15,
+     "opts": [
+      {
+       "id": "collab-1",
+       "label": "루한 작가님"
+      },
+      {
+       "id": "collab-2",
+       "label": "TOMA 작가님"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "debut-b",
+   "g": "p",
+   "cat": "DEBUT",
+   "name": "PACKAGE B",
+   "price": 380000,
+   "was": 420000,
+   "incl": [
+    "DEBUT PACKAGE A",
+    "스케줄표"
+   ],
+   "f": [
+    {
+     "k": "people",
+     "type": "people",
+     "label": "신청 인원"
+    },
+    {
+     "type": "sec",
+     "label": "1. RT 공개 포스터",
+     "k": "_s10"
+    },
+    {
+     "k": "poster",
+     "type": "text",
+     "label": "필요한 장 수 및 구성",
+     "t": "RT 공개 포스터 장 수 및 구성",
+     "ph": "예) 5장 / 0, 100, 200, 300, 400RT"
+    },
+    {
+     "type": "sec",
+     "label": "2. 로고",
+     "k": "_s11"
+    },
+    {
+     "k": "logoUse",
+     "type": "radio",
+     "label": "사용 용도",
+     "t": "로고 사용 용도",
+     "opts": [
+      {
+       "id": "logoUse-1",
+       "label": "방송용"
+      },
+      {
+       "id": "logoUse-2",
+       "label": "상업용",
+       "price": 50000,
+       "pm": "add"
+      }
+     ]
+    },
+    {
+     "k": "logoScript",
+     "type": "checks",
+     "label": "표기 (최대 2개)",
+     "t": "로고 표기",
+     "max": 2,
+     "opts": [
+      {
+       "id": "logoScript-1",
+       "label": "한국어"
+      },
+      {
+       "id": "logoScript-2",
+       "label": "영어",
+       "extra": "예) ORBITA"
+      },
+      {
+       "id": "logoScript-3",
+       "label": "일본어",
+       "extra": "예) オルビタ"
+      }
+     ]
+    },
+    {
+     "type": "sec",
+     "label": "3. 자기소개 PPT",
+     "k": "_s12"
+    },
+    {
+     "k": "ppt",
+     "type": "text",
+     "label": "필요한 장 수 및 구성",
+     "t": "자기소개 PPT 장 수 및 구성",
+     "ph": "예) 6장 / 1. 프로필, 2. 좋아하는 것~"
+    },
+    {
+     "type": "sec",
+     "label": "4. 스케줄표",
+     "k": "_s13"
+    },
+    {
+     "k": "scheduleOff",
+     "type": "radio",
+     "t": "스케줄표 오프라인 칸",
+     "opts": [
+      {
+       "id": "scheduleOff-1",
+       "label": "오프라인 칸 추가",
+       "price": 20000,
+       "pm": "add"
+      },
+      {
+       "id": "scheduleOff-2",
+       "label": "추가 안 함"
+      }
+     ]
+    },
+    {
+     "k": "offText",
+     "type": "text",
+     "label": "오프라인 칸에 들어갈 문구",
+     "t": "오프라인 칸 문구",
+     "ph": "예) OFFLINE / 휴방 / 쉬어갑니다",
+     "show": {
+      "k": "scheduleOff",
+      "any": [
+       "scheduleOff-1"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "full",
+   "g": "p",
+   "cat": "FULL",
+   "name": "PACKAGE",
+   "price": 540000,
+   "was": 640000,
+   "incl": [
+    "채팅화면",
+    "게임화면",
+    "RT 공개 포스터 5장",
+    "로고",
+    "자기소개 PPT 6장",
+    "스케줄표"
+   ],
+   "f": [
+    {
+     "k": "people",
+     "type": "people",
+     "label": "신청 인원"
+    },
+    {
+     "type": "sec",
+     "label": "1. RT 공개 포스터",
+     "k": "_s14"
+    },
+    {
+     "k": "poster",
+     "type": "text",
+     "label": "필요한 장 수 및 구성",
+     "t": "RT 공개 포스터 장 수 및 구성",
+     "ph": "예) 5장 / 0, 100, 200, 300, 400RT"
+    },
+    {
+     "type": "sec",
+     "label": "2. 로고",
+     "k": "_s15"
+    },
+    {
+     "k": "logoUse",
+     "type": "radio",
+     "label": "사용 용도",
+     "t": "로고 사용 용도",
+     "opts": [
+      {
+       "id": "logoUse-1",
+       "label": "방송용"
+      },
+      {
+       "id": "logoUse-2",
+       "label": "상업용",
+       "price": 50000,
+       "pm": "add"
+      }
+     ]
+    },
+    {
+     "k": "logoScript",
+     "type": "checks",
+     "label": "표기 (최대 2개)",
+     "t": "로고 표기",
+     "max": 2,
+     "opts": [
+      {
+       "id": "logoScript-1",
+       "label": "한국어"
+      },
+      {
+       "id": "logoScript-2",
+       "label": "영어",
+       "extra": "예) ORBITA"
+      },
+      {
+       "id": "logoScript-3",
+       "label": "일본어",
+       "extra": "예) オルビタ"
+      }
+     ]
+    },
+    {
+     "type": "sec",
+     "label": "3. 자기소개 PPT",
+     "k": "_s16"
+    },
+    {
+     "k": "ppt",
+     "type": "text",
+     "label": "필요한 장 수 및 구성",
+     "t": "자기소개 PPT 장 수 및 구성",
+     "ph": "예) 6장 / 1. 프로필, 2. 좋아하는 것~"
+    },
+    {
+     "type": "sec",
+     "label": "4. 스케줄표",
+     "k": "_s17"
+    },
+    {
+     "k": "scheduleOff",
+     "type": "radio",
+     "t": "스케줄표 오프라인 칸",
+     "opts": [
+      {
+       "id": "scheduleOff-1",
+       "label": "오프라인 칸 추가",
+       "price": 20000,
+       "pm": "add"
+      },
+      {
+       "id": "scheduleOff-2",
+       "label": "추가 안 함"
+      }
+     ]
+    },
+    {
+     "k": "offText",
+     "type": "text",
+     "label": "오프라인 칸에 들어갈 문구",
+     "t": "오프라인 칸 문구",
+     "ph": "예) OFFLINE / 휴방 / 쉬어갑니다",
+     "show": {
+      "k": "scheduleOff",
+      "any": [
+       "scheduleOff-1"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "s-overlay",
+   "g": "s",
+   "name": "화면 오버레이",
+   "price": null,
+   "f": [
+    {
+     "k": "parts",
+     "type": "checks",
+     "label": "필요한 화면",
+     "t": "필요한 화면",
+     "page": 1,
+     "opts": [
+      {
+       "id": "parts-1",
+       "label": "채팅화면",
+       "price": 120000,
+       "pm": "base"
+      },
+      {
+       "id": "parts-2",
+       "label": "게임화면",
+       "price": 100000,
+       "pm": "base"
+      },
+      {
+       "id": "parts-3",
+       "label": "로딩화면",
+       "price": 80000,
+       "pm": "base"
+      },
+      {
+       "id": "parts-4",
+       "label": "오프라인 화면",
+       "price": 60000,
+       "pm": "base"
+      }
+     ]
+    },
+    {
+     "k": "motion",
+     "type": "radio",
+     "label": "모션 추가 여부",
+     "t": "모션 추가",
+     "opts": [
+      {
+       "id": "motion-1",
+       "label": "추가",
+       "price": 20000,
+       "pm": "per",
+       "u": "화면당",
+       "per": {
+        "k": "parts",
+        "any": [
+         "parts-3",
+         "parts-4"
+        ]
+       },
+       "en": "모션 추가"
+      },
+      {
+       "id": "motion-2",
+       "label": "추가 안 함"
+      }
+     ],
+     "show": {
+      "k": "parts",
+      "any": [
+       "parts-3",
+       "parts-4"
+      ]
+     }
+    },
+    {
+     "k": "texts",
+     "type": "text",
+     "label": "들어갈 문구",
+     "t": "들어갈 문구",
+     "ph": "생략 시 LOADING, OFFLINE으로 고정돼요.",
+     "show": {
+      "k": "parts",
+      "any": [
+       "parts-3",
+       "parts-4"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "s-schedule",
+   "g": "s",
+   "name": "스케줄표",
+   "price": null,
+   "tip": "PSD 파일 기본 제공",
+   "ttl": "{} 스케줄표",
+   "f": [
+    {
+     "k": "kind",
+     "type": "radio",
+     "label": "형태",
+     "t": "스케줄표 형태",
+     "page": 1,
+     "opts": [
+      {
+       "id": "kind-1",
+       "label": "일반",
+       "price": 100000,
+       "pm": "base"
+      },
+      {
+       "id": "kind-2",
+       "label": "정방형",
+       "price": 80000,
+       "pm": "base"
+      },
+      {
+       "id": "kind-3",
+       "label": "세로형 · 일러스트 삽입 불가",
+       "price": 60000,
+       "pm": "base"
+      }
+     ]
+    },
+    {
+     "k": "opts",
+     "type": "checks",
+     "label": "추가 옵션",
+     "t": "추가 옵션",
+     "opts": [
+      {
+       "id": "opts-1",
+       "label": "오프라인 칸 추가",
+       "price": 20000,
+       "pm": "add"
+      },
+      {
+       "id": "opts-2",
+       "label": "팀 스케줄표로 변경",
+       "price": 50000,
+       "pm": "add"
+      }
+     ]
+    },
+    {
+     "k": "offText",
+     "type": "text",
+     "label": "오프라인 칸에 들어갈 문구",
+     "t": "오프라인 칸 문구",
+     "ph": "예) OFFLINE / 휴방 / 쉬어갑니다",
+     "show": {
+      "k": "opts",
+      "any": [
+       "opts-1"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "s-poster",
+   "g": "s",
+   "name": "포스터",
+   "price": null,
+   "f": [
+    {
+     "k": "kind",
+     "type": "checks",
+     "label": "포스터 종류",
+     "t": "포스터 종류",
+     "page": 1,
+     "opts": [
+      {
+       "id": "kind-1",
+       "label": "RT 공개 포스터 5장",
+       "price": 100000,
+       "pm": "base"
+      },
+      {
+       "id": "kind-2",
+       "label": "키 비주얼 포스터",
+       "price": 80000,
+       "pm": "base"
+      },
+      {
+       "id": "kind-3",
+       "label": "굿즈 판매 인포 4장",
+       "price": 40000,
+       "pm": "base",
+       "note": "굿즈 판매 인포 신청 시 완성된 굿즈 이미지를 꼭 함께 보내 주세요."
+      },
+      {
+       "id": "kind-4",
+       "label": "일반 포스터",
+       "price": 30000,
+       "pm": "base"
+      }
+     ]
+    },
+    {
+     "k": "rt",
+     "type": "text",
+     "label": "필요한 장 수 및 구성",
+     "t": "RT 공개 포스터 장 수 및 구성",
+     "ph": "예) 5장 / 0, 100, 200, 300, 400RT",
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-1"
+      ]
+     }
+    },
+    {
+     "k": "texts",
+     "type": "textarea",
+     "label": "들어갈 내용",
+     "t": "포스터에 들어갈 내용",
+     "ph": "포스터별로 들어갈 내용을 적어 주세요.",
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-2",
+       "kind-3",
+       "kind-4"
+      ]
+     }
+    },
+    {
+     "k": "more",
+     "type": "checks",
+     "label": "추가 옵션",
+     "t": "추가 옵션",
+     "opts": [
+      {
+       "id": "more-1",
+       "label": "장 수 추가",
+       "price": 10000,
+       "pm": "per",
+       "u": "장당",
+       "per": {
+        "k": "moreN"
+       }
+      }
+     ]
+    },
+    {
+     "k": "moreN",
+     "type": "count",
+     "label": "추가할 장 수",
+     "t": "추가 장 수",
+     "max": 20,
+     "unit": "장",
+     "show": {
+      "k": "more",
+      "any": [
+       "more-1"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "s-ppt",
+   "g": "s",
+   "name": "PPT",
+   "price": 120000,
+   "tip": "PNG(이미지) 파일로 제공됩니다. 모션 작업X",
+   "mincl": [
+    "자기소개 PPT 6장"
+   ],
+   "f": [
+    {
+     "k": "ppt",
+     "type": "text",
+     "label": "필요한 장 수 및 구성",
+     "t": "PPT 장 수 및 구성",
+     "ph": "예) 6장 / 1. 프로필, 2. 좋아하는 것~"
+    },
+    {
+     "k": "opts",
+     "type": "checks",
+     "label": "추가 옵션",
+     "t": "추가 옵션",
+     "opts": [
+      {
+       "id": "opts-1",
+       "label": "장 수 추가",
+       "price": 10000,
+       "pm": "per",
+       "u": "장당",
+       "per": {
+        "k": "moreN"
+       }
+      },
+      {
+       "id": "opts-2",
+       "label": "표지, Q&A 페이지 제공 (추가금 없음)"
+      }
+     ]
+    },
+    {
+     "k": "moreN",
+     "type": "count",
+     "label": "추가할 장 수",
+     "t": "추가 장 수",
+     "max": 20,
+     "unit": "장",
+     "show": {
+      "k": "opts",
+      "any": [
+       "opts-1"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "s-logo",
+   "g": "s",
+   "name": "로고",
+   "price": null,
+   "f": [
+    {
+     "k": "kind",
+     "type": "radio",
+     "label": "로고 종류",
+     "t": "로고 종류",
+     "page": 1,
+     "pageNote": 1,
+     "opts": [
+      {
+       "id": "kind-1",
+       "label": "로고",
+       "price": 100000,
+       "pm": "base"
+      },
+      {
+       "id": "kind-2",
+       "label": "일회성 로고 · 방송 콘텐츠용",
+       "price": 70000,
+       "pm": "base"
+      }
+     ]
+    },
+    {
+     "k": "use",
+     "type": "radio",
+     "label": "사용 용도",
+     "t": "로고 사용 용도",
+     "opts": [
+      {
+       "id": "use-1",
+       "label": "방송용"
+      },
+      {
+       "id": "use-2",
+       "label": "상업용",
+       "price": 50000,
+       "pm": "add"
+      }
+     ]
+    },
+    {
+     "k": "script",
+     "type": "checks",
+     "label": "표기 (최대 2개)",
+     "t": "로고 표기",
+     "max": 2,
+     "opts": [
+      {
+       "id": "script-1",
+       "label": "한국어"
+      },
+      {
+       "id": "script-2",
+       "label": "영어",
+       "extra": "예) ORBITA"
+      },
+      {
+       "id": "script-3",
+       "label": "일본어",
+       "extra": "예) オルビタ"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s-banner",
+   "g": "s",
+   "name": "배너",
+   "price": null,
+   "ttl": "{} 배너",
+   "f": [
+    {
+     "k": "platform",
+     "type": "checks",
+     "label": "플랫폼",
+     "t": "배너 플랫폼",
+     "page": 1,
+     "opts": [
+      {
+       "id": "platform-1",
+       "label": "치지직"
+      },
+      {
+       "id": "platform-2",
+       "label": "SOOP"
+      }
+     ]
+    },
+    {
+     "k": "_s1",
+     "type": "sec",
+     "label": "치지직 배너",
+     "show": {
+      "k": "platform",
+      "any": [
+       "platform-1"
+      ]
+     }
+    },
+    {
+     "k": "chz",
+     "type": "checks",
+     "label": "신청할 배너",
+     "t": "치지직 배너",
+     "hint": "첫 신청 시 4개 이상부터 신청할 수 있어요.",
+     "opts": [
+      {
+       "id": "chz-1",
+       "label": "치지직 홈 배너 기본 4개",
+       "price": 40000,
+       "pm": "base"
+      },
+      {
+       "id": "chz-2",
+       "label": "배너 추가",
+       "price": 5000,
+       "pm": "per",
+       "u": "개당",
+       "per": {
+        "k": "chzN"
+       }
+      }
+     ],
+     "show": {
+      "k": "platform",
+      "any": [
+       "platform-1"
+      ]
+     }
+    },
+    {
+     "k": "chzN",
+     "type": "count",
+     "label": "추가할 배너 개수",
+     "t": "치지직 배너 추가 개수",
+     "max": 20,
+     "unit": "개",
+     "show": {
+      "k": "chz",
+      "any": [
+       "chz-2"
+      ]
+     }
+    },
+    {
+     "k": "chzKinds",
+     "type": "text",
+     "label": "필요한 배너 종류",
+     "t": "치지직 배너 종류",
+     "ph": "예) 유튜브, 트위터 등",
+     "show": {
+      "k": "platform",
+      "any": [
+       "platform-1"
+      ]
+     }
+    },
+    {
+     "k": "_s2",
+     "type": "sec",
+     "label": "SOOP 배너",
+     "show": {
+      "k": "platform",
+      "any": [
+       "platform-2"
+      ]
+     }
+    },
+    {
+     "k": "soop",
+     "type": "checks",
+     "label": "신청할 배너",
+     "t": "SOOP 배너",
+     "hint": "배포용 하단 배너는 분할 배너도 1개로 계산돼요.",
+     "opts": [
+      {
+       "id": "soop-1",
+       "label": "플로팅 배너 기본 2개",
+       "price": 20000,
+       "pm": "base"
+      },
+      {
+       "id": "soop-2",
+       "label": "하단 배너 · 플랫폼 연결용",
+       "price": 10000,
+       "pm": "basePer",
+       "u": "개당",
+       "per": {
+        "k": "linkN"
+       }
+      },
+      {
+       "id": "soop-3",
+       "label": "하단 배너 · 배포용",
+       "price": 25000,
+       "pm": "base"
+      }
+     ],
+     "show": {
+      "k": "platform",
+      "any": [
+       "platform-2"
+      ]
+     }
+    },
+    {
+     "k": "floatText",
+     "type": "textarea",
+     "label": "플로팅 배너 - 필요한 배너 종류 또는 들어갈 문구",
+     "t": "플로팅 배너 종류 또는 문구",
+     "show": {
+      "k": "soop",
+      "any": [
+       "soop-1"
+      ]
+     }
+    },
+    {
+     "k": "linkN",
+     "type": "count",
+     "label": "하단 배너(플랫폼 연결용) - 필요한 개수",
+     "t": "하단 배너(플랫폼 연결용) 개수",
+     "max": 10,
+     "unit": "개",
+     "show": {
+      "k": "soop",
+      "any": [
+       "soop-2"
+      ]
+     }
+    },
+    {
+     "k": "linkKinds",
+     "type": "text",
+     "label": "하단 배너(플랫폼 연결용) - 필요한 배너 종류",
+     "t": "하단 배너(플랫폼 연결용) 종류",
+     "ph": "예) 유튜브, 트위터 등",
+     "show": {
+      "k": "soop",
+      "any": [
+       "soop-2"
+      ]
+     }
+    },
+    {
+     "k": "distText",
+     "type": "text",
+     "label": "하단 배너(배포용) - 들어갈 문구",
+     "t": "하단 배너(배포용) 문구",
+     "show": {
+      "k": "soop",
+      "any": [
+       "soop-3"
+      ]
+     }
+    },
+    {
+     "k": "distSplit",
+     "type": "text",
+     "label": "하단 배너(배포용) - 분할 신청 시 필요한 개수",
+     "t": "하단 배너(배포용) 분할 개수",
+     "ph": "예) 3분할",
+     "show": {
+      "k": "soop",
+      "any": [
+       "soop-3"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "s-thumb",
+   "g": "s",
+   "name": "썸네일",
+   "price": null,
+   "f": [
+    {
+     "k": "kind",
+     "type": "checks",
+     "label": "썸네일 종류",
+     "t": "썸네일 종류",
+     "page": 1,
+     "opts": [
+      {
+       "id": "kind-1",
+       "label": "방송 썸네일",
+       "price": 30000,
+       "pm": "base"
+      },
+      {
+       "id": "kind-2",
+       "label": "다시보기 틀",
+       "price": 20000,
+       "pm": "base"
+      },
+      {
+       "id": "kind-3",
+       "label": "커버곡 썸네일",
+       "price": 15000,
+       "pm": "base"
+      }
+     ]
+    },
+    {
+     "k": "_s3",
+     "type": "sec",
+     "label": "방송 썸네일",
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-1"
+      ]
+     }
+    },
+    {
+     "k": "liveKind",
+     "type": "radio",
+     "label": "종류",
+     "t": "방송 썸네일 종류",
+     "opts": [
+      {
+       "id": "liveKind-1",
+       "label": "데뷔 썸네일"
+      },
+      {
+       "id": "liveKind-2",
+       "label": "콘텐츠 썸네일"
+      },
+      {
+       "id": "liveKind-3",
+       "label": "기타",
+       "extra": "직접 적어 주세요"
+      }
+     ],
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-1"
+      ]
+     }
+    },
+    {
+     "k": "liveText",
+     "type": "text",
+     "label": "들어갈 문구",
+     "t": "방송 썸네일 문구",
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-1"
+      ]
+     }
+    },
+    {
+     "k": "_s4",
+     "type": "sec",
+     "label": "다시보기 틀",
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-2"
+      ]
+     }
+    },
+    {
+     "k": "vodDate",
+     "type": "text",
+     "label": "날짜 표기 위치",
+     "t": "다시보기 틀 날짜 위치",
+     "ph": "미작성 시 오른쪽 상단으로 고정돼요.",
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-2"
+      ]
+     }
+    },
+    {
+     "k": "vodMain",
+     "type": "radio",
+     "label": "메인 텍스트 위치",
+     "t": "다시보기 틀 메인 텍스트 위치",
+     "def": "왼쪽",
+     "opts": [
+      {
+       "id": "vodMain-1",
+       "label": "왼쪽"
+      },
+      {
+       "id": "vodMain-2",
+       "label": "중앙"
+      },
+      {
+       "id": "vodMain-3",
+       "label": "오른쪽"
+      }
+     ],
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-2"
+      ]
+     }
+    },
+    {
+     "k": "vodSub",
+     "type": "radio",
+     "label": "서브 텍스트 유무",
+     "t": "다시보기 틀 서브 텍스트",
+     "opts": [
+      {
+       "id": "vodSub-1",
+       "label": "유"
+      },
+      {
+       "id": "vodSub-2",
+       "label": "무"
+      }
+     ],
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-2"
+      ]
+     }
+    },
+    {
+     "k": "_s5",
+     "type": "sec",
+     "label": "커버곡 썸네일",
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-3"
+      ]
+     }
+    },
+    {
+     "k": "song",
+     "type": "text",
+     "label": "곡 정보",
+     "t": "커버곡 정보",
+     "ph": "예) 원곡 아티스트 - 곡 제목",
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-3"
+      ]
+     }
+    },
+    {
+     "k": "credit",
+     "type": "radio",
+     "label": "크레딧 표기 유무",
+     "t": "크레딧 표기",
+     "xwide": 1,
+     "opts": [
+      {
+       "id": "credit-1",
+       "label": "유",
+       "extra": "예) Vocal 오르비타 / Mix ○○"
+      },
+      {
+       "id": "credit-2",
+       "label": "무"
+      }
+     ],
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-3"
+      ]
+     }
+    },
+    {
+     "k": "bg",
+     "type": "checks",
+     "label": "추가 옵션",
+     "t": "추가 옵션",
+     "opts": [
+      {
+       "id": "bg-1",
+       "label": "배경 일러스트 미제공",
+       "price": 10000,
+       "pm": "add"
+      }
+     ],
+     "show": {
+      "k": "kind",
+      "any": [
+       "kind-3"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "s-channelart",
+   "g": "s",
+   "name": "채널아트",
+   "price": null,
+   "f": [
+    {
+     "k": "kind",
+     "type": "checks",
+     "label": "종류",
+     "t": "채널아트 종류",
+     "page": 1,
+     "opts": [
+      {
+       "id": "kind-1",
+       "label": "유튜브 채널아트",
+       "price": 50000,
+       "pm": "base"
+      },
+      {
+       "id": "kind-2",
+       "label": "SOOP 방송국 타이틀",
+       "price": 50000,
+       "pm": "base"
+      }
+     ]
+    },
+    {
+     "k": "texts",
+     "type": "text",
+     "label": "들어갈 문구",
+     "t": "들어갈 문구"
+    }
+   ]
+  },
+  {
+   "id": "s-fancafe",
+   "g": "s",
+   "name": "팬카페",
+   "price": 80000,
+   "mincl": [
+    "팬카페 배너&대문"
+   ],
+   "f": [
+    {
+     "k": "cafeName",
+     "type": "text",
+     "label": "팬카페 이름",
+     "t": "팬카페 이름",
+     "ph": "예) 오르비타 팬카페"
+    },
+    {
+     "k": "cafePlat",
+     "type": "checks",
+     "label": "대문에 연결할 플랫폼",
+     "t": "대문에 연결할 플랫폼",
+     "opts": [
+      {
+       "id": "cafePlat-1",
+       "label": "치지직"
+      },
+      {
+       "id": "cafePlat-2",
+       "label": "유튜브"
+      },
+      {
+       "id": "cafePlat-3",
+       "label": "다시보기"
+      },
+      {
+       "id": "cafePlat-4",
+       "label": "트위터"
+      },
+      {
+       "id": "cafePlat-5",
+       "label": "기타",
+       "extra": "직접 작성"
+      }
+     ]
+    },
+    {
+     "k": "opts",
+     "type": "checks",
+     "label": "추가 옵션",
+     "t": "추가 옵션",
+     "opts": [
+      {
+       "id": "opts-1",
+       "label": "대문 HTML 세팅",
+       "price": 20000,
+       "pm": "add"
+      },
+      {
+       "id": "opts-2",
+       "label": "배너 모바일 버전 추가 제공",
+       "price": 5000,
+       "pm": "add"
+      }
+     ]
+    },
+    {
+     "k": "cafeLinks",
+     "type": "list",
+     "label": "플랫폼 링크",
+     "t": "플랫폼 링크",
+     "ph": "예) 트위터",
+     "max": 8,
+     "add": "+ 링크 추가",
+     "lph": "링크",
+     "show": {
+      "k": "opts",
+      "any": [
+       "opts-1"
+      ]
+     },
+     "link": {
+      "k": "opts",
+      "any": [
+       "opts-1"
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "calc": {
+  "due": {
+   "24시간 이내": {
+    "mul": 2.5
+   },
+   "3일 이내": {
+    "mul": 2
+   },
+   "5일 이내": {
+    "mul": 1.5
+   },
+   "지정일 마감": {
+    "add": 20000
+   },
+   "일반 마감": {}
+  },
+  "opt": {
+   "샘플 비공개": 0.25,
+   "상업용 전환": 0.5,
+   "저작권 구매": 1
+  },
+  "team": 0.05
+ }
 }
