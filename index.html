@@ -911,8 +911,10 @@ window.__orbitaApp=function(){
     [].forEach.call(thumbs.querySelectorAll('[data-k]'),function(d,j){d.classList.toggle('is-on',j===on);d.setAttribute('aria-current',j===on?'true':'false');});
   }
   /* 자동 넘김: 3.5초마다 다음 장, 마우스를 올리거나 팝업이 열려 있으면 멈춰요 */
-  var timer=null,hover=false,AUTO=3500;
-  function arm(){clearTimeout(timer);timer=null;var n=deck?list[di].pages.length:list.length;if(n>1&&!hover&&!lb&&!slidebox.hidden&&!document.hidden)timer=setTimeout(function(){go(idx+1);},AUTO);}
+  var timer=null,hover=false,AUTO=3500,inView=!window.IntersectionObserver;
+  /* 포트폴리오가 화면에 보일 때만 자동 넘김 (페이지 열자마자 넘어가지 않게) */
+  if(window.IntersectionObserver)new IntersectionObserver(function(es){inView=es[0].isIntersecting;arm();},{threshold:0.35}).observe(stage);
+  function arm(){clearTimeout(timer);timer=null;var n=deck?list[di].pages.length:list.length;if(n>1&&inView&&!hover&&!lb&&!slidebox.hidden&&!document.hidden)timer=setTimeout(function(){go(idx+1);},AUTO);}
   stage.addEventListener('mouseenter',function(){hover=true;arm();});stage.addEventListener('mouseleave',function(){hover=false;arm();});
   document.addEventListener('visibilitychange',arm);
   prev.addEventListener('click',function(){go(idx-1);}); next.addEventListener('click',function(){go(idx+1);});
