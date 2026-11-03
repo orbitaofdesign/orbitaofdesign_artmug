@@ -1,7 +1,8 @@
 {
  "v": 1,
  "texts": {
-  "sec-top.7xlfap": "※ PC 환경에 맞춰 제작된 페이지입니다. 모바일 버전보다는 PC 버전으로 확인하시는 것을 추천드립니다."
+  "sec-top.7xlfap": "※ PC 환경에 맞춰 제작된 페이지입니다. 모바일 버전보다는 PC 버전으로 확인하시는 것을 추천드립니다.",
+  "sec-form.vfr923": "예상 견적<span class=\"orb-utip\" data-tip=\"정확한 금액이 아니므로 반드시 상담을 통해 최종 견적을 확인해 주세요.\"></span>"
  },
  "attrs": {},
  "items": {
@@ -3833,5 +3834,9 @@
    "저작권 구매": 1
   },
   "team": 0.05
- }
+ },
+ "hidden": [
+  "b.sec-form|span|rvnrvk",
+  "b.sec-form|span|q6hhie"
+ ]
 }
