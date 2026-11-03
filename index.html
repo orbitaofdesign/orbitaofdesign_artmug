@@ -1034,6 +1034,7 @@ window.__orbitaApp=function(){
 
 /* ===== 리모컨: 파트 바로가기 (스크롤 따라 이동) ===== */
 (function(){
+  if(window.__orbitaCompact) return; /* 한 화면 시안은 MENU 없음 */
   var SECS=[['sec-notice','필독 안내사항','필독 안내'],['sec-package','패키지 안내','패키지'],['sec-collab','협업 작가 안내','협업 작가'],['sec-form','신청 양식','신청 양식'],['sec-portfolio','포트폴리오','포트폴리오']];
   var secs=SECS.map(function(s){var el=document.getElementById(s[0]);return {id:s[0],name:el?(el.textContent.trim()||s[1]):s[1],el:el};}).filter(function(s){return s.el&&!s.el.hidden&&!s.el.closest('.orb-del');});
   if(!secs.length) return;
@@ -1049,12 +1050,14 @@ window.__orbitaApp=function(){
   var card=R.querySelector('.orb-rm-card'),fab=R.querySelector('.orb-rm-fab'),items=[].slice.call(R.querySelectorAll('.orb-rm-item'));
   var wrap=secs[0].el.parentElement;
 
+  /* 본문 오른쪽 끝 (파트 제목 폭과 상관없이) */
+  function cRight(){var r=wrap.getBoundingClientRect(),cs=getComputedStyle(wrap);return r.right-parseFloat(cs.paddingRight||0);}
   function view(){return inIframe?vp:{top:window.scrollY,height:window.innerHeight};}
   function absTop(el){return el.getBoundingClientRect().top+window.scrollY;}
   function setOpen(o){R.classList.toggle('is-open',o);fab.setAttribute('aria-expanded',o?'true':'false');fab.setAttribute('aria-label',o?'MENU 닫기':'MENU 열기');layout();}
   function report(){
     if(!inIframe) return;
-    var ws=window.scrollY,cr=Math.round(secs[0].el.getBoundingClientRect().right),end=Math.round(wrap.getBoundingClientRect().bottom+ws);
+    var ws=window.scrollY,cr=Math.round(cRight()),end=Math.round(wrap.getBoundingClientRect().bottom+ws);
     var d={type:'orbitaSecs',secs:secs.map(function(s){return {n:s.name,t:Math.round(absTop(s.el))};}),cr:cr,end:end},g=JSON.stringify(d);
     if(g!==lastSig){lastSig=g;parent.postMessage(d,'*');}
   }
@@ -1065,7 +1068,7 @@ window.__orbitaApp=function(){
     wrap.classList.toggle('orb-rsv',inIframe&&document.documentElement.clientWidth>=1000);
     var v=view();
     if(!v){R.classList.remove('is-show');return;}
-    var cw=document.documentElement.clientWidth,wr=secs[0].el.getBoundingClientRect(),gut=cw-wr.right;
+    var cw=document.documentElement.clientWidth,wr={right:cRight()},gut=cw-wr.right;
     var wide=gut>=188; R.classList.toggle('is-wide',wide); if(wide&&R.classList.contains('is-open'))R.classList.remove('is-open');
     var show=true; /* 페이지 들어오자마자 보이게 */ R.classList.toggle('is-show',show); if(!show&&R.classList.contains('is-open'))setOpen(false);
     /* 지금 보고 있는 파트 */
@@ -1113,7 +1116,7 @@ window.__orbitaApp=function(){
 /* ===== 스크롤하면 파트가 떠오르듯 나타나는 효과 ===== */
 (function(){
   var first=document.getElementById('sec-notice'); if(!first) return;
-  var O=window.ORBITA||{}; if(O.edit) return;
+  var O=window.ORBITA||{}; if(O.edit||window.__orbitaCompact) return;
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var wrap=first.parentElement,inIframe=false; try{inIframe=window.self!==window.top;}catch(e){inIframe=true;}
   var els=[].filter.call(wrap.children,function(e){return e.tagName!=='SCRIPT'&&e.tagName!=='STYLE'&&!e.classList.contains('pk-divider');});
