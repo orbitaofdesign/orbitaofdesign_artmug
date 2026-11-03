@@ -181,6 +181,9 @@ details.more[open]>summary{margin-bottom:10px;}
 .tippos input{margin-top:3px;accent-color:#1a1a1a;}
 .tippos span{display:flex;flex-direction:column;gap:2px;font-size:13px;}
 .tippos small{font-size:12px;color:var(--g);}
+.sumbox{margin:0 0 12px;padding:10px 12px;border-radius:10px;background:var(--y3);border:1px solid var(--yb);font-size:13px;max-height:220px;overflow:auto;}
+.sumbox ul{margin:6px 0 0;padding-left:18px;}
+.sumbox li{margin:2px 0;line-height:18px;}
 #bDelM{margin-left:auto;flex:none;height:32px;padding:0 12px;font-size:13px;}
 #bDelM.on{background:#e53935;border-color:#e53935;color:#fff;}
 #bDelM+#bTip{margin-left:0;}
@@ -1069,16 +1072,100 @@ $('fLoad').addEventListener('change',function(){var f=this.files&&this.files[0];
     closeDlg();afterLoad();changed();toast('파일을 불러왔어요.');}catch(e){toast('이 파일은 불러올 수 없어요.');}};r.readAsText(f);});
 function afterLoad(){itemsBuilt=false;pfReady=false;boxes=[];cur=0;sel=null;moving=null;reloadPreview();}
 
+/* ===== 작업 메모 자동 작성: 마지막 반영 때와 비교해서 바뀐 것 정리 ===== */
+function cut(t,n){t=String(t==null?'':t).replace(/\s+/g,' ').trim();n=n||28;return t.length>n?t.slice(0,n)+'…':t;}
+/* 바뀐 곳 주변만 잘라 보여 주기 */
+function around(o,n){o=String(o||'');n=String(n||'');var i=0;while(i<o.length&&i<n.length&&o[i]===n[i])i++;if(n.length<=30)return n;var st=Math.max(0,Math.min(i-10,n.length-30));return (st>0?'…':'')+n.slice(st,st+30)+(st+30<n.length?'…':'');}
+function wonS(v){return v==null||v===''?'(비움)':(+v).toLocaleString('ko-KR')+'원';}
+function changeSummary(){
+  var B=base||empty(),D=draft,L=[],k;
+  function secName(key){var m=/^(sec-[a-z]+)/.exec(key);return m?(SECN[m[1]]||m[1]):'페이지';}
+  /* 페이지 문구 */
+  var tk={};Object.keys(B.texts||{}).concat(Object.keys(D.texts||{})).forEach(function(x){tk[x]=1;});
+  var tl=[];Object.keys(tk).forEach(function(x){var a=(B.texts||{})[x],b=(D.texts||{})[x];if(a===b)return;var u=unit(x);tl.push(secName(x)+': '+(b==null?'원래 문구로 되돌림 “'+cut(u?plain(u.def):'')+'”':'“'+around(a!=null?plain(a):(u?plain(u.def):''),plain(b))+'”'));});
+  tl.slice(0,6).forEach(function(t){L.push('문구 수정 · '+t);});if(tl.length>6)L.push('문구 수정 외 '+(tl.length-6)+'곳');
+  /* ⓘ·입력칸 안내 */
+  var ak={};Object.keys(B.attrs||{}).concat(Object.keys(D.attrs||{})).forEach(function(x){ak[x]=1;});
+  var al=[];Object.keys(ak).forEach(function(x){var a=(B.attrs||{})[x],b=(D.attrs||{})[x];if(a!==b)al.push(b==null?'원래대로':'“'+cut(b)+'”');});
+  if(al.length)L.push('ⓘ·입력칸 안내 수정 '+al.length+'곳 ('+al.slice(0,3).join(', ')+(al.length>3?' …':'')+')');
+  /* 지운 항목 */
+  var hb=B.hidden||[],hd=D.hidden||[];
+  hd.filter(function(x){return hb.indexOf(x)<0;}).forEach(function(x){L.push('지움 · '+cut(O&&O.blockLabel?O.blockLabel(x):x,36));});
+  hb.filter(function(x){return hd.indexOf(x)<0;}).forEach(function(x){L.push('되살림 · '+cut(O&&O.blockLabel?O.blockLabel(x):x,36));});
+  /* 신청 양식·가격 */
+  var dfF=(O&&O.defaults&&O.defaults.form)||[],FB=B.form||dfF,FD=D.form||dfF;
+  if(JSON.stringify(FB)!==JSON.stringify(FD)){
+    var byB={},byD={};FB.forEach(function(x){byB[x.id]=x;});FD.forEach(function(x){byD[x.id]=x;});
+    FD.forEach(function(x){if(!byB[x.id])L.push('신청 양식 · 품목 추가: '+itName(x));});
+    FB.forEach(function(x){if(!byD[x.id])L.push('신청 양식 · 품목 삭제: '+itName(x));});
+    FD.forEach(function(d){var b=byB[d.id];if(!b||JSON.stringify(b)===JSON.stringify(d))return;var nm=itName(d);
+      if(itName(b)!==nm)L.push('신청 양식 · 이름 변경: '+itName(b)+' → '+nm);
+      if(String(b.price)!==String(d.price))L.push('가격 · '+nm+' '+(d.g==='p'?'판매 가격':'기본 가격')+' '+wonS(b.price)+' → '+wonS(d.price));
+      if(String(b.was)!==String(d.was))L.push('가격 · '+nm+' 정가 '+wonS(b.was)+' → '+wonS(d.was));
+      if((b.tip||'')!==(d.tip||''))L.push('신청 양식 · '+nm+' ⓘ 설명 “'+cut(d.tip)+'”');
+      if(JSON.stringify(b.incl||b.mincl||[])!==JSON.stringify(d.incl||d.mincl||[]))L.push('신청 양식 · '+nm+' 구성 칩 수정');
+      var qb={},qd={};b.f.forEach(function(f){qb[f.k]=f;});d.f.forEach(function(f){qd[f.k]=f;});
+      d.f.forEach(function(f){if(!qb[f.k])L.push('신청 양식 · '+nm+': 질문 추가 “'+cut(f.label)+'”');});
+      b.f.forEach(function(f){if(!qd[f.k])L.push('신청 양식 · '+nm+': 질문 삭제 “'+cut(f.label)+'”');});
+      if(b.f.map(function(f){return f.k;}).filter(function(x){return qd[x];}).join()!==d.f.map(function(f){return f.k;}).filter(function(x){return qb[x];}).join())L.push('신청 양식 · '+nm+': 질문 순서 변경');
+      d.f.forEach(function(f){var o=qb[f.k];if(!o)return;var q=cut(f.label||f.t,20);
+        ['label','t','hint','ph','type','unit'].forEach(function(p){if((o[p]||'')!==(f[p]||''))L.push('신청 양식 · '+nm+': 질문 “'+q+'” '+({label:'문구',t:'신청서 이름',hint:'안내',ph:'입력칸 안내',type:'형식',unit:'단위'}[p])+' 수정');});
+        if(JSON.stringify(o.show||null)!==JSON.stringify(f.show||null))L.push('신청 양식 · '+nm+': 질문 “'+q+'” 보이는 조건 수정');
+        if((o.disc||0)!==(f.disc||0))L.push('가격 · '+nm+' “'+q+'” 할인 '+Math.round((o.disc||0)*100)+'% → '+Math.round((f.disc||0)*100)+'%');
+        var ob={},od={};(o.opts||[]).forEach(function(x){ob[x.id]=x;});(f.opts||[]).forEach(function(x){od[x.id]=x;});
+        (f.opts||[]).forEach(function(x){if(!ob[x.id])L.push('신청 양식 · '+nm+': 선택지 추가 “'+cut(x.label,20)+'”');});
+        (o.opts||[]).forEach(function(x){if(!od[x.id])L.push('신청 양식 · '+nm+': 선택지 삭제 “'+cut(x.label,20)+'”');});
+        (f.opts||[]).forEach(function(x){var y=ob[x.id];if(!y)return;
+          if((y.label||'')!==(x.label||''))L.push('신청 양식 · '+nm+': 선택지 “'+cut(y.label,16)+'” → “'+cut(x.label,16)+'”');
+          if(String(y.price==null?'':y.price)!==String(x.price==null?'':x.price)||(y.pm||'')!==(x.pm||''))L.push('가격 · '+nm+' “'+cut(x.label,20)+'” '+wonS(y.pm&&y.pm!=='none'?y.price:null)+' → '+wonS(x.pm&&x.pm!=='none'?x.price:null));
+          ['note','extra','en'].forEach(function(p){if((y[p]||'')!==(x[p]||''))L.push('신청 양식 · '+nm+': 선택지 “'+cut(x.label,16)+'” 세부 설정 수정');});});
+        if((o.opts||[]).map(function(x){return x.id;}).filter(function(x){return od[x];}).join()!==(f.opts||[]).map(function(x){return x.id;}).filter(function(x){return ob[x];}).join())L.push('신청 양식 · '+nm+': “'+q+'” 선택지 순서 변경');});
+    });
+  }
+  /* 견적 계산 */
+  var dfC=(O&&O.defaults&&O.defaults.calc)||{},CB=B.calc||dfC,CD=D.calc||dfC;
+  if(JSON.stringify(CB)!==JSON.stringify(CD)){
+    Object.keys(CD.due||{}).forEach(function(x){var a=JSON.stringify((CB.due||{})[x]||{}),b=JSON.stringify(CD.due[x]||{});if(a!==b){var r=CD.due[x]||{};L.push('견적 계산 · 마감 '+x+' → '+(r.mul!=null?'×'+r.mul:r.add!=null?wonS(r.add)+' 추가':'추가 없음'));}});
+    Object.keys(CD.opt||{}).forEach(function(x){if((CB.opt||{})[x]!==CD.opt[x])L.push('견적 계산 · '+x+' '+Math.round(((CB.opt||{})[x]||0)*1000)/10+'% → '+Math.round((CD.opt[x]||0)*1000)/10+'%');});
+    if(CB.team!==CD.team)L.push('견적 계산 · 팀 할인 1명당 '+Math.round((CB.team||0)*1000)/10+'% → '+Math.round((CD.team||0)*1000)/10+'%');
+  }
+  /* 협업 작가 카드 */
+  var dfK=(O&&O.defaults&&O.defaults.collab)||[],KB=B.collab||dfK,KD=D.collab||dfK;
+  if(JSON.stringify(KB)!==JSON.stringify(KD)){var nb=KB.map(function(c){return c.name;}),nd=KD.map(function(c){return c.name;});
+    nd.filter(function(x){return nb.indexOf(x)<0;}).forEach(function(x){L.push('협업 작가 · 카드 추가: '+x);});
+    nb.filter(function(x){return nd.indexOf(x)<0;}).forEach(function(x){L.push('협업 작가 · 카드 삭제: '+x);});
+    KD.forEach(function(c){var o=KB.filter(function(x){return x.name===c.name;})[0];if(o&&JSON.stringify(o)!==JSON.stringify(c)){var w=[];['tag','color','url','text','note','img'].forEach(function(p){if((o[p]||'')!==(c[p]||''))w.push({tag:'태그',color:'색',url:'링크',text:'설명',note:'안내',img:'사진'}[p]);});if(w.length)L.push('협업 작가 · '+c.name+' '+w.join('·')+' 수정');}});
+    if(nb.filter(function(x){return nd.indexOf(x)>-1;}).join()!==nd.filter(function(x){return nb.indexOf(x)>-1;}).join())L.push('협업 작가 · 카드 순서 변경');
+  }
+  /* 포트폴리오 */
+  var dfP=(O&&O.defaults&&O.defaults.pf)||[],PB=B.pf||dfP,PD=D.pf||dfP;
+  if(JSON.stringify(PB)!==JSON.stringify(PD)){
+    function srcs(pf){var m={};(function w(x,path){if(Array.isArray(x))x.forEach(function(y){w(y,path);});else if(x&&typeof x==='object'){var p2=x.name||x.label?path.concat([x.name||x.label]):path;if(x.src)m[x.src]=path.join(' › ');Object.keys(x).forEach(function(k){if(typeof x[k]==='object')w(x[k],p2);});}})(pf,[]);return m;}
+    var sb=srcs(PB),sd=srcs(PD),ad={},rm={};
+    Object.keys(sd).forEach(function(x){if(!sb[x]){var g=sd[x]||'포트폴리오';ad[g]=(ad[g]||0)+1;}});
+    Object.keys(sb).forEach(function(x){if(!sd[x]){var g=sb[x]||'포트폴리오';rm[g]=(rm[g]||0)+1;}});
+    Object.keys(ad).forEach(function(g){L.push('포트폴리오 · '+g+' 샘플 '+ad[g]+'개 추가');});
+    Object.keys(rm).forEach(function(g){L.push('포트폴리오 · '+g+' 샘플 '+rm[g]+'개 삭제');});
+    if(!Object.keys(ad).length&&!Object.keys(rm).length)L.push('포트폴리오 · 순서·공개 여부·이름 등 수정');
+  }
+  return L;
+}
+function logEntry(memo,lines){var d=new Date(),p=function(n){return (n<10?'0':'')+n;};
+  return '## '+d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+(memo?' · '+memo:'')+'\n'+(lines.length?lines.map(function(l){return '- '+l;}).join('\n'):'- (바뀐 내용 없음)')+'\n';}
+var LOGF='작업기록.md';
+function unb64(b){var bin=atob(String(b).replace(/\s/g,'')),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return new TextDecoder().decode(u);}
+
 /* ===== 사이트에 반영 ===== */
 function used(p){var s=JSON.stringify(draft.pf||[])+JSON.stringify(draft.collab||[]);return s.indexOf('"'+p+'"')>-1;}
 $('bPub').addEventListener('click',function(){
   if(!TOKEN){settings(true);return;}
   var up=Object.keys(files).filter(used);
   var size=up.reduce(function(n,p){return n+files[p].size;},0);
-  dialog('<h3>사이트에 반영할까요?</h3><p>바뀐 문구'+(up.length?'와 새 이미지 '+up.length+'개('+(size/1048576).toFixed(1)+'MB)':'')+'를 GitHub에 올려요. 1~2분 뒤 페이지에 적용돼요.</p><label class="f"><span>바뀐 내용 메모 (선택)</span><input id="dM" placeholder="예) 필독 안내 3번 수정, 포스터 샘플 추가"></label><div class="row"><button class="btn" data-x>취소</button><button class="btn y" id="dOk">반영하기</button></div>');
-  $('dM').focus();$('dOk').onclick=function(){publish($('dM').value.trim(),up);};
+  var sum=[];try{sum=changeSummary();}catch(e){}
+  dialog('<h3>사이트에 반영할까요?</h3><p>바뀐 문구'+(up.length?'와 새 이미지 '+up.length+'개('+(size/1048576).toFixed(1)+'MB)':'')+'를 GitHub에 올려요. 1~2분 뒤 페이지에 적용돼요.</p><div class="sumbox"><b>자동 작업 메모</b> <span class="note">(반영하면 저장소의 작업기록.md에 날짜와 함께 남아요)</span><ul>'+(sum.length?sum.slice(0,30).map(function(l){return '<li>'+esc(l)+'</li>';}).join('')+(sum.length>30?'<li>외 '+(sum.length-30)+'건</li>':''):'<li>바뀐 내용이 없어요</li>')+'</ul></div><label class="f"><span>한 줄 메모 덧붙이기 (선택)</span><input id="dM" placeholder="예) 11월 가격 조정"></label><div class="row"><button class="btn" data-x>취소</button><button class="btn y" id="dOk">반영하기</button></div>');
+  $('dM').focus();$('dOk').onclick=function(){publish($('dM').value.trim(),up,false,sum);};
 });
-function publish(memo,up,force){
+function publish(memo,up,force,sum){if(!sum){try{sum=changeSummary();}catch(e){sum=[];}}
   var total=up.length+3,n=0,step=function(t){n++;busy(t,n/total);};
   busy('GitHub에 연결하는 중…',0);
   var head,treeSha,entries=[];
@@ -1089,9 +1176,10 @@ function publish(memo,up,force){
     var p=Promise.resolve();
     up.forEach(function(path,i){p=p.then(function(){step('이미지 올리는 중… ('+(i+1)+'/'+up.length+')');return blob64(files[path]).then(function(b){return api('/git/blobs',{method:'POST',body:{content:b,encoding:'base64'}});}).then(function(r){entries.push({path:path,mode:'100644',type:'blob',sha:r.sha});});});});
     return p;
+  }).then(function(){return api('/contents/'+encodeURIComponent(LOGF)+'?ref='+head,{allow404:true}).then(function(j){var old=j&&j.content?unb64(j.content):'# 관리자 페이지 작업 기록\n\n관리자 페이지에서 사이트에 반영할 때마다 바뀐 내용이 자동으로 위쪽에 쌓여요.\n\n';var i=old.indexOf('\n## ');var nw=i>-1?old.slice(0,i+1)+logEntry(memo,sum)+'\n'+old.slice(i+1):old.replace(/\s*$/,'\n\n')+logEntry(memo,sum);return api('/git/blobs',{method:'POST',body:{content:b64str(nw),encoding:'base64'}});}).then(function(r){entries.push({path:LOGF,mode:'100644',type:'blob',sha:r.sha});}).catch(function(){});
   }).then(function(){step('문구 저장하는 중…');var json=JSON.stringify(draft,null,1);return api('/git/blobs',{method:'POST',body:{content:b64str(json),encoding:'base64'}}).then(function(r){entries.push({path:'content.json',mode:'100644',type:'blob',sha:r.sha});baseShaNext=r.sha;});})
   .then(function(){return api('/git/trees',{method:'POST',body:{base_tree:treeSha,tree:entries}});})
-  .then(function(t){step('반영하는 중…');return api('/git/commits',{method:'POST',body:{message:'관리자 페이지에서 수정'+(memo?': '+memo:''),tree:t.sha,parents:[head]}});})
+  .then(function(t){step('반영하는 중…');return api('/git/commits',{method:'POST',body:{message:'관리자 페이지에서 수정: '+(memo||(sum.length?sum.slice(0,2).join(' / ')+(sum.length>2?' 외 '+(sum.length-2)+'건':''):'변경 없음'))+(sum.length?'\n\n'+sum.map(function(l){return '- '+l;}).join('\n'):''),tree:t.sha,parents:[head]}});})
   .then(function(c){return api('/git/refs/heads/'+CFG.branch,{method:'PATCH',body:{sha:c.sha}});})
   .then(function(){
     baseSha=baseShaNext;base=clone(draft);dirty=false;
