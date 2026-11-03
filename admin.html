@@ -173,6 +173,12 @@ details.more[open]>summary{margin-bottom:10px;}
 .pr-in input{width:120px;height:32px;padding:0 8px;border:1px solid #e0e0e0;border-radius:8px;text-align:right;font-size:13px;}
 .pr-in i{font-style:normal;width:16px;color:var(--g);font-size:12px;}
 .pr-tag{flex:none;width:130px;font-size:11px;color:var(--g2);}
+.tippos{display:flex;flex-direction:column;gap:6px;margin:0 0 12px;}
+.tippos label{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid #e6e6e6;border-radius:10px;cursor:pointer;}
+.tippos label:has(input:checked){border-color:var(--y);background:var(--y3);}
+.tippos input{margin-top:3px;accent-color:#1a1a1a;}
+.tippos span{display:flex;flex-direction:column;gap:2px;font-size:13px;}
+.tippos small{font-size:12px;color:var(--g);}
 #bTip{margin-left:auto;flex:none;height:32px;padding:0 12px;font-size:13px;}
 .btn.red:hover{border-color:var(--red);}
 .btn:disabled{opacity:.4;cursor:default;}
@@ -434,10 +440,11 @@ window.ORBITA_ADMIN={
 $('bTip').addEventListener('mousedown',function(e){e.preventDefault();});
 $('bTip').addEventListener('click',function(){
   if(!O||!O.insertTip)return;
-  if(!O.hasCaret()){toast('미리보기에서 ⓘ를 넣을 글자 뒤를 먼저 눌러 주세요.');return;}
-  dialog('<h3>ⓘ 넣기</h3><p>미리보기에서 마지막으로 누른 위치에 ⓘ가 들어가요. 마우스를 올리면 아래 문구가 말풍선으로 보여요.</p><label class="f"><span>말풍선 문구</span><textarea id="dA" rows="3" placeholder="예) 작업 기간은 최대 30일 소요됩니다."></textarea></label><div class="row"><button class="btn" data-x>취소</button><button class="btn y" id="dOk">넣기</button></div>');
+  if(!O.hasCaret()){toast('미리보기에서 ⓘ를 넣을 문장을 먼저 눌러 주세요.');return;}
+  var pos='end';try{pos=localStorage.getItem('orb.tippos')||'end';}catch(e){}
+  dialog('<h3>ⓘ 넣기</h3><p>마우스를 올리면 아래 문구가 말풍선으로 보여요.</p><div class="tippos"><label><input type="radio" name="tpos" value="end"'+(pos==='end'?' checked':'')+'><span><b>문장 끝에 추가</b><small>미리보기에서 누른 문장의 맨 끝에 붙어요</small></span></label><label><input type="radio" name="tpos" value="here"'+(pos==='here'?' checked':'')+'><span><b>문장 안, 누른 위치에 넣기</b><small>마지막으로 커서를 둔 글자 바로 뒤에 들어가요</small></span></label></div><label class="f"><span>말풍선 문구</span><textarea id="dA" rows="3" placeholder="예) 작업 기간은 최대 30일 소요됩니다."></textarea></label><div class="row"><button class="btn" data-x>취소</button><button class="btn y" id="dOk">넣기</button></div>');
   var t=$('dA');t.focus();
-  $('dOk').onclick=function(){var v=t.value.trim();if(!v){t.focus();return;}closeDlg();if(O.insertTip(v))toast('ⓘ를 넣었어요. 넣은 ⓘ를 누르면 문구를 바꾸거나 지울 수 있어요.');else toast('미리보기에서 ⓘ를 넣을 글자 뒤를 먼저 눌러 주세요.');};
+  $('dOk').onclick=function(){var v=t.value.trim();if(!v){t.focus();return;}var ps=(document.querySelector('input[name=tpos]:checked')||{}).value||'end';try{localStorage.setItem('orb.tippos',ps);}catch(e){}closeDlg();if(O.insertTip(v,ps==='end'))toast('ⓘ를 넣었어요. 넣은 ⓘ를 누르면 문구를 바꾸거나 지울 수 있어요.');else toast('미리보기에서 ⓘ를 넣을 문장을 먼저 눌러 주세요.');};
 });
 function cssq(s){return String(s).replace(/["\\]/g,'\\$&');}
 function unit(k){return O&&O.units.filter(function(u){return u.key===k;})[0];}
