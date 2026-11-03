@@ -106,6 +106,7 @@ details.more[open]>summary{margin-bottom:10px;}
 .btn.y{background:var(--y);border-color:var(--y);font-weight:700;}
 .btn.y:hover{background:#ffc61a;}
 .btn.red{color:var(--red);}
+#bTip{margin-left:auto;flex:none;height:32px;padding:0 12px;font-size:13px;}
 .btn.red:hover{border-color:var(--red);}
 .btn:disabled{opacity:.4;cursor:default;}
 .names{display:flex;flex-wrap:wrap;gap:8px;padding:10px 20px;background:#fff;border-bottom:1px solid var(--line);}
@@ -237,7 +238,7 @@ details.more[open]>summary{margin-bottom:10px;}
   <main class="main">
     <section class="view on" id="v-text">
       <div class="pv">
-        <div class="pvbar"><div class="seg" id="segW"><button class="on" data-w="pc">PC</button><button data-w="m">모바일</button></div><span>글자를 눌러 고치고, 노란 점선 ⓘ·입력칸은 눌러서 안내 문구를 바꿔요. 굵게: Ctrl+B</span></div>
+        <div class="pvbar"><div class="seg" id="segW"><button class="on" data-w="pc">PC</button><button data-w="m">모바일</button></div><span>글자를 눌러 고치고, 노란 점선 ⓘ·입력칸은 눌러서 안내 문구를 바꿔요. 굵게: Ctrl+B</span><button class="btn y sm" id="bTip" type="button" title="미리보기에서 ⓘ를 넣을 곳을 누른 뒤 이 버튼을 눌러요">ⓘ 넣기</button></div>
         <div class="pvbox" id="pvbox"><iframe id="pv" title="페이지 미리보기"></iframe></div>
       </div>
       <aside class="side">
@@ -337,8 +338,23 @@ window.ORBITA_ADMIN={
   ready:function(o){O=o;try{$('pv').contentWindow.scrollTo(0,previewScroll);}catch(e){}buildTextList();markPreview();if(!itemsBuilt)buildItems();if(!pfReady)initPf();},
   onText:function(key,html){var u=unit(key);if(!u)return;if(html===u.def)delete draft.texts[key];else draft.texts[key]=html;changed();markPreview();refreshRow(key);},
   onFocus:function(key){var r=document.querySelector('.lrow[data-k="'+cssq(key)+'"]');if(r)r.scrollIntoView({block:'nearest'});},
-  editAttr:function(key){editAttr(key);}
+  editAttr:function(key){editAttr(key);},
+  editUtip:function(cur,cb){
+    dialog('<h3>ⓘ 말풍선 문구</h3><p>직접 넣은 ⓘ예요. 문구를 바꾸거나 지울 수 있어요.</p><label class="f"><span>말풍선 문구</span><textarea id="dA" rows="3">'+esc(cur)+'</textarea></label><div class="row"><button class="btn red" id="dDel">ⓘ 지우기</button><span style="flex:1"></span><button class="btn" data-x>취소</button><button class="btn y" id="dOk">적용</button></div>');
+    var t=$('dA');t.focus();t.select();
+    $('dDel').onclick=function(){cb(null);closeDlg();toast('ⓘ를 지웠어요.');};
+    $('dOk').onclick=function(){var v=t.value.trim();if(!v){t.focus();return;}cb(v);closeDlg();};
+  }
 };
+/* 내가 고른 글자 뒤에 ⓘ 넣기 */
+$('bTip').addEventListener('mousedown',function(e){e.preventDefault();});
+$('bTip').addEventListener('click',function(){
+  if(!O||!O.insertTip)return;
+  if(!O.hasCaret()){toast('미리보기에서 ⓘ를 넣을 글자 뒤를 먼저 눌러 주세요.');return;}
+  dialog('<h3>ⓘ 넣기</h3><p>미리보기에서 마지막으로 누른 위치에 ⓘ가 들어가요. 마우스를 올리면 아래 문구가 말풍선으로 보여요.</p><label class="f"><span>말풍선 문구</span><textarea id="dA" rows="3" placeholder="예) 작업 기간은 최대 30일 소요됩니다."></textarea></label><div class="row"><button class="btn" data-x>취소</button><button class="btn y" id="dOk">넣기</button></div>');
+  var t=$('dA');t.focus();
+  $('dOk').onclick=function(){var v=t.value.trim();if(!v){t.focus();return;}closeDlg();if(O.insertTip(v))toast('ⓘ를 넣었어요. 넣은 ⓘ를 누르면 문구를 바꾸거나 지울 수 있어요.');else toast('미리보기에서 ⓘ를 넣을 글자 뒤를 먼저 눌러 주세요.');};
+});
 function cssq(s){return String(s).replace(/["\\]/g,'\\$&');}
 function unit(k){return O&&O.units.filter(function(u){return u.key===k;})[0];}
 function attrU(k){return O&&O.attrs.filter(function(a){return a.key===k;})[0];}
