@@ -35,6 +35,13 @@ button{cursor:pointer;}
 .nav button.on{background:var(--y3);color:var(--k);font-weight:700;}
 .nav button.on::before{background:var(--y);}
 .nav button::before{content:'';width:6px;height:6px;border-radius:50%;background:#d9d9d9;flex:none;}
+.nav{overflow-y:auto;}
+.navsub{display:flex;flex-direction:column;gap:2px;margin:0 0 4px;padding-left:14px;}
+.navsub button{height:34px;font-size:13px;}
+.navsub button::before{width:4px;height:4px;}
+.navsep{height:1px;margin:6px 4px;background:var(--line);flex:none;}
+.secgo{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:10px 12px;border-radius:10px;background:var(--y3);font-size:12px;line-height:18px;color:var(--k);}
+.secgo button{flex:none;margin-left:auto;height:28px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:12px;font-weight:700;}
 .nav .hint{margin-top:auto;padding:12px;border-radius:10px;background:var(--bg);font-size:12px;line-height:18px;color:var(--g);}
 .main{flex:1;min-width:0;overflow:hidden;position:relative;}
 .view{position:absolute;inset:0;display:none;}
@@ -213,7 +220,7 @@ details.more[open]>summary{margin-bottom:10px;}
 .tgt button:hover{border-color:var(--y);background:var(--y3);}
 .tgt button:disabled{opacity:.35;}
 @media (max-width:1100px){.side{width:280px;}.grid2{grid-template-columns:repeat(2,minmax(0,1fr));}}
-@media (max-width:860px){.nav{width:64px;padding:12px 6px;}.nav button{justify-content:center;padding:0;font-size:0;}.nav button::before{width:8px;height:8px;}.nav .hint{display:none;}.side{display:none;}.tree{width:180px;}.strs{grid-template-columns:minmax(0,1fr);}.top .tb span{display:none;}}
+@media (max-width:860px){.nav{width:64px;padding:12px 6px;}.nav button{justify-content:center;padding:0;font-size:0;}.nav button::before{width:8px;height:8px;}.nav .hint{display:none;}.navsub,.navsep{display:none;}.side{display:none;}.tree{width:180px;}.strs{grid-template-columns:minmax(0,1fr);}.top .tb span{display:none;}}
 </style></head>
 <body>
 <header class="top">
@@ -229,10 +236,19 @@ details.more[open]>summary{margin-bottom:10px;}
 </header>
 <div class="wrap">
   <nav class="nav" aria-label="관리 메뉴">
-    <button class="on" data-v="text">페이지 문구</button>
+    <button class="on" data-v="text" data-sec="">페이지 문구 전체</button>
+    <div class="navsub" aria-label="파트별 문구">
+      <button data-v="text" data-sec="sec-top">맨 위 안내</button>
+      <button data-v="text" data-sec="sec-notice">필독 안내사항</button>
+      <button data-v="text" data-sec="sec-package">패키지 안내</button>
+      <button data-v="text" data-sec="sec-collab">협업 작가 안내</button>
+      <button data-v="text" data-sec="sec-form">신청 양식</button>
+      <button data-v="text" data-sec="sec-portfolio">포트폴리오</button>
+    </div>
+    <div class="navsep"></div>
     <button data-v="items">신청 양식 항목</button>
-    <button data-v="collab">협업 작가</button>
-    <button data-v="pf">포트폴리오</button>
+    <button data-v="collab">협업 작가 카드</button>
+    <button data-v="pf">포트폴리오 샘플</button>
     <div class="hint">미리보기에서 글자를 눌러 바로 고칠 수 있어요. 다 고친 뒤 <b>사이트에 반영</b>을 누르면 1~2분 뒤 페이지에 적용돼요.</div>
   </nav>
   <main class="main">
@@ -363,26 +379,33 @@ function markPreview(){if(O&&O.markChanged)O.markChanged(draft.texts);}
 $('segW').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});$('pvbox').classList.toggle('mobile',b.getAttribute('data-w')==='m');});
 
 /* ===== 문구 목록 ===== */
-var SECN={'sec-top':'맨 위 안내','sec-notice':'필독 안내사항','sec-package':'패키지 안내','sec-form':'신청 양식','sec-portfolio':'포트폴리오'};
+var SECN={'sec-top':'맨 위 안내','sec-notice':'필독 안내사항','sec-package':'패키지 안내','sec-collab':'협업 작가 안내','sec-form':'신청 양식','sec-portfolio':'포트폴리오'};
+var secF='';
+/* 파트별 메뉴: 같이 고치는 다른 메뉴 안내 */
+var SECGO={'sec-collab':['카드 문구·사진·링크는','collab','협업 작가 카드'],'sec-form':['품목 팝업의 이름·가격·질문은','items','신청 양식 항목'],'sec-portfolio':['샘플 이미지는','pf','포트폴리오 샘플']};
+function goSec(){if(!O||!secF)return;try{var w=$('pv').contentWindow,el=w.document.getElementById(secF);if(secF==='sec-top'||!el)w.scrollTo({top:0,behavior:'smooth'});else el.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}}
 var fl='all';
 function buildTextList(){
   if(!O)return;var q=$('q').value.trim().toLowerCase(),h='',last='';
+  var st=document.querySelector('.side h3');if(st)st.textContent=secF?(SECN[secF]+' 문구'):'문구 목록';
   var rows=[];
   O.units.forEach(function(u){rows.push({k:u.key,sec:u.sec,a:0,txt:plain(draft.texts[u.key]!=null?draft.texts[u.key]:u.def),ch:draft.texts[u.key]!=null});});
   O.attrs.forEach(function(a){rows.push({k:a.key,sec:a.sec,a:a.attr,txt:draft.attrs[a.key]!=null?draft.attrs[a.key]:a.def,ch:draft.attrs[a.key]!=null,def:a.def});});
   rows.sort(function(x,y){var o=Object.keys(SECN);return o.indexOf(x.sec)-o.indexOf(y.sec);});
   rows.forEach(function(r){
-    if(fl==='ch'&&!r.ch)return;if(fl==='attr'&&!r.a)return;if(q&&r.txt.toLowerCase().indexOf(q)<0)return;
+    if(secF&&r.sec!==secF)return;if(fl==='ch'&&!r.ch)return;if(fl==='attr'&&!r.a)return;if(q&&r.txt.toLowerCase().indexOf(q)<0)return;
     if(r.sec!==last){h+='<div class="lsec">'+esc(SECN[r.sec]||r.sec)+'</div>';last=r.sec;}
     if(r.a)h+='<div class="arow'+(r.ch?' ch':'')+'" data-k="'+esc(r.k)+'"><label>'+(r.a==='data-tip'?'ⓘ 말풍선':'입력칸 안내 문구')+(r.ch?' <button class="rv" data-rv="1">원래대로</button>':'')+'</label><textarea rows="2" data-a="1">'+esc(r.txt)+'</textarea></div>';
     else h+='<div class="lrow'+(r.ch?' ch':'')+'" data-k="'+esc(r.k)+'" role="button" tabindex="0"><span class="t">'+esc(r.txt||'(빈 문구)')+'</span><span class="m">'+(r.ch?'<button class="rv" data-rv="1">원래대로</button>':'')+'</span></div>';
   });
+  var g=SECGO[secF];if(g)h='<div class="secgo"><span>'+esc(g[0])+' <b>'+esc(g[2])+'</b> 메뉴에서 고쳐요.</span><button type="button" data-go="'+g[1]+'">열기</button></div>'+h;
   $('tlist').innerHTML=h||'<p class="note" style="padding:12px">찾는 문구가 없어요.</p>';
 }
 function refreshRow(k){var r=document.querySelector('.lrow[data-k="'+cssq(k)+'"]');if(!r){return;}var u=unit(k);var ch=draft.texts[k]!=null;r.classList.toggle('ch',ch);r.querySelector('.t').textContent=plain(ch?draft.texts[k]:u.def)||'(빈 문구)';r.querySelector('.m').innerHTML=ch?'<button class="rv" data-rv="1">원래대로</button>':'';}
 $('q').addEventListener('input',buildTextList);
 document.querySelector('.filters').addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;fl=b.getAttribute('data-fl');[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});buildTextList();});
 $('tlist').addEventListener('click',function(e){
+  var go=e.target.closest('[data-go]');if(go){showView(go.getAttribute('data-go'));return;}
   var row=e.target.closest('[data-k]');if(!row)return;var k=row.getAttribute('data-k');
   if(e.target.closest('[data-rv]')){e.stopPropagation();if(row.classList.contains('arow')){delete draft.attrs[k];O.setAttr(k,null);}else{delete draft.texts[k];O.setUnit(k,null);markPreview();}changed();buildTextList();return;}
   if(row.classList.contains('lrow')&&O)O.focusKey(k);
@@ -851,9 +874,9 @@ $('clist').addEventListener('change',function(e){if(e.target.id!=='cbF')return;v
   decode(f).then(function(img){var w=img.width,h=img.height,m=Math.min(w,h),side=Math.min(480,m),cv=document.createElement('canvas');cv.width=cv.height=side;var x=cv.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(img,Math.round((w-m)/2),Math.round((h-m)/2),m,m,0,0,side,side);return toBlob(cv,'image/webp',.88);})
   .then(function(bl){c.img=keep('portfolio/collab/collab-'+stamp()+'.webp',bl);collabChanged(true);toast('사진을 바꿨어요. 가운데를 정사각형으로 잘라 넣었어요.');},function(){toast('이미지를 열 수 없어요.');});});
 /* ===== 화면 전환 ===== */
-function showView(v){document.querySelectorAll('.nav button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===v);});document.querySelectorAll('.view').forEach(function(s){s.classList.toggle('on',s.id==='v-'+v);});
+function showView(v){document.querySelectorAll('.nav button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===v&&(v!=='text'||(b.getAttribute('data-sec')||'')===secF));});document.querySelectorAll('.view').forEach(function(s){s.classList.toggle('on',s.id==='v-'+v);});
   if(v==='text'&&needReload)reloadPreview();if(v==='items'&&!itemsBuilt)buildItems();if(v==='pf'&&!pfReady)initPf();if(v==='collab')buildCollab();}
-document.querySelector('.nav').addEventListener('click',function(e){var b=e.target.closest('[data-v]');if(b)showView(b.getAttribute('data-v'));});
+document.querySelector('.nav').addEventListener('click',function(e){var b=e.target.closest('[data-v]');if(!b)return;var v=b.getAttribute('data-v');if(v==='text')secF=b.getAttribute('data-sec')||'';showView(v);if(v==='text'){buildTextList();goSec();}});
 window.addEventListener('beforeunload',function(e){if(dirty){saveLocal(true);e.preventDefault();e.returnValue='';}});
 
 /* ===== 시작 ===== */
