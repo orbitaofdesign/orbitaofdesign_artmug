@@ -407,7 +407,7 @@ window.__orbitaApp=function(){
   /* 모바일: 품목을 화살표 목록(드롭다운)에서 고르기 — 세부 품목까지 한 목록으로 */
   (function(){
     function hid(el){return !el||el.hidden||!!el.closest('.orb-del,[hidden]');}
-    function lbl(t,p){return t+(p?' · '+won(p):'');}
+    function lbl(t){return t;}
     function opts(g){
       var o=[];
       ITEMS.forEach(function(it){if(it.g!==g)return;var card=form.querySelector('.af-item[data-id="'+it.id+'"]');if(hid(card))return;
