@@ -52,6 +52,8 @@ button{cursor:pointer;}
 .seg{display:inline-flex;padding:3px;border-radius:9px;background:var(--bg);}
 .seg button{height:28px;padding:0 12px;border:0;border-radius:7px;background:transparent;font-size:12px;font-weight:500;color:var(--g);}
 .seg button.on{background:#fff;color:var(--k);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.vm-m .pvbar{background:#fffbea;}.vm-m #segW button.on{background:#ffd040;}
+.vmtag{display:none;flex:none;height:24px;padding:0 10px;border-radius:999px;background:#1a1a1a;color:#ffd040;font-size:12px;font-weight:700;line-height:24px;}.vm-m .vmtag{display:inline-block;}.vm-m .pvhelp{display:none;}
 .pvbox{flex:1;overflow:auto;display:flex;justify-content:center;background:#e9e8e4;}
 .pvbox iframe{display:block;width:100%;height:100%;border:0;background:#fff;}
 .pvbox.mobile iframe{width:390px;box-shadow:0 0 0 1px #ddd;}
@@ -333,7 +335,7 @@ details.more[open]>summary{margin-bottom:10px;}
   <main class="main">
     <section class="view on" id="v-text">
       <div class="pv">
-        <div class="pvbar"><div class="seg" id="segW"><button class="on" data-w="pc">PC</button><button data-w="m">모바일</button></div><span>글자를 눌러 고치고, 노란 점선 ⓘ·입력칸은 눌러서 안내 문구를 바꿔요. 굵게: Ctrl+B</span><button class="btn sm" id="bDelM" type="button" title="미리보기에서 지울 덩어리를 눌러 골라요">✂ 지우기</button><button class="btn y sm" id="bTip" type="button" title="미리보기에서 ⓘ를 넣을 곳을 누른 뒤 이 버튼을 눌러요">ⓘ 넣기</button></div>
+        <div class="pvbar"><div class="seg" id="segW"><button class="on" data-w="pc">PC</button><button data-w="m" title="폰 화면(가로 600px 이하)에만 적용되는 문구·지우기를 따로 고쳐요">모바일</button></div><span class="vmtag">모바일 버전 수정 중 · 폰 화면에만 적용</span><span class="pvhelp">글자를 눌러 고치고, 노란 점선 ⓘ·입력칸은 눌러서 안내 문구를 바꿔요. 굵게: Ctrl+B</span><button class="btn sm" id="bDelM" type="button" title="미리보기에서 지울 덩어리를 눌러 골라요">✂ 지우기</button><button class="btn y sm" id="bTip" type="button" title="미리보기에서 ⓘ를 넣을 곳을 누른 뒤 이 버튼을 눌러요">ⓘ 넣기</button></div>
         <div class="pvbox" id="pvbox"><iframe id="pv" title="페이지 미리보기"></iframe></div>
       </div>
       <aside class="side">
@@ -393,8 +395,8 @@ $('repoName').textContent=CFG.owner+'/'+CFG.repo;
 
 /* ===== 상태 ===== */
 var draft=empty(),base=null,baseSha=null,dirty=false,O=null,files={},urls={};
-function empty(){return {v:1,texts:{},attrs:{},items:{map:{},byId:{}},pf:null,collab:null,form:null,calc:null,hidden:[]};}
-function norm(c){c=c&&typeof c==='object'?c:{};var d=empty();d.texts=c.texts||{};d.attrs=c.attrs||{};d.items=c.items||{map:{},byId:{}};d.items.map=d.items.map||{};d.items.byId=d.items.byId||{};d.pf=Array.isArray(c.pf)?c.pf:null;d.collab=Array.isArray(c.collab)?c.collab:null;d.form=Array.isArray(c.form)?c.form:null;d.calc=c.calc&&typeof c.calc==='object'?c.calc:null;d.hidden=Array.isArray(c.hidden)?c.hidden:[];return d;}
+function empty(){return {v:1,texts:{},attrs:{},items:{map:{},byId:{}},pf:null,collab:null,form:null,calc:null,hidden:[],m:{texts:{},attrs:{},hide:[],show:[]}};}
+function norm(c){c=c&&typeof c==='object'?c:{};var d=empty();d.texts=c.texts||{};d.attrs=c.attrs||{};d.items=c.items||{map:{},byId:{}};d.items.map=d.items.map||{};d.items.byId=d.items.byId||{};d.pf=Array.isArray(c.pf)?c.pf:null;d.collab=Array.isArray(c.collab)?c.collab:null;d.form=Array.isArray(c.form)?c.form:null;d.calc=c.calc&&typeof c.calc==='object'?c.calc:null;d.hidden=Array.isArray(c.hidden)?c.hidden:[];var m=c.m&&typeof c.m==='object'?c.m:{};d.m={texts:m.texts||{},attrs:m.attrs||{},hide:Array.isArray(m.hide)?m.hide:[],show:Array.isArray(m.show)?m.show:[]};return d;}
 function setStatus(t,cls){var s=$('status');s.className='status'+(cls?' '+cls:'');$('statusT').textContent=t;}
 function changed(){dirty=true;setStatus('반영 안 된 변경 사항 있음','dirty');autosave();}
 var asT=null;function autosave(){clearTimeout(asT);asT=setTimeout(function(){saveLocal(true);},800);}
@@ -435,7 +437,7 @@ window.ORBITA_ADMIN={
   draft:function(){var d=clone(draft);if(d.pf)d.pf=mapPaths(d.pf,function(p){return urls[p]||p;});if(d.collab)d.collab.forEach(function(c){if(c.img&&urls[c.img])c.img=urls[c.img];});return d;},
   ready:function(o){O=o;if(delOn&&O.setDelMode)O.setDelMode(true);updDelCount();try{$('pv').contentWindow.scrollTo(0,previewScroll);}catch(e){}buildTextList();markPreview();if(!pfReady)initPf();if(pendingOpen&&O.openItem){var po=pendingOpen;pendingOpen=null;setTimeout(function(){O.openItem(po);},300);}},
   onText:function(key,html){setTextAll(key,html,true);},
-  onHide:function(key,on){var H=draft.hidden,i=H.indexOf(key);if(on&&i<0)H.push(key);if(!on&&i>-1)H.splice(i,1);changed();updDelCount();if(fl==='del')buildTextList();},
+  onHide:function(key,on){setHid(key,on);changed();updDelCount();if(fl==='del')buildTextList();},
   onFocus:function(key){var r=document.querySelector('.lrow[data-k="'+cssq(key)+'"]');if(r)r.scrollIntoView({block:'nearest'});},
   editAttr:function(key){editAttr(key);},
   editUtip:function(cur,cb){
@@ -463,8 +465,10 @@ function cssq(s){return String(s).replace(/["\\]/g,'\\$&');}
 function unit(k){return O&&O.units.filter(function(u){return u.key===k;})[0];}
 function attrU(k){return O&&O.attrs.filter(function(a){return a.key===k;})[0];}
 function reloadPreview(){try{previewScroll=$('pv').contentWindow.scrollY||0;}catch(e){}O=null;$('pv').src='index.html?edit=1&t='+Date.now();needReload=false;}
-function markPreview(){if(O&&O.markChanged)O.markChanged(draft.texts);}
-$('segW').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});$('pvbox').classList.toggle('mobile',b.getAttribute('data-w')==='m');});
+function markPreview(){if(O&&O.markChanged)O.markChanged(VM==='m'?DM().texts:draft.texts);}
+$('segW').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var w=b.getAttribute('data-w');if(w===VM)return;VM=w;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});$('pvbox').classList.toggle('mobile',w==='m');document.body.classList.toggle('vm-m',w==='m');
+  try{localStorage.setItem('orb.vm',w);}catch(_){}reloadPreview();updDelCount();
+  toast(w==='m'?'모바일 버전을 고치는 중이에요. 여기서 고친 문구·지운 항목은 폰 화면에만 적용돼요.':'PC 버전을 고치는 중이에요. 모바일에서 따로 고치지 않은 곳은 모바일에도 같이 적용돼요.',4000);});
 
 /* ===== 문구 목록 ===== */
 var SECN={'sec-top':'맨 위 안내','sec-notice':'필독 안내사항','sec-package':'패키지 안내','sec-collab':'협업 작가 안내','sec-form':'신청 양식','sec-portfolio':'포트폴리오'};
@@ -474,18 +478,37 @@ var SECGO={'sec-collab':['카드 문구·사진·링크는','collab','협업 작
 function goSec(){if(!O||!secF)return;try{var w=$('pv').contentWindow,el=w.document.getElementById(secF);if(secF==='sec-top'||!el)w.scrollTo({top:0,behavior:'smooth'});else el.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}}
 var fl='all';
 /* 같은 문구는 마지막에 고친 내용으로 모두 통일 */
-function setTextAll(key,html,live){var u=unit(key);if(!u)return;O.units.forEach(function(x){if(x.def!==u.def)return;var v=html==null?x.def:html;if(v===x.def)delete draft.texts[x.key];else draft.texts[x.key]=v;if(x.key!==key||!live)O.setUnit(x.key,html);refreshRow(x.key);});changed();markPreview();}
-function setAttrAll(key,v){var a=attrU(key);if(!a)return;O.attrs.forEach(function(x){if(x.def!==a.def||x.attr!==a.attr)return;var w=v==null?x.def:v;if(w===x.def)delete draft.attrs[x.key];else draft.attrs[x.key]=w;O.setAttr(x.key,w);});changed();}
-function updDelCount(){var c=document.querySelector('.chip[data-fl="del"]');if(c)c.textContent='지운 항목'+(draft.hidden.length?' '+draft.hidden.length:'');}
+/* PC·모바일 버전별 수정: 모바일은 PC 내용을 바탕으로 바꾼 것만 따로(draft.m) */
+var VM='pc';
+function DM(){if(!draft.m)draft.m={texts:{},attrs:{},hide:[],show:[]};return draft.m;}
+function baseT(x){return draft.texts[x.key]!=null?draft.texts[x.key]:x.def;}
+function baseA(x){return draft.attrs[x.key]!=null?draft.attrs[x.key]:x.def;}
+function eT(k){var m=DM();if(VM==='m'&&m.texts[k]!=null)return m.texts[k];return draft.texts[k];}
+function eA(k){var m=DM();if(VM==='m'&&m.attrs[k]!=null)return m.attrs[k];return draft.attrs[k];}
+function chT(k){return VM==='m'?DM().texts[k]!=null:draft.texts[k]!=null;}
+function chA(k){return VM==='m'?DM().attrs[k]!=null:draft.attrs[k]!=null;}
+function eH(){if(VM!=='m')return draft.hidden;var m=DM();return draft.hidden.filter(function(x){return m.show.indexOf(x)<0;}).concat(m.hide.filter(function(x){return draft.hidden.indexOf(x)<0;}));}
+function setHid(key,on){if(VM!=='m'){var H=draft.hidden,i=H.indexOf(key);if(on&&i<0)H.push(key);if(!on&&i>-1)H.splice(i,1);return;}
+  var m=DM(),pc=draft.hidden.indexOf(key)>-1;function rm(a){var j=a.indexOf(key);if(j>-1)a.splice(j,1);}
+  if(on){if(pc)rm(m.show);else if(m.hide.indexOf(key)<0)m.hide.push(key);}else{if(pc){if(m.show.indexOf(key)<0)m.show.push(key);}else rm(m.hide);}}
+function setTextAll(key,html,live){var u=unit(key);if(!u)return;O.units.forEach(function(x){if(x.def!==u.def)return;var v;
+  if(VM==='m'){var b=baseT(x),m=DM();v=html==null?b:html;if(v===b)delete m.texts[x.key];else m.texts[x.key]=v;}
+  else{v=html==null?x.def:html;if(v===x.def)delete draft.texts[x.key];else draft.texts[x.key]=v;}
+  if(x.key!==key||!live)O.setUnit(x.key,v);refreshRow(x.key);});changed();markPreview();}
+function setAttrAll(key,v){var a=attrU(key);if(!a)return;O.attrs.forEach(function(x){if(x.def!==a.def||x.attr!==a.attr)return;var w;
+  if(VM==='m'){var b=baseA(x),m=DM();w=v==null?b:v;if(w===b)delete m.attrs[x.key];else m.attrs[x.key]=w;}
+  else{w=v==null?x.def:v;if(w===x.def)delete draft.attrs[x.key];else draft.attrs[x.key]=w;}
+  O.setAttr(x.key,w);});changed();}
+function updDelCount(){var c=document.querySelector('.chip[data-fl="del"]'),n=eH().length;if(c)c.textContent='지운 항목'+(n?' '+n:'');}
 
 function buildTextList(){
   if(!O)return;var q=$('q').value.trim().toLowerCase(),h='',last='';
   var st=document.querySelector('.side h3');if(st)st.textContent=secF?(SECN[secF]+' 문구'):'문구 목록';
   var rows=[];
-  O.units.forEach(function(u){rows.push({k:u.key,sec:u.sec,a:0,txt:plain(draft.texts[u.key]!=null?draft.texts[u.key]:u.def),ch:draft.texts[u.key]!=null});});
-  O.attrs.forEach(function(a){rows.push({k:a.key,sec:a.sec,a:a.attr,txt:draft.attrs[a.key]!=null?draft.attrs[a.key]:a.def,ch:draft.attrs[a.key]!=null,def:a.def});});
+  O.units.forEach(function(u){var tv=eT(u.key);rows.push({k:u.key,sec:u.sec,a:0,txt:plain(tv!=null?tv:u.def),ch:chT(u.key)});});
+  O.attrs.forEach(function(a){var av=eA(a.key);rows.push({k:a.key,sec:a.sec,a:a.attr,txt:av!=null?av:a.def,ch:chA(a.key),def:a.def});});
   rows.sort(function(x,y){var o=Object.keys(SECN);return o.indexOf(x.sec)-o.indexOf(y.sec);});
-  if(fl==='del'){var hh='<p class="note" style="padding:4px 8px 10px">미리보기 위 <b>✂ 지우기</b>로 지운 덩어리예요. 되살리기를 누르면 다시 보여요.</p>';draft.hidden.forEach(function(k){hh+='<div class="lrow ch" data-hk="'+esc(k)+'"><span class="t">'+esc(O.blockLabel?O.blockLabel(k):k)+'</span><span class="m"><button class="rv" data-res="1">되살리기</button></span></div>';});$('tlist').innerHTML=draft.hidden.length?hh:'<p class="note" style="padding:12px">지운 항목이 없어요.</p>';updDelCount();return;}
+  if(fl==='del'){var hh='<p class="note" style="padding:4px 8px 10px">미리보기 위 <b>✂ 지우기</b>로 지운 덩어리예요. 되살리기를 누르면 다시 보여요.'+(VM==='m'?' <b>(모바일 버전)</b>':'')+'</p>';var EH=eH();EH.forEach(function(k){hh+='<div class="lrow ch" data-hk="'+esc(k)+'"><span class="t">'+esc(O.blockLabel?O.blockLabel(k):k)+'</span><span class="m"><button class="rv" data-res="1">되살리기</button></span></div>';});$('tlist').innerHTML=EH.length?hh:'<p class="note" style="padding:12px">지운 항목이 없어요.</p>';updDelCount();return;}
   rows.forEach(function(r){
     if(secF&&r.sec!==secF)return;if(fl==='ch'&&!r.ch)return;if(fl==='attr'&&!r.a)return;if(q&&r.txt.toLowerCase().indexOf(q)<0)return;
     if(r.sec!==last){h+='<div class="lsec">'+esc(SECN[r.sec]||r.sec)+'</div>';last=r.sec;}
@@ -495,11 +518,11 @@ function buildTextList(){
   var g=SECGO[secF];if(g)h='<div class="secgo"><span>'+esc(g[0])+' <b>'+esc(g[2])+'</b> 메뉴에서 고쳐요.</span><button type="button" data-go="'+g[1]+'">열기</button></div>'+h;
   $('tlist').innerHTML=h||'<p class="note" style="padding:12px">찾는 문구가 없어요.</p>';
 }
-function refreshRow(k){var r=document.querySelector('.lrow[data-k="'+cssq(k)+'"]');if(!r){return;}var u=unit(k);var ch=draft.texts[k]!=null;r.classList.toggle('ch',ch);r.querySelector('.t').textContent=plain(ch?draft.texts[k]:u.def)||'(빈 문구)';r.querySelector('.m').innerHTML=ch?'<button class="rv" data-rv="1">원래대로</button>':'';}
+function refreshRow(k){var r=document.querySelector('.lrow[data-k="'+cssq(k)+'"]');if(!r){return;}var u=unit(k);var ch=chT(k),tv=eT(k);r.classList.toggle('ch',ch);r.querySelector('.t').textContent=plain(tv!=null?tv:u.def)||'(빈 문구)';r.querySelector('.m').innerHTML=ch?'<button class="rv" data-rv="1">원래대로</button>':'';}
 $('q').addEventListener('input',buildTextList);
 document.querySelector('.filters').addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;fl=b.getAttribute('data-fl');[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});buildTextList();});
 $('tlist').addEventListener('click',function(e){
-  var hr=e.target.closest('[data-hk]');if(hr){var hk=hr.getAttribute('data-hk');if(e.target.closest('[data-res]')){O.setHidden(hk,false);var i=draft.hidden.indexOf(hk);if(i>-1)draft.hidden.splice(i,1);changed();buildTextList();}else{var b=O.blockByKey&&O.blockByKey(hk);if(b)b.el.scrollIntoView({block:'center',behavior:'smooth'});}return;}
+  var hr=e.target.closest('[data-hk]');if(hr){var hk=hr.getAttribute('data-hk');if(e.target.closest('[data-res]')){O.setHidden(hk,false);setHid(hk,false);changed();buildTextList();}else{var b=O.blockByKey&&O.blockByKey(hk);if(b)b.el.scrollIntoView({block:'center',behavior:'smooth'});}return;}
   var go=e.target.closest('[data-go]');if(go){showView(go.getAttribute('data-go'));return;}
   var row=e.target.closest('[data-k]');if(!row)return;var k=row.getAttribute('data-k');
   if(e.target.closest('[data-rv]')){e.stopPropagation();if(row.classList.contains('arow'))setAttrAll(k,null);else setTextAll(k,null,false);buildTextList();return;}
@@ -509,7 +532,7 @@ $('tlist').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.c
 $('tlist').addEventListener('input',function(e){var t=e.target;if(!t.matches('textarea[data-a]'))return;var row=t.closest('[data-k]'),k=row.getAttribute('data-k'),a=attrU(k);if(!a)return;
   setAttrAll(k,t.value);row.classList.toggle('ch',t.value!==a.def);});
 $('tlist').addEventListener('focusin',function(e){var row=e.target.closest('.arow');if(row&&O)O.focusKey(row.getAttribute('data-k'));});
-function editAttr(key){var a=attrU(key);if(!a)return;var cur=draft.attrs[key]!=null?draft.attrs[key]:a.def;
+function editAttr(key){var a=attrU(key);if(!a)return;var cur=eA(key)!=null?eA(key):a.def;
   dialog('<h3>'+(a.attr==='data-tip'?'ⓘ 말풍선 문구':'입력칸 안내 문구')+'</h3><p>원래 문구: '+esc(a.def)+'</p><label class="f"><span>바꿀 문구</span><textarea id="dA" rows="3">'+esc(cur)+'</textarea></label><div class="row"><button class="btn" data-x>취소</button><button class="btn" id="dR">원래대로</button><button class="btn y" id="dOk">적용</button></div>');
   var t=$('dA');t.focus();t.select();
   $('dR').onclick=function(){t.value=a.def;};
@@ -1092,6 +1115,14 @@ function changeSummary(){
   var hb=B.hidden||[],hd=D.hidden||[];
   hd.filter(function(x){return hb.indexOf(x)<0;}).forEach(function(x){L.push('지움 · '+cut(O&&O.blockLabel?O.blockLabel(x):x,36));});
   hb.filter(function(x){return hd.indexOf(x)<0;}).forEach(function(x){L.push('되살림 · '+cut(O&&O.blockLabel?O.blockLabel(x):x,36));});
+  /* 모바일 버전만 바꾼 것 */
+  (function(){var bm=B.m||{},dm=D.m||{};function cntd(a,b){var n=0,ks={};Object.keys(a||{}).concat(Object.keys(b||{})).forEach(function(x){ks[x]=1;});Object.keys(ks).forEach(function(x){if((a||{})[x]!==(b||{})[x])n++;});return n;}
+    var nt=cntd(bm.texts,dm.texts);if(nt)L.push('모바일 · 문구 수정 '+nt+'곳');
+    var na=cntd(bm.attrs,dm.attrs);if(na)L.push('모바일 · ⓘ·입력칸 안내 수정 '+na+'곳');
+    function diff(a,b){a=a||[];b=b||[];return b.filter(function(x){return a.indexOf(x)<0;});}
+    diff(bm.hide,dm.hide).forEach(function(x){L.push('모바일에서만 지움 · '+cut(O&&O.blockLabel?O.blockLabel(x):x,36));});
+    diff(bm.show,dm.show).forEach(function(x){L.push('모바일에서만 보이게 · '+cut(O&&O.blockLabel?O.blockLabel(x):x,36));});
+    diff(dm.hide,bm.hide).concat(diff(dm.show,bm.show)).forEach(function(x){L.push('모바일 · PC와 같게 되돌림 · '+cut(O&&O.blockLabel?O.blockLabel(x):x,36));});})();
   /* 신청 양식·가격 */
   var dfF=(O&&O.defaults&&O.defaults.form)||[],FB=B.form||dfF,FD=D.form||dfF;
   if(JSON.stringify(FB)!==JSON.stringify(FD)){

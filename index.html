@@ -1333,6 +1333,10 @@ window.__orbitaApp=function(){
   O.blockLabel=function(key){var b=O.blockByKey(key);if(!b)return '(페이지에서 찾을 수 없음)';var t=norm(b.el.textContent||'');return t?(t.length>40?t.slice(0,40)+'…':t):(b.el.tagName==='IMG'?'이미지':'(글자 없는 칸)');};
   function apply(c){
     var T=(c&&c.texts)||{},A=(c&&c.attrs)||{},H=(c&&Array.isArray(c.hidden))?c.hidden:[];
+    /* 모바일(폰 화면) 전용 수정: PC 내용을 바탕으로 m에 적은 것만 덮어쓰기 */
+    var M=c&&c.m;O.mob=!!(window.matchMedia&&matchMedia('(max-width:600px)').matches);
+    if(O.mob&&M&&typeof M==='object'){var T2={},A2={},k;for(k in T)T2[k]=T[k];for(k in (M.texts||{}))T2[k]=M.texts[k];for(k in A)A2[k]=A[k];for(k in (M.attrs||{}))A2[k]=M.attrs[k];T=T2;A=A2;
+      var sh=Array.isArray(M.show)?M.show:[],hd=Array.isArray(M.hide)?M.hide:[];H=H.filter(function(x){return sh.indexOf(x)<0;}).concat(hd.filter(function(x){return H.indexOf(x)<0;}));}
     O.blocks.forEach(function(b){if(H.indexOf(b.key)>-1)b.el.classList.add('orb-del');});
     O.units.forEach(function(u){if(Object.prototype.hasOwnProperty.call(T,u.key))setUnit(u,T[u.key]);});
     O.attrs.forEach(function(a){if(Object.prototype.hasOwnProperty.call(A,a.key))setAttr(a,A[a.key]);});
