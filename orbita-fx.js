@@ -2,7 +2,17 @@
 (function(){
   if(window.__orbitaMenu) return;
   var f=document.getElementById('orbita-frame'); if(!f) return;
+  /* 아트머그 글쓰기(편집) 화면에서는 실행 안 함 → MENU가 상세 설명 안에 같이 저장되는 일 방지 */
+  if(document.designMode==='on'||(f.closest&&f.closest('[contenteditable=""],[contenteditable="true"]'))) return;
   window.__orbitaMenu=1;
+  /* 예전에 상세 설명 안에 같이 저장돼 버린 MENU 복사본(꾸밈 없는 글자·버튼)은 지우기 */
+  function sweep(){
+    var all=document.body.getElementsByTagName('*'),hit=[];
+    for(var k=0;k<all.length;k++){var el=all[k];if(el===R||(R&&R.contains(el))||el.contains(f)||el.tagName==='SCRIPT'||el.tagName==='STYLE')continue;
+      var t=(el.textContent||'').replace(/\s+/g,'');if(t.length>140||!/^✦?MENU/.test(t)||!/TOP$/.test(t))continue;
+      if(!el.querySelector('button,li,ul'))continue;hit.push(el);}
+    hit.forEach(function(el){if(!hit.some(function(o){return o!==el&&o.contains(el);})&&el.parentNode)el.parentNode.removeChild(el);});
+  }
   var FONT='https://cdn.jsdelivr.net/gh/yellopencil/yellopencil-webfonts@v1.17.0/fonts/paperlogy/Paperlogy-';
   var st=document.createElement('style');
   st.textContent="@font-face{font-family:'Paperlogy';src:url('"+FONT+"5Medium.woff2') format('woff2');font-weight:500;font-display:swap;}@font-face{font-family:'Paperlogy';src:url('"+FONT+"7Bold.woff2') format('woff2');font-weight:700;font-display:swap;}"+
@@ -22,6 +32,7 @@
   var up='<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2 7.5 6 3.5l4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var R=document.createElement('nav');R.className='orb-rm is-ready';R.setAttribute('aria-label','MENU');R.style.position='fixed';
   document.body.appendChild(R);
+  try{sweep();}catch(e){} window.addEventListener('load',function(){try{sweep();}catch(e){}}); setTimeout(function(){try{sweep();}catch(e){}},2000);
   var secs=[],cr=0,end=0,sig='',items=[],fab=null;
   function build(){
     R.innerHTML='<div class="orb-rm-card"><div class="orb-rm-head"><span class="orb-rm-star" aria-hidden="true">✦</span>MENU</div><ul class="orb-rm-list">'+
