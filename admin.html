@@ -1328,7 +1328,7 @@ $('clist').addEventListener('change',function(e){if(e.target.id!=='cbF')return;v
   .then(function(bl){c.img=keep('portfolio/collab/collab-'+stamp()+'.webp',bl);collabChanged(true);toast('사진을 바꿨어요. 가운데를 정사각형으로 잘라 넣었어요.');},function(){toast('이미지를 열 수 없어요.');});});
 /* ===== 화면 전환 ===== */
 /* ===== 방문 통계: 구글 애널리틱스 데이터를 받아 관리자 디자인으로 ===== */
-var GA_DEF={client:'',prop:''};
+var GA_DEF={client:'890750476797-vf4erp1av07tdcn90v69rb2eal284oja.apps.googleusercontent.com',prop:'420091734'};
 var ST={r:7,tok:null,exp:0,inited:false};
 function gaCfg(){var c={client:GA_DEF.client,prop:GA_DEF.prop};try{var x=JSON.parse(localStorage.getItem('orb.ga')||'null');if(x){if(x.client)c.client=x.client;if(x.prop)c.prop=x.prop;}}catch(e){}return c;}
 function stGate(html){$('stGate').hidden=false;$('stGate').innerHTML=html;$('stBody').hidden=true;}
