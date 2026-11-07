@@ -2399,19 +2399,82 @@
      "k": "_s5"
     },
     {
-     "k": "cafeBanner",
+     "k": "cafeName",
      "type": "text",
-     "label": "배너에 들어갈 팬카페 이름 또는 문구",
-     "t": "팬카페 배너"
+     "label": "팬카페 이름",
+     "t": "팬카페 이름",
+     "ph": "예) 오르비타 팬카페"
     },
     {
-     "k": "cafeMain",
+     "k": "cafePlat",
+     "type": "checks",
+     "label": "대문에 연결할 플랫폼",
+     "t": "대문에 연결할 플랫폼",
+     "opts": [
+      {
+       "id": "b-cafePlat-1",
+       "label": "치지직"
+      },
+      {
+       "id": "b-cafePlat-2",
+       "label": "유튜브"
+      },
+      {
+       "id": "b-cafePlat-3",
+       "label": "다시보기"
+      },
+      {
+       "id": "b-cafePlat-4",
+       "label": "트위터"
+      },
+      {
+       "id": "b-cafePlat-5",
+       "label": "기타",
+       "extra": "직접 작성"
+      }
+     ]
+    },
+    {
+     "k": "cafeOpts",
+     "type": "checks",
+     "label": "추가 옵션",
+     "t": "추가 옵션",
+     "opts": [
+      {
+       "id": "cafeOpts-1",
+       "label": "대문 HTML 세팅",
+       "price": 20000,
+       "pm": "add"
+      },
+      {
+       "id": "cafeOpts-2",
+       "label": "배너 모바일 버전 추가 제공",
+       "price": 5000,
+       "pm": "add"
+      }
+     ]
+    },
+    {
+     "k": "cafeLinks",
      "type": "list",
-     "label": "대문에 연결할 플랫폼 링크",
-     "t": "팬카페 대문 연결 링크",
-     "ph": "예) 트위터: https://x.com/...",
+     "label": "플랫폼 링크",
+     "t": "플랫폼 링크",
+     "ph": "예) 트위터",
      "max": 8,
-     "add": "+ 링크 추가"
+     "add": "+ 링크 추가",
+     "lph": "링크",
+     "show": {
+      "k": "cafeOpts",
+      "any": [
+       "cafeOpts-1"
+      ]
+     },
+     "link": {
+      "k": "cafeOpts",
+      "any": [
+       "cafeOpts-1"
+      ]
+     }
     }
    ]
   },
