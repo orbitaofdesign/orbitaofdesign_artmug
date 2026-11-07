@@ -297,6 +297,42 @@ details.more[open]>summary{margin-bottom:10px;}
 .tgt button:disabled{opacity:.35;}
 @media (max-width:1100px){.side{width:280px;}.grid2{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media (max-width:860px){.nav{width:64px;padding:12px 6px;}.nav button{justify-content:center;padding:0;font-size:0;}.nav button::before{width:8px;height:8px;}.nav .hint{display:none;}.navsub,.navsep{display:none;}.side{display:none;}.tree{width:180px;}.strs{grid-template-columns:minmax(0,1fr);}.top .tb span{display:none;}}
+
+/* ===== 방문 통계 ===== */
+.st{max-width:1100px;margin:0 auto;}
+.st-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.st-head h2{margin:0;font-size:22px;font-weight:800;padding-left:12px;border-left:5px solid var(--y);line-height:22px;}
+.st-live{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:999px;background:var(--k);color:var(--y);font-size:12px;font-weight:700;}
+.st-live i{width:7px;height:7px;border-radius:50%;background:var(--y);animation:stBlink 1.6s ease-in-out infinite;}
+@keyframes stBlink{50%{opacity:.3}}
+.st-gate{text-align:center;padding:36px 24px;}
+.st-gate h3{margin:0 0 8px;font-size:18px;}.st-gate p{margin:0 0 16px;color:var(--g);font-size:14px;line-height:1.6;}
+.st-gate .f{max-width:460px;margin:0 auto 10px;text-align:left;}
+.st-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:12px;}
+.st-kpi{padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:14px;}
+.st-kpi:first-child{background:var(--k);border-color:var(--k);color:#fff;}
+.st-kpi span{display:block;font-size:13px;color:var(--g);margin-bottom:8px;}.st-kpi:first-child span{color:rgba(255,255,255,.7);}
+.st-kpi b{display:block;font-size:28px;font-weight:800;letter-spacing:-.5px;line-height:1;}.st-kpi:first-child b{color:var(--y);}
+.st-kpi em{display:inline-block;margin-top:8px;font-style:normal;font-size:12px;font-weight:700;color:var(--g2);}
+.st-kpi em.up{color:var(--green);}.st-kpi em.dn{color:var(--red);}
+.st-card{max-width:none;margin:0 0 12px;}
+.st-ct{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:14px;}.st-ct b{font-size:15px;}
+.st-chart{position:relative;height:220px;}
+.st-chart svg{display:block;width:100%;height:100%;overflow:visible;}
+.st-tip{position:absolute;pointer-events:none;transform:translate(-50%,-100%);margin-top:-8px;padding:6px 10px;border-radius:8px;background:var(--k);color:#fff;font-size:12px;white-space:nowrap;opacity:0;transition:opacity .15s;}
+.st-tip.on{opacity:1;}.st-tip b{color:var(--y);}
+.st-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+.st-grid .st-card{margin:0;}
+.st-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:center;padding:6px 0;font-size:13px;}
+.st-row .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.st-row .v{font-weight:700;}
+.st-bar{grid-column:1/-1;height:6px;border-radius:3px;background:var(--bg);overflow:hidden;}.st-bar i{display:block;height:100%;border-radius:3px;background:var(--y);}
+.st-dev{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:4px 0 14px;background:var(--bg);}
+.st-dev i{display:block;height:100%;}
+.st-leg{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;}.st-leg span{display:inline-flex;align-items:center;gap:6px;}.st-leg i{width:10px;height:10px;border-radius:3px;}
+.st-empty{padding:12px 0;color:var(--g2);font-size:13px;}
+.st-foot{margin:14px 0 0;}
+.st-load{opacity:.45;pointer-events:none;transition:opacity .2s;}
+@media (max-width:900px){.st-kpis{grid-template-columns:repeat(2,minmax(0,1fr));}.st-grid{grid-template-columns:minmax(0,1fr);}}
 </style></head>
 <body>
 <header class="top">
@@ -330,6 +366,7 @@ details.more[open]>summary{margin-bottom:10px;}
     <button data-v="price">가격</button>
     <button data-v="collab">협업 작가 카드</button>
     <button data-v="pf">포트폴리오 샘플</button>
+    <button data-v="stats">방문 통계</button>
     <div class="hint">미리보기에서 글자를 눌러 바로 고칠 수 있어요. 다 고친 뒤 <b>사이트에 반영</b>을 누르면 1~2분 뒤 페이지에 적용돼요.</div>
   </nav>
   <main class="main">
@@ -373,6 +410,25 @@ details.more[open]>summary{margin-bottom:10px;}
           <div class="items" id="items"></div>
         </div>
       </div>
+    </section>
+    <section class="view" id="v-stats">
+      <div class="scroll"><div class="st">
+        <div class="st-head"><h2>방문 통계</h2><span class="st-live" id="stLive" hidden><i></i><b id="stLiveN">0</b>명 보는 중</span><span style="flex:1"></span>
+          <div class="seg" id="stRange"><button data-r="1">오늘</button><button data-r="7" class="on">7일</button><button data-r="28">28일</button><button data-r="90">90일</button></div>
+          <button class="btn sm" id="stRe" type="button" title="다시 불러오기">↻</button><button class="btn sm" id="stSet" type="button">연결 설정</button></div>
+        <div class="card st-gate" id="stGate"></div>
+        <div id="stBody" hidden>
+          <div class="st-kpis" id="stKpi"></div>
+          <div class="card st-card"><div class="st-ct"><b>날짜별 방문자</b><span class="note" id="stChartN"></span></div><div class="st-chart" id="stChart"></div></div>
+          <div class="st-grid">
+            <div class="card st-card"><div class="st-ct"><b>어디서 들어왔나요</b></div><div id="stSrc"></div></div>
+            <div class="card st-card"><div class="st-ct"><b>신청 관련 행동</b><span class="note">횟수</span></div><div id="stEv"></div></div>
+            <div class="card st-card"><div class="st-ct"><b>기기</b></div><div id="stDev"></div></div>
+            <div class="card st-card"><div class="st-ct"><b>지역</b></div><div id="stGeo"></div></div>
+          </div>
+          <p class="note st-foot">구글 애널리틱스 데이터예요. 오늘 숫자는 몇 시간 늦게 반영될 수 있어요. 관리자 미리보기에서 본 건 세지 않아요.</p>
+        </div>
+      </div></div>
     </section>
   </main>
 </div>
@@ -1271,8 +1327,92 @@ $('clist').addEventListener('change',function(e){if(e.target.id!=='cbF')return;v
   decode(f).then(function(img){var w=img.width,h=img.height,m=Math.min(w,h),side=Math.min(480,m),cv=document.createElement('canvas');cv.width=cv.height=side;var x=cv.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(img,Math.round((w-m)/2),Math.round((h-m)/2),m,m,0,0,side,side);return toBlob(cv,'image/webp',.88);})
   .then(function(bl){c.img=keep('portfolio/collab/collab-'+stamp()+'.webp',bl);collabChanged(true);toast('사진을 바꿨어요. 가운데를 정사각형으로 잘라 넣었어요.');},function(){toast('이미지를 열 수 없어요.');});});
 /* ===== 화면 전환 ===== */
+/* ===== 방문 통계: 구글 애널리틱스 데이터를 받아 관리자 디자인으로 ===== */
+var GA_DEF={client:'',prop:''};
+var ST={r:7,tok:null,exp:0,inited:false};
+function gaCfg(){var c={client:GA_DEF.client,prop:GA_DEF.prop};try{var x=JSON.parse(localStorage.getItem('orb.ga')||'null');if(x){if(x.client)c.client=x.client;if(x.prop)c.prop=x.prop;}}catch(e){}return c;}
+function stGate(html){$('stGate').hidden=false;$('stGate').innerHTML=html;$('stBody').hidden=true;}
+function stSettings(){var c=gaCfg();
+  stGate('<h3>구글 애널리틱스 연결</h3><p>구글 클라우드에서 만든 <b>클라이언트 ID</b>와 애널리틱스 <b>속성 ID</b>(숫자)를 넣어 주세요.<br>이 브라우저에 저장돼요.</p>'+
+    '<label class="f"><span>클라이언트 ID</span><input id="stC" value="'+esc(c.client)+'" placeholder="0000-xxxx.apps.googleusercontent.com"></label>'+
+    '<label class="f"><span>속성 ID</span><input id="stP" value="'+esc(c.prop)+'" placeholder="예) 412345678" inputmode="numeric"></label>'+
+    '<button class="btn y" id="stSave" type="button">저장하고 연결</button>');
+  $('stSave').onclick=function(){var cl=$('stC').value.trim(),pr=$('stP').value.trim().replace(/\D/g,'');if(!/\.apps\.googleusercontent\.com$/.test(cl)){toast('클라이언트 ID를 확인해 주세요. …apps.googleusercontent.com 으로 끝나요.');return;}if(!pr){toast('속성 ID(숫자)를 넣어 주세요.');return;}
+    try{localStorage.setItem('orb.ga',JSON.stringify({client:cl,prop:pr}));}catch(e){}ST.tok=null;stStart();};}
+function stLoginGate(){stGate('<h3>구글 계정으로 로그인</h3><p>애널리틱스 데이터를 읽으려면 한 번 로그인해야 해요.<br>로그인은 1시간 동안 유지돼요.</p><button class="btn y" id="stLogin" type="button">구글로 로그인</button>');$('stLogin').onclick=function(){stAuth(true);};}
+var gisP=null;function gis(){if(gisP)return gisP;gisP=new Promise(function(res,rej){if(window.google&&google.accounts&&google.accounts.oauth2)return res();var sc=document.createElement('script');sc.src='https://accounts.google.com/gsi/client';sc.async=true;sc.onload=function(){res();};sc.onerror=function(){gisP=null;rej(new Error('구글 로그인 스크립트를 불러오지 못했어요.'));};document.head.appendChild(sc);});return gisP;}
+var tokC=null;
+function stAuth(interactive){var c=gaCfg();return gis().then(function(){return new Promise(function(res,rej){
+  tokC=google.accounts.oauth2.initTokenClient({client_id:c.client,scope:'https://www.googleapis.com/auth/analytics.readonly',prompt:interactive?'':'none',callback:function(r){if(r&&r.access_token){ST.tok=r.access_token;ST.exp=Date.now()+((+r.expires_in||3600)-60)*1000;try{sessionStorage.setItem('orb.gatok',JSON.stringify({t:ST.tok,e:ST.exp}));}catch(e){}res();stLoad();}else{rej(r);}},error_callback:function(e){rej(e);if(!interactive)stLoginGate();else toast('로그인을 마치지 못했어요. 다시 눌러 주세요.');}});
+  tokC.requestAccessToken();});}).catch(function(e){if(interactive&&e&&e.message)toast(e.message);});}
+function stStart(){var c=gaCfg();if(!c.client||!c.prop){stSettings();return;}
+  if(!ST.tok){try{var x=JSON.parse(sessionStorage.getItem('orb.gatok')||'null');if(x&&x.e>Date.now()){ST.tok=x.t;ST.exp=x.e;}}catch(e){}}
+  if(ST.tok&&ST.exp>Date.now()){stLoad();return;}stLoginGate();}
+function gaPost(path,body){var c=gaCfg();return fetch('https://analyticsdata.googleapis.com/v1beta/properties/'+c.prop+path,{method:'POST',headers:{'Authorization':'Bearer '+ST.tok,'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){
+  return r.json().catch(function(){return {};}).then(function(j){if(!r.ok){var e=new Error((j.error&&j.error.message)||('HTTP '+r.status));e.status=r.status;throw e;}return j;});});}
+function grng(n){if(n===1)return [{startDate:'today',endDate:'today'},{startDate:'yesterday',endDate:'yesterday'}];return [{startDate:(n-1)+'daysAgo',endDate:'today'},{startDate:(2*n-1)+'daysAgo',endDate:n+'daysAgo'}];}
+function grows(rep){return (rep&&rep.rows)||[];}
+function gmv(r,i){return +((r.metricValues[i]||{}).value)||0;}
+function gdv(r,i){return (r.dimensionValues[i]||{}).value||'';}
+function fmtN(n){return Math.round(n).toLocaleString('ko-KR');}
+function fmtDur(s){s=Math.round(s);var m=Math.floor(s/60);return m?m+'분 '+(s%60)+'초':s+'초';}
+function stLoad(){
+  $('stGate').hidden=true;$('stBody').hidden=false;$('stBody').classList.add('st-load');
+  var R=grng(ST.r),cur=[R[0]];
+  var reqs=[
+    {dateRanges:R,metrics:[{name:'activeUsers'},{name:'sessions'},{name:'screenPageViews'},{name:'averageSessionDuration'}]},
+    {dateRanges:cur,dimensions:[{name:ST.r===1?'hour':'date'}],metrics:[{name:'activeUsers'},{name:'screenPageViews'}],orderBys:[{dimension:{dimensionName:ST.r===1?'hour':'date'}}]},
+    {dateRanges:cur,dimensions:[{name:'sessionSource'}],metrics:[{name:'sessions'}],orderBys:[{metric:{metricName:'sessions'},desc:true}],limit:8},
+    {dateRanges:cur,dimensions:[{name:'deviceCategory'}],metrics:[{name:'activeUsers'}]},
+    {dateRanges:cur,dimensions:[{name:'eventName'}],metrics:[{name:'eventCount'}],dimensionFilter:{filter:{fieldName:'eventName',inListFilter:{values:['apply_copy','package_ask','ppt_txt_save']}}}}
+  ];
+  var geo={dateRanges:cur,dimensions:[{name:'city'}],metrics:[{name:'activeUsers'}],orderBys:[{metric:{metricName:'activeUsers'},desc:true}],limit:6};
+  Promise.all([gaPost(':batchRunReports',{requests:reqs}),gaPost(':runReport',geo),gaPost(':runRealtimeReport',{metrics:[{name:'activeUsers'}]}).catch(function(){return null;})]).then(function(a){
+    var rp=a[0].reports||[];stKpi(rp[0]);stChart(rp[1]);stSrc(rp[2]);stDev(rp[3]);stEv(rp[4]);stGeo(a[1]);
+    var live=a[2]&&grows(a[2])[0]?gmv(grows(a[2])[0],0):0;$('stLive').hidden=!a[2];$('stLiveN').textContent=live;
+    $('stBody').classList.remove('st-load');
+  }).catch(function(e){$('stBody').classList.remove('st-load');
+    if(e.status===401){ST.tok=null;try{sessionStorage.removeItem('orb.gatok');}catch(_){}stLoginGate();return;}
+    if(e.status===403){stGate('<h3>데이터를 읽을 권한이 없어요</h3><p>로그인한 구글 계정이 이 애널리틱스 속성에 접근할 수 있는지, 구글 클라우드에서 <b>Google Analytics Data API</b>를 켰는지 확인해 주세요.<br><span class="note">'+esc(e.message)+'</span></p><button class="btn" id="stAgain" type="button">다시 시도</button>');$('stAgain').onclick=function(){stAuth(true);};return;}
+    stGate('<h3>통계를 불러오지 못했어요</h3><p class="note">'+esc(e.message||'')+'</p><button class="btn" id="stAgain" type="button">다시 시도</button>');$('stAgain').onclick=stLoad;});
+}
+function stKpi(rep){var cur=[0,0,0,0],prev=[0,0,0,0];grows(rep).forEach(function(r){var t=gdv(r,0)==='date_range_1'?prev:cur;for(var i=0;i<4;i++)t[i]=gmv(r,i);});
+  if(grows(rep).length===1&&!rep.dimensionHeaders){}
+  var L=['방문자','방문 수','페이지 조회','평균 머문 시간'],cmp=ST.r===1?'어제보다':'이전 '+ST.r+'일보다';
+  $('stKpi').innerHTML=L.map(function(l,i){var c=cur[i],p=prev[i],d=p?Math.round((c-p)/p*100):null;
+    return '<div class="st-kpi"><span>'+l+'</span><b>'+(i===3?fmtDur(c):fmtN(c))+'</b><em class="'+(d==null||d===0?'':d>0?'up':'dn')+'">'+(d==null?(c?'새로 생김':'—'):cmp+' '+(d>0?'▲ ':d<0?'▼ ':'')+Math.abs(d)+'%')+'</em></div>';}).join('');}
+function stChart(rep){ST.last=rep;var ct=document.querySelector('#v-stats .st-card .st-ct b');if(ct)ct.textContent=ST.r===1?'시간대별 방문자 (오늘)':'날짜별 방문자';var R=grows(rep),pts=[];
+  if(ST.r===1){var byH={};R.forEach(function(r){byH[+gdv(r,0)]=[gmv(r,0),gmv(r,1)];});for(var h=0;h<24;h++)pts.push({l:h+'시',s:h%6===0?h+'시':'',u:(byH[h]||[0])[0],v:(byH[h]||[0,0])[1]});}
+  else{var byD={};R.forEach(function(r){byD[gdv(r,0)]=[gmv(r,0),gmv(r,1)];});var d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-(ST.r-1));
+    for(var i=0;i<ST.r;i++){var k=d.getFullYear()+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2),lab=(d.getMonth()+1)+'/'+d.getDate(),step=ST.r<=7?1:ST.r<=28?7:15;
+      pts.push({l:lab+'('+'일월화수목금토'[d.getDay()]+')',s:(i%step===0||i===ST.r-1)?lab:'',u:(byD[k]||[0])[0],v:(byD[k]||[0,0])[1]});d.setDate(d.getDate()+1);}}
+  var el=$('stChart'),W=el.clientWidth||900,H=220,pb=26,pt=10,mx=Math.max(1,Math.max.apply(null,pts.map(function(p){return p.u;}))),n=pts.length,bw=W/n,g=Math.min(bw*0.28,10);
+  var nice=Math.pow(10,Math.floor(Math.log10(mx))),top=Math.ceil(mx/nice)*nice;if(top<mx)top=mx;
+  var sv='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="날짜별 방문자">';
+  [0,.5,1].forEach(function(f){var y=pt+(H-pb-pt)*(1-f);sv+='<line x1="0" x2="'+W+'" y1="'+y+'" y2="'+y+'" stroke="#ececec"/><text x="0" y="'+(y-4)+'" font-size="11" fill="#999">'+fmtN(top*f)+'</text>';});
+  pts.forEach(function(p,i){var h=(H-pb-pt)*p.u/top,x=i*bw+g/2+bw*0.06;sv+='<rect data-i="'+i+'" x="'+x+'" y="'+(H-pb-h)+'" width="'+Math.max(2,bw-g-bw*0.12)+'" height="'+Math.max(h,p.u?2:0)+'" rx="4" fill="'+(i===n-1?'#1a1a1a':'#ffd040')+'"/>';
+    if(p.s){var an=i===0&&bw<30?'start':i===n-1&&bw<30?'end':'middle',tx=an==='start'?i*bw:an==='end'?(i+1)*bw:i*bw+bw/2;sv+='<text x="'+tx+'" y="'+(H-8)+'" font-size="11" fill="#999" text-anchor="'+an+'">'+p.s+'</text>';}});
+  sv+='<rect class="st-hit" x="0" y="0" width="'+W+'" height="'+H+'" fill="transparent"/></svg><div class="st-tip" id="stTip"></div>';
+  el.innerHTML=sv;var tip=$('stTip'),tot=pts.reduce(function(a,p){return a+p.u;},0);$('stChartN').textContent='합계 '+fmtN(tot)+'명 · 막대에 마우스를 올려 보세요';
+  el.onmousemove=function(e){var rc=el.getBoundingClientRect(),i=Math.min(n-1,Math.max(0,Math.floor((e.clientX-rc.left)/rc.width*n))),p=pts[i];tip.innerHTML=p.l+' · 방문자 <b>'+fmtN(p.u)+'</b> · 조회 '+fmtN(p.v);tip.style.left=((i+.5)/n*100)+'%';tip.style.top=(pt+(H-pb-pt)*(1-p.u/top))/H*100+'%';tip.classList.add('on');};
+  el.onmouseleave=function(){tip.classList.remove('on');};}
+var SRCN={'(direct)':'직접 방문 · 앱·메신저 링크','artmug.kr':'아트머그','m.artmug.kr':'아트머그 (모바일)','t.co':'트위터(X)','x.com':'트위터(X)','twitter.com':'트위터(X)','google':'구글 검색','naver':'네이버 검색','m.search.naver.com':'네이버 검색','search.naver.com':'네이버 검색','chzzk.naver.com':'치지직','youtube.com':'유튜브','m.youtube.com':'유튜브','discord.com':'디스코드','(not set)':'알 수 없음'};
+function gbars(R,lab,el){if(!R.length){$(el).innerHTML='<div class="st-empty">아직 데이터가 없어요.</div>';return;}var mx=Math.max.apply(null,R.map(function(r){return r[1];}))||1;
+  $(el).innerHTML=R.map(function(r){return '<div class="st-row"><span class="n" title="'+esc(r[0])+'">'+esc(lab(r[0]))+'</span><span class="v">'+fmtN(r[1])+'</span><span class="st-bar"><i style="width:'+Math.max(2,r[1]/mx*100)+'%"></i></span></div>';}).join('');}
+function stSrc(rep){gbars(grows(rep).map(function(r){return [gdv(r,0),gmv(r,0)];}),function(s){return SRCN[s]||s;},'stSrc');}
+function stGeo(rep){gbars(grows(rep).map(function(r){return [gdv(r,0),gmv(r,0)];}),function(s){return s==='(not set)'?'알 수 없음':s;},'stGeo');}
+function stEv(rep){var m={};grows(rep).forEach(function(r){m[gdv(r,0)]=gmv(r,0);});var L=[['apply_copy','신청서 복사하기'],['package_ask','패키지 ‘이 구성으로 문의’'],['ppt_txt_save','PPT 페이지별 내용 저장']];
+  $('stEv').innerHTML=L.map(function(x){return '<div class="st-row"><span class="n">'+x[1]+'</span><span class="v">'+fmtN(m[x[0]]||0)+'회</span></div>';}).join('')+'<p class="note" style="margin:8px 0 0">2026년 11월 8일부터 세기 시작했어요.</p>';}
+function stDev(rep){var C={desktop:['PC','#1a1a1a'],mobile:['모바일','#ffd040'],tablet:['태블릿','#ffe79a']},R=grows(rep).map(function(r){return [gdv(r,0),gmv(r,0)];}),t=R.reduce(function(a,r){return a+r[1];},0);
+  if(!t){$('stDev').innerHTML='<div class="st-empty">아직 데이터가 없어요.</div>';return;}
+  $('stDev').innerHTML='<div class="st-dev">'+R.map(function(r){var c=C[r[0]]||[r[0],'#ccc'];return '<i style="width:'+(r[1]/t*100)+'%;background:'+c[1]+'" title="'+c[0]+'"></i>';}).join('')+'</div><div class="st-leg">'+R.map(function(r){var c=C[r[0]]||[r[0],'#ccc'];return '<span><i style="background:'+c[1]+'"></i>'+c[0]+' <b>'+Math.round(r[1]/t*100)+'%</b> <span class="note">'+fmtN(r[1])+'명</span></span>';}).join('')+'</div>';}
+$('stRange').addEventListener('click',function(e){var b=e.target.closest('[data-r]');if(!b)return;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});ST.r=+b.getAttribute('data-r');if(ST.tok&&ST.exp>Date.now())stLoad();});
+$('stRe').addEventListener('click',function(){stStart();});
+$('stSet').addEventListener('click',stSettings);
+window.addEventListener('resize',function(){if(ST.last&&$('v-stats').classList.contains('on')&&!$('stBody').hidden){clearTimeout(ST.rt);ST.rt=setTimeout(function(){stChart(ST.last);},200);}});
+
 function showView(v){document.querySelectorAll('.nav button').forEach(function(b){var bv=b.getAttribute('data-v');b.classList.toggle('on',bv===v&&(v!=='text'||(b.getAttribute('data-sec')||'')===secF)&&(v!=='items'||!b.parentNode.classList.contains('navsub')||b.getAttribute('data-grp')===grpF));});document.querySelectorAll('.view').forEach(function(s){s.classList.toggle('on',s.id==='v-'+v);});
-  if(v==='text'&&needReload)reloadPreview();if(v==='items')buildItems();if(v==='price')buildPrice();if(v==='pf'&&!pfReady)initPf();if(v==='collab')buildCollab();}
+  if(v==='text'&&needReload)reloadPreview();if(v==='items')buildItems();if(v==='price')buildPrice();if(v==='pf'&&!pfReady)initPf();if(v==='collab')buildCollab();if(v==='stats')stStart();}
 document.querySelector('.nav').addEventListener('click',function(e){var b=e.target.closest('[data-v]');if(!b)return;var v=b.getAttribute('data-v');if(v==='text')secF=b.getAttribute('data-sec')||'';if(v==='items'){var ng=b.getAttribute('data-grp')||'p';if(ng!==grpF)curItem=null;grpF=ng;}showView(v);if(v==='text'){buildTextList();goSec();}});
 window.addEventListener('beforeunload',function(e){if(dirty){saveLocal(true);e.preventDefault();e.returnValue='';}});
 

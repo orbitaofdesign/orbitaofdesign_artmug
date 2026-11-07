@@ -528,7 +528,7 @@ window.__orbitaApp=function(){
     var txt='\ufeff'+T.join('\r\n').replace(/\r?\n/g,'\r\n');
     var fn='orbita_PPT_'+ds+'.txt'; /* 한글 파일 이름은 일부 브라우저에서 'download'로 바뀌어 영문으로 */
     try{var bl=new Blob([txt],{type:'text/plain;charset=utf-8'}),u=URL.createObjectURL(bl),a=document.createElement('a');a.href=u;a.download=fn;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},4000);
-      box.querySelector('.af-pg-now').textContent='저장했어요 · '+fn;setTimeout(function(){if(box.isConnected)pgShow(box,box._cur);},2400);}catch(e){box.querySelector('.af-pg-now').textContent='저장하지 못했어요. 다시 눌러 주세요.';}
+      if(window.__orbGa)window.__orbGa('ppt_txt_save',{pages:filled.length});box.querySelector('.af-pg-now').textContent='저장했어요 · '+fn;setTimeout(function(){if(box.isConnected)pgShow(box,box._cur);},2400);}catch(e){box.querySelector('.af-pg-now').textContent='저장하지 못했어요. 다시 눌러 주세요.';}
   }
   function syncModal(it,uid){
     setTimeout(function(){if(!modal)return;var first=null;[].forEach.call(modal.querySelector('.af-mbody').children,function(c){c.classList.remove('af-first');if(!first&&!c.hidden)first=c;});if(first)first.classList.add('af-first');},0);
@@ -596,7 +596,7 @@ window.__orbitaApp=function(){
     if(pageField(it)){var hd=w.querySelector('.af-xhead'),pn=w.querySelector('.af-pick');if(pn&&pn.hidden)hd.click();var sb=subsOf(it).filter(function(x){return x&&hasQ(x);})[0]||subsOf(it)[0];var r=sb&&w.querySelector('[data-go="'+sb.id+'"]');if(sb&&r)openModal(sb,r);}
     else openModal(it,w);};
   /* 패키지 안내 '이 구성으로 문의' → 신청 양식 팝업과 연결 */
-  document.querySelectorAll('.pk-ask').forEach(function(b){b.addEventListener('click',function(){var it=byId[b.getAttribute('data-pk')];if(it)openModal(it,b);});});
+  document.querySelectorAll('.pk-ask').forEach(function(b){b.addEventListener('click',function(){var it=byId[b.getAttribute('data-pk')];if(it){if(window.__orbGa)window.__orbGa('package_ask',{item:fullName(it)});openModal(it,b);}});});
   function syncAsk(){document.querySelectorAll('.pk-ask').forEach(function(b){var on=!!picked[b.getAttribute('data-pk')];b.classList.toggle('is-on',on);b.textContent=on?'문의 작성 완료 · 수정':'이 구성으로 문의';b.style.width='';var w=b.getBoundingClientRect().width;if(w)b.style.width=Math.ceil(w)+'px';});}
   /* 마감일 */
   var dueDate=$('af-due-date'),dueWrap=$('af-due-date-wrap');
@@ -711,6 +711,8 @@ window.__orbitaApp=function(){
     return L.join('\n');
   }
   var copyBtn=$('af-copy'),agree=$('af-agree'),msg=$('af-msg');
+  /* 방문 통계(구글 애널리틱스)에 행동 기록 */
+  function ga(n,p){try{if(window.gtag)window.gtag('event',n,p||{});}catch(e){}}window.__orbGa=ga;
   function update(){syncAsk();var q=quote();renderEst(q);$('af-review').textContent=build(q);copyBtn.disabled=!agree.checked;}
   form.addEventListener('input',update); form.addEventListener('change',update); agree.addEventListener('change',update);
 
@@ -726,7 +728,7 @@ window.__orbitaApp=function(){
     else if(!due) fail(5,'원하는 마감일을 골라 주세요.');
     else if(due.id==='af-due-4'&&!dueDate.value) fail(5,'지정일 마감 날짜를 골라 주세요.');
     if(!ok){msg.textContent='빠진 항목이 있어요. 위의 빨간 안내를 확인해 주세요.';first.scrollIntoView({behavior:'smooth',block:'center'});return;}
-    var text=build(quote()),pre=$('af-review');
+    var text=build(quote()),pre=$('af-review');ga('apply_copy',{items:order.map(function(id){return fullName(byId[id]);}).join(', ').slice(0,100),item_count:order.length});
     function manual(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);msg.textContent='자동 복사가 막혀 있어요. 선택된 내용을 Ctrl+C로 복사해 주세요.';}
     try{navigator.clipboard.writeText(text).then(function(){msg.textContent='신청서를 복사했어요. 문의 시 붙여넣어 보내 주세요.';},manual);}catch(e){manual();}
   });
