@@ -2282,7 +2282,12 @@
     {
      "src": "portfolio/etc/etc-01.webp",
      "full": "portfolio/etc/etc-01.png",
-     "cap": "Live 2D Illust Showcase"
+     "cap": "Live 2D Model Showcase"
+    },
+    {
+     "src": "portfolio/etc/etc-261108-085403-lypq.webp",
+     "full": "portfolio/etc/etc-261108-085403-lypq-full.png",
+     "cap": "Live 2D Model Showcase"
     }
    ]
   }
@@ -3942,5 +3947,11 @@
  "hidden": [
   "b.sec-form|span|rvnrvk",
   "b.sec-form|span|q6hhie"
- ]
+ ],
+ "m": {
+  "texts": {},
+  "attrs": {},
+  "hide": [],
+  "show": []
+ }
 }
