@@ -541,8 +541,8 @@ function editAttr(key){var a=attrU(key);if(!a)return;var cur=eA(key)!=null?eA(ke
 
 /* ===== 신청 양식 항목 (팝업 구성 그대로 편집) ===== */
 var itemsBuilt=false,grpF='p',curItem=null,pendingOpen=null;
-var TYPES={radio:'하나만 고르기',checks:'여러 개 고르기',text:'한 줄 입력',textarea:'여러 줄 입력',count:'개수 고르기',sec:'소제목',people:'신청 인원',list:'목록 입력',date:'날짜',number:'숫자 입력'};
-var ADDTYPES=['radio','checks','text','textarea','count','sec'];
+var TYPES={radio:'하나만 고르기',checks:'여러 개 고르기',text:'한 줄 입력',textarea:'여러 줄 입력',count:'개수 고르기',sec:'소제목',people:'신청 인원',list:'목록 입력',date:'날짜',number:'숫자 입력',pages:'페이지별 내용 (텍스트 파일 저장)'};
+var ADDTYPES=['radio','checks','text','textarea','count','pages','sec'];
 var PM={none:'금액 없음',base:'기본 금액',add:'추가 금액',per:'개수당 추가',basePer:'개수당 기본 금액'};
 function formData(){if(!draft.form)draft.form=clone(O.defaults.form);return draft.form;}
 function calcData(){if(!draft.calc)draft.calc=clone(O.defaults.calc);return draft.calc;}
@@ -607,6 +607,8 @@ function qHTML(s,f,qi){
     if(t==='radio')h+=fin('qf','disc','고르면 할인 (%)',f.disc?Math.round(f.disc*1000)/10:'','fe-w0','number');
     if(t==='list')h+=fin('qf','add','추가 버튼 문구',f.add||'','fe-w1');
     if(t==='date')h+=fin('qf','empty','비웠을 때 신청서 표시',f.empty||'','fe-w1');
+    if(t==='pages'){h+='<label class="f fe-w0"><span>기본 장 수</span><input data-qf="base" type="number" min="1" max="50" step="1" value="'+esc(f.base||6)+'"></label>';
+      var cnt=s.f.filter(function(x){return x.type==='count';});h+='<label class="f fe-w1"><span>장 수 더하기 (개수 고르기 질문)</span><select data-qf="more"><option value="">없음</option>'+cnt.map(function(x){return '<option value="'+esc(x.k)+'"'+(x.k===f.more?' selected':'')+'>‘'+esc(x.label||x.t||x.k)+'’ 만큼</option>';}).join('')+'</select></label>';}
     h+=fin('qf','hint','아래 ※ 안내 (비우면 없음)',f.hint||'','fe-w3')+'</div>';
   }
   /* 보이는 조건 */
@@ -652,7 +654,7 @@ $('ilist').addEventListener('input',function(e){
   if(t.hasAttribute('data-chip')){var ck=s.g==='p'?'incl':'mincl';s[ck][+t.getAttribute('data-chip')]=t.value;return formChanged();}
   var q=t.closest('.fe-q');if(!q)return;var f=s.f[+q.getAttribute('data-q')];
   if(t.hasAttribute('data-qf')){var qk=t.getAttribute('data-qf');if(qk==='type'||qk==='showk')return;
-    if(qk==='max')setNum(f,'max',t.value);else if(qk==='disc'){if(t.value===''||!(+t.value>0))delete f.disc;else f.disc=Math.round(+t.value*10)/1000;}
+    if(qk==='max')setNum(f,'max',t.value);else if(qk==='base'){var bn=parseInt(t.value,10);if(bn>0)f.base=Math.min(50,bn);}else if(qk==='disc'){if(t.value===''||!(+t.value>0))delete f.disc;else f.disc=Math.round(+t.value*10)/1000;}
     else if(t.value===''&&qk!=='label')delete f[qk];else f[qk]=t.value;return formChanged();}
   var oe=t.closest('.fe-o');if(oe&&t.hasAttribute('data-of')){var o=f.opts[+oe.getAttribute('data-o')],ok=t.getAttribute('data-of');if(ok==='pm'||ok==='perk')return;
     if(ok==='price')setNum(o,'price',t.value);else if(t.value===''&&ok!=='label')delete o[ok];else o[ok]=t.value;
@@ -682,7 +684,7 @@ $('ilist').addEventListener('click',function(e){
   if(!b||!s)return;var a=b.getAttribute('data-act'),ck=s.g==='p'?'incl':'mincl';
   if(a==='chip-add'){(s[ck]=s[ck]||[]).push('새 구성');formChanged();renderFE();return;}
   if(a==='chip-del'){s[ck].splice(+b.getAttribute('data-i'),1);formChanged();renderFE();return;}
-  if(a==='q-add'){var nt=$('feNewT').value,k=uid('q'),nf={k:k,type:nt,label:nt==='sec'?'새 소제목':'새 질문'};if(nt==='radio'||nt==='checks')nf.opts=[{id:k+'-1',label:'선택지 1'},{id:k+'-2',label:'선택지 2'}];if(nt==='count'){nf.unit='개';nf.max=10;}s.f.push(nf);formChanged();renderFE();var qs=document.querySelectorAll('#ilist .fe-q');if(qs.length){qs[qs.length-1].scrollIntoView({block:'center'});var li=qs[qs.length-1].querySelector('.fe-qlabel');if(li){li.focus();li.select();}}return;}
+  if(a==='q-add'){var nt=$('feNewT').value,k=uid('q'),nf={k:k,type:nt,label:nt==='sec'?'새 소제목':'새 질문'};if(nt==='radio'||nt==='checks')nf.opts=[{id:k+'-1',label:'선택지 1'},{id:k+'-2',label:'선택지 2'}];if(nt==='count'){nf.unit='개';nf.max=10;}if(nt==='pages'){nf.base=6;nf.label='페이지별 내용';}s.f.push(nf);formChanged();renderFE();var qs=document.querySelectorAll('#ilist .fe-q');if(qs.length){qs[qs.length-1].scrollIntoView({block:'center'});var li=qs[qs.length-1].querySelector('.fe-qlabel');if(li){li.focus();li.select();}}return;}
   var q=b.closest('.fe-q');if(!q)return;var qi=+q.getAttribute('data-q'),f=s.f[qi];
   if(a==='q-up'||a==='q-down'){mv(s.f,qi,a==='q-up'?-1:1);formChanged();renderFE();return;}
   if(a==='q-del'){if(!confirm('‘'+(f.label||f.t||'이 질문')+'’ 질문을 삭제할까요?'))return;s.f.splice(qi,1);s.f.forEach(function(x){if(x.show&&x.show.k===f.k)delete x.show;(x.opts||[]).forEach(function(o){if(o.per&&o.per.k===f.k)o.per={k:''};});});formChanged();renderFE();return;}
