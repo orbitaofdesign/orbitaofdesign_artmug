@@ -1008,14 +1008,16 @@ window.__orbitaApp=function(){
     if(deck){count.hidden=n<2;count.textContent=(idx+1)+' / '+n;}
     arm();
     var on=deck?di:idx;
-    var ot=thumbs.querySelectorAll('[data-k]')[on];if(ot){var tl=ot.offsetLeft-thumbs.offsetLeft,tr=tl+ot.offsetWidth;if(tl<thumbs.scrollLeft||tr>thumbs.scrollLeft+thumbs.clientWidth)thumbs.scrollTo({left:tl-(thumbs.clientWidth-ot.offsetWidth)/2,behavior:'smooth'});}
+    /* 아래 썸네일 줄이 지금 보고 있는 샘플을 따라 가운데로 움직여요 */
+    var ot=thumbs.querySelectorAll('[data-k]')[on];if(ot&&thumbs.scrollWidth>thumbs.clientWidth+1){var tl=ot.offsetLeft-thumbs.offsetLeft;thumbs.scrollTo({left:Math.max(0,tl-(thumbs.clientWidth-ot.offsetWidth)/2),behavior:'smooth'});}
     [].forEach.call(thumbs.querySelectorAll('[data-k]'),function(d,j){d.classList.toggle('is-on',j===on);d.setAttribute('aria-current',j===on?'true':'false');});
   }
-  /* 자동 넘김: 3.5초마다 다음 장, 마우스를 올리거나 팝업이 열려 있으면 멈춰요 */
+  /* 자동 넘김: PPT만 3.5초마다 다음 장, 마우스를 올리거나 팝업이 열려 있으면 멈춰요 */
   var timer=null,hover=false,AUTO=3500,inView=!window.IntersectionObserver;
   /* 포트폴리오가 화면에 보일 때만 자동 넘김 (페이지 열자마자 넘어가지 않게) */
   if(window.IntersectionObserver)new IntersectionObserver(function(es){inView=es[0].isIntersecting;arm();},{threshold:0.35}).observe(stage);
-  function arm(){clearTimeout(timer);timer=null;var n=deck?list[di].pages.length:list.length;if(n>1&&inView&&!hover&&!lb&&!slidebox.hidden&&!document.hidden)timer=setTimeout(function(){go(idx+1);},AUTO);}
+  /* 2026-11-12: PPT 말고는 자동으로 넘어가지 않게 (사용자 요청) */
+  function arm(){clearTimeout(timer);timer=null;if(!deck)return;var n=deck?list[di].pages.length:list.length;if(n>1&&inView&&!hover&&!lb&&!slidebox.hidden&&!document.hidden)timer=setTimeout(function(){go(idx+1);},AUTO);}
   stage.addEventListener('mouseenter',function(){hover=true;arm();});stage.addEventListener('mouseleave',function(){hover=false;arm();});
   document.addEventListener('visibilitychange',arm);
   prev.addEventListener('click',function(){go(idx-1);}); next.addEventListener('click',function(){go(idx+1);});
