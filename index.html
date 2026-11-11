@@ -918,6 +918,8 @@ window.__orbitaApp=function(){
     /* ratio 'auto': 첫 샘플 이미지 비율에 맞춤 (샘플이 없으면 16:9) */
     if(s&&s.ratio==='auto'){stage.style.aspectRatio='';var f0=list[0],u0=f0&&(f0.src||f0.full);if(u0){var im0=new Image();im0.onload=function(){if(PF[cur]!==c||sub!==k)return;stage.style.aspectRatio=im0.naturalWidth+' / '+im0.naturalHeight;fixStage();};im0.src=u0;}}
     else stage.style.aspectRatio=(s&&s.ratio)||'';
+    /* maxw: 정방형·세로형처럼 높은 샘플은 칸 폭을 줄여 가운데에 (화면 밖으로 길어지지 않게) */
+    var swp=stage.parentNode;swp.style.maxWidth=(s&&s.maxw)?s.maxw+'px':'';swp.style.marginLeft=swp.style.marginRight=(s&&s.maxw)?'auto':'';thumbs.style.maxWidth=swp.style.maxWidth;thumbs.style.marginLeft=thumbs.style.marginRight=swp.style.marginLeft;
     fixStage();
     thumbs.classList.toggle('pf-thumbs-sqs',!!(s&&s.sqth));
     if(deck){renderDeck();return;}

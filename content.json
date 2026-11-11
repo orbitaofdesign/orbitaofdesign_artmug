@@ -509,8 +509,7 @@
     },
     {
      "name": "정방형",
-     "fmt": "grid",
-     "cols": 2,
+     "fmt": "slide",
      "items": [
       {
        "src": "portfolio/schedule/schedule-261112-001853-9zc1.webp",
@@ -524,12 +523,14 @@
        "src": "portfolio/schedule/square-02.webp",
        "full": "portfolio/schedule/square-02.png"
       }
-     ]
+     ],
+     "ratio": "1 / 1",
+     "maxw": 600,
+     "sqth": 1
     },
     {
      "name": "세로형",
-     "fmt": "grid",
-     "cols": 3,
+     "fmt": "slide",
      "items": [
       {
        "src": "portfolio/schedule/vertical-01.webp",
@@ -539,7 +540,10 @@
        "src": "portfolio/schedule/vertical-02.webp",
        "full": "portfolio/schedule/vertical-02.png"
       }
-     ]
+     ],
+     "ratio": "1080 / 1350",
+     "maxw": 520,
+     "sqth": 1
     }
    ]
   },
