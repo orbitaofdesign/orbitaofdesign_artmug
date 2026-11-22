@@ -1344,10 +1344,10 @@ $('clist').addEventListener('change',function(e){if(e.target.id!=='cbF')return;v
   .then(function(bl){c.img=keep('portfolio/collab/collab-'+stamp()+'.webp',bl);collabChanged(true);toast('사진을 바꿨어요. 가운데를 정사각형으로 잘라 넣었어요.');},function(){toast('이미지를 열 수 없어요.');});});
 /* ===== 임시 공지 ===== */
 function today(){var d=new Date(),p=function(n){return (n<10?'0':'')+n;};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
-function noticeState(n){if(!n||!n.on)return ['꺼짐','지금은 페이지에 안 보여요.'];if(!(n.title||n.text))return ['비어 있음','제목이나 내용을 적어야 보여요.'];var t=today();if(n.start&&t<n.start)return ['예약됨',n.start+'부터 보여요.'];if(n.end&&t>n.end)return ['기간 끝남',n.end+'까지였어요. 지금은 안 보여요.'];return ['표시 중',(n.end?n.end+'까지 ':'')+'페이지 맨 위 안내 바로 아래에 보여요.'];}
+function noticeState(n){if(!n||!n.on)return ['꺼짐','지금은 페이지에 안 보여요.'];if(!(n.title||n.text))return ['비어 있음','제목이나 내용을 적어야 보여요.'];var t=today();if(n.start&&t<n.start)return ['예약됨',n.start+'부터 보여요.'];if(n.end&&t>n.end)return ['기간 끝남',n.end+'까지였어요. 지금은 안 보여요.'];return ['표시 중',(n.end?n.end+'까지 ':'')+'페이지 맨 위에 보여요.'];}
 function buildNotice(){
   var n=draft.notice||{on:false,title:'',text:'',start:'',end:''},st=noticeState(draft.notice);
-  $('nlist').innerHTML='<div class="pagehead"><div><h2>임시 공지</h2><p>특정 기간 동안만 페이지 맨 위(노란 안내 띠 바로 아래)에 보일 공지예요. 기간을 비우면 끌 때까지 계속 보여요. 시작일·종료일 하루 전체가 포함돼요.</p></div><span class="sp" style="flex:1"></span><button class="btn" id="ntPrev">미리보기로 확인</button></div>'+
+  $('nlist').innerHTML='<div class="pagehead"><div><h2>임시 공지</h2><p>특정 기간 동안만 페이지 맨 위(노란 안내 띠보다 위)에 보일 공지예요. 기간을 비우면 끌 때까지 계속 보여요. 시작일·종료일 하루 전체가 포함돼요.</p></div><span class="sp" style="flex:1"></span><button class="btn" id="ntPrev">미리보기로 확인</button></div>'+
     '<div class="card"><h4>공지 <span class="nt-st nt-'+(st[0]==='표시 중'?'on':'off')+'">'+st[0]+'</span><span class="note" style="font-weight:400">'+esc(st[1])+'</span></h4>'+
     '<label class="nt-vis"><input type="checkbox" id="ntOn"'+(n.on?' checked':'')+'><span>'+(n.on?'공지 켜짐':'공지 꺼짐')+'</span></label>'+
     '<div class="nt-f"><label class="f"><span>제목 (굵게, 비워도 돼요)</span><input id="ntT" value="'+esc(n.title||'')+'"></label>'+
